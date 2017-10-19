@@ -25,8 +25,8 @@ define(['../../../app','../../../services/storage/storage/takegoodsConfirmServic
         });
         //返回
         $scope.update= function () {
-            $window.history.back();
-            //$state.go('main.checkstorage',{taskId:$stateParams['taskId']});
+            //$window.history.back();
+             $state.go('main.takegoods',{inGoodsState:$stateParams['inGoodsState']});
         }
         //打印
         $scope.print= function () {
