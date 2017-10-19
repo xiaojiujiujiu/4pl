@@ -1,0 +1,92 @@
+
+<div class="right-main">
+    <div class="banner-container">
+        <p>业务单号：<span ng-bind="banner.taskId"></span></p>
+        <p>收货人：<span ng-bind="banner.receiverName"></span></p>
+        <p>收货地址：<span ng-bind="banner.receAdd"></span></p>
+    </div>
+    <pl4-query style="border-top: 0; "></pl4-query>
+    <!--<div class="form-inline padding-15">-->
+        <!--<label>商品条码：</label>-->
+        <!--<input class="form-control" pl4-data-type="sku" type="text" ng-model="pageModel.SKU">-->
+        <!--<button class="btn btn-primary btn-sm" ng-click="searchClick()">-->
+            <!--查询-->
+        <!--</button>-->
+    <!--</div>-->
+    <pl4-grid grid-table="result" th-header="thHeader"></pl4-grid>
+    <!--
+    	select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+    <!--<pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>-->
+    <div class="addStation-btns" style="float: left;margin-top: -10px;">
+        <button class="btn btn-primary btn-sm"data-toggle="modal" data-target="#confirmOutbound">
+            确认出库
+        </button>
+        <button class="btn btn-primary btn-sm" ng-click="back()">
+            返回
+        </button>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" data-backdrop="static"  id="confirmOutbound" tabindex="-1" role="dialog" aria-labelledby="confirmPrint-title">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width: 300px; margin: 0 auto;">
+                <div class="allocation-head">
+                    <p class="allocation-title">提示</p>
+
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div class="allocation-container">
+                    <div class="allocation-addGoods-content">
+                        <p style="text-align: center;padding-top: 30px;">请对出库进行确认</p>
+                        <div class="addStation-btns">
+                            <button type="button" class="btn btn-primary" ng-click="confirmOutbound()">确认</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" data-backdrop="static"  id="editDate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+        <div class="modal-dialog" role="document" style="height: auto;width: 400px;">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">发货差异</p>
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div style="padding: 10px 5px">
+                    <div class="addStation">
+                        <form role="form" name="verifyForm1">
+                            <div class="addStation-input" style="width:100%;">
+                                <div class="form-inline" >
+                                    <label>外包装损毁：</label>
+                                    <input type="text"  class="form-control"onkeyup="value=value.replace(/[^\d]/g,'')" ng-model="goodsDifferenceModel.packageDamage"   name="productionDate"  maxlength="32">
+                                </div>
+                                <div class="form-inline" >
+                                    <label>货物损毁：</label>
+                                    <input type="text" class="form-control"onkeyup="value=value.replace(/[^\d]/g,'')" ng-model="goodsDifferenceModel.damage"  name="invalidDate"  maxlength="32">
+                                </div>
+                                <div class="form-inline" >
+                                    <label>丢失：</label>
+                                    <input type="text" class="form-control" onkeyup="value=value.replace(/[^\d]/g,'')" ng-model="goodsDifferenceModel.lost"  name="invalidDate"   maxlength="32">
+                                </div>
+                            </div>
+                            <!--<div class="addStation-border-b" style="margin:30px 0 5px 0"></div>-->
+                            <div class="addStation-btns">
+                                <button class="btn btn-primary btn-sm"  ng-click="enterAdd()">
+                                    确认
+                                </button>
+                                <button class="btn btn-default btn-sm" data-dismiss="modal">
+                                    取消
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

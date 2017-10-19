@@ -1,0 +1,30 @@
+<style>
+    .looklist .form-inline .form-group{
+        padding:10px  50px 10px 10px;
+    }
+</style>
+<div class="right-main">
+    <pl4-query></pl4-query>
+
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    <!--
+    	select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+
+    <!-- Modal -->
+
+    <div class="modal fade" data-backdrop="static"  id="confirmInCk" tabindex="-1" role="dialog" aria-labelledby="confirmPrint-title">
+        <div class="modal-dialog" role="document" style="width: 20%;">
+            <div class="modal-content looklist">
+                <div style="padding: 20px;">
+                    <h3 style="text-align: center">确认进行收货？</h3>
+                </div>
+                <div class=" addStation-btns" style="margin-bottom:15px;">
+                    <button type="button" class="btn btn-primary" ng-click="confirmInCk()" >确认</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-right: 15px; ">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

@@ -1,0 +1,24 @@
+<!-- 
+  - Created by hui.sun on 15/12/10.
+ -->
+<div class="right-main">
+    <pl4-query></pl4-query>
+    <div class="margin-bottom15">
+        <a type="button" class="btn btn-primary btn-sm" href="#/main/refuseInCkConfirm">
+            退货入库
+        </a>
+    </div>
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    <div>
+        <p>
+            <span style="padding-right: 20px;">运费合计：{{banner.realpays}}</span>
+            <span style="padding-right: 20px;">件数合计：{{banner.realcounts}}</span>
+            <span style="padding-right: 20px;">代收款合计：{{banner.realcollectMoneys}}</span>
+        </p>
+    </div>
+    <!--
+    	select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+    
+
+</div>

@@ -1,0 +1,234 @@
+<!-- 
+  - Created by hui.sun on 15/12/10.
+ -->
+<style type="text/css">
+    .leftSalvage {
+        width: 45%;
+        border: 1px solid #ccc;
+    }
+
+    .btnSelectSalvage {
+        width: 10%;
+        text-align: center;
+        margin-top: 100px;
+    }
+    .divSalvageContent{
+        width: 80%;margin: 0 auto;
+    }
+    .rightSalvage {
+        width: 45%;
+        border: 1px solid #ccc;
+        height: 100%;
+    }
+
+    .divSalvage {
+        float: left;
+    }
+    .salvageTable tr{
+        cursor: pointer;
+    }
+    .salvage-close{loat: left;
+        color: red;cursor: pointer;
+    }
+    .divSalvageContent .sp-text{
+        float: left;
+        width: 95%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+</style>
+<div class="right-main">
+    <!-- <div class="form-inline margin-bottom20">
+        <div class="form-group">
+            <label class="ng-binding">机构名称：</label>
+            <select class="form-control" ng-model="wlDept.id"
+                    ng-options="o.id as o.name for o in wlDept.select"></select>
+        </div>
+    </div>-->
+    <div ng-show="ifShowSelect">
+        <pl4-storage-select></pl4-storage-select>
+    </div>
+    <div  style="margin:15px 0">
+        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addLine"
+                ng-click="btnAddLine()">
+            新增路线
+        </button>
+    </div>
+    <!-- <pl4-select china-cities="chinaCities"></pl4-select> -->
+    <pl4-query></pl4-query>
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    <!--
+    	select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+
+    <!-- Modal -->
+    <div class="modal fade" data-backdrop="static"  id="addLine" tabindex="-1" role="dialog" aria-labelledby="confirmPrint-title">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">{{addLineTitle}}</p>
+
+                    <p class="allocation-close"><a href="javascript:;"  data-dismiss="modal"
+                                                   aria-label="Close"><span aria-hidden="true"></span></a>
+                        <!--<button type="button" class="close allocation-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+
+                </div>
+                <div class="modal-body modal-bodys">
+                    <form class="form-inline margin-bottom20" role="form" name="verifyForm1">
+                        <div class="form-group">
+                            <label class="ng-binding"><span class="verify">*</span>线路类型：</label>
+                            <select class="form-control" ng-model="lineModel.tranType"
+                                    ng-options="o.id as o.name for o in lineModel.tranTypeSelect" ng-change="tranTypeSelectChange()"></select>
+                        </div>
+                       <!-- <div class="form-group">
+                            <label class="ng-binding">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                                    class="verify">*</span>编号：</label>
+                            <input type="text" class="form-control" ng-model="lineModel.lineId" required>
+                        </div>-->
+                        <div class="form-group">
+                            <label class="ng-binding"><span class="verify">*</span>线路名称：</label>
+                            <input type="text" class="form-control" ng-model="lineModel.lineName" required maxlength="15">
+                        </div>
+                        <div class="form-group">
+                            <label class="ng-binding"><span class="verify">*</span>配送频率：</label>
+                            <input type="text" class="form-control" ng-model="lineModel.deliveryFrequency" required maxlength="8">
+                        </div>
+                        <div class="form-group" ><!--ng-if="lineShowPath"-->
+                            <label class="ng-binding"><span class="verify">*</span>线路路径：</label>
+                            <input type='hidden' ng-model="lineModel.garageAddressId">
+                            <input type="text" class="form-control"
+                                   ng-model="lineModel.lineDescription" required maxlength="15">
+                            <!--ng-readonly="linePathReadonly" ng-focus="linePathFocus()"-->
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label class="ng-binding"><span class="verify">*</span>运输方式：</label>
+                            <select class="form-control" ng-model="lineModel.tranMode"
+                                    ng-options="o.id as o.name for o in lineModel.tranModeSelect"></select>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label class="ng-binding">备注：</label>
+                    <textarea class="form-control" ng-model="lineModel.remarks" maxlength="50" style="margin-top: 1px;">
+                    </textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class=" addStation-btns">
+                    <button type="button" class="btn btn-primary" ng-disabled="verifyForm1.$invalid" ng-click="addLine()">确认</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="modal fade" data-backdrop="static"  id="queryLine" tabindex="-1" role="dialog" aria-labelledby="confirmPrint-title">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">{{addLineTitle}}</p>
+
+                    <p class="allocation-close"><a href="javascript:;"  data-dismiss="modal"
+                                                   aria-label="Close"><span aria-hidden="true"></span></a>
+                        <!--<button type="button" class="close allocation-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+
+                </div>
+                <div class="modal-body modal-bodys">
+                    <form class="form-inline margin-bottom20" role="form" name="verifyForm1">
+                        <div class="form-group">
+                            <label class="ng-binding"><span class="verify"></span>线路类型：</label>
+                             <input type="text" class="form-control" ng-model="lineModel.tranType" required maxlength="15">
+                        </div>
+                       <!-- <div class="form-group">
+                            <label class="ng-binding">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                                    class="verify">*</span>编号：</label>
+                            <input type="text" class="form-control" ng-model="lineModel.lineId" required>
+                        </div>-->
+                        <div class="form-group">
+                            <label class="ng-binding"><span class="verify"></span>线路名称：</label>
+                            <input type="text" class="form-control" ng-model="lineModel.lineName" required maxlength="15">
+                        </div>
+                        <div class="form-group">
+                            <label class="ng-binding"><span class="verify"></span>配送频率：</label>
+                            <input type="text" class="form-control" ng-model="lineModel.deliveryFrequency" required maxlength="8">
+                        </div>
+                        <div class="form-group" ><!--ng-if="lineShowPath"-->
+                            <label class="ng-binding"><span class="verify"></span>线路路径：</label>
+                            <input type='hidden' ng-model="lineModel.garageAddressId" maxlength="15">
+                            <input type="text" class="form-control"
+                                   ng-model="lineModel.lineDescription" required>
+                            <!--ng-readonly="linePathReadonly" ng-focus="linePathFocus()"-->
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label class="ng-binding"><span class="verify"></span>运输方式：</label>
+                             <input type="text" class="form-control" ng-model="lineModel.tranMode" required maxlength="15">
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label class="ng-binding">备注：</label>
+                    <textarea class="form-control" ng-model="lineModel.remarks" maxlength="50" style="margin-top: 1px;">
+                    </textarea>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" data-backdrop="static"  id="selectSalvage" tabindex="-1" role="dialog" aria-labelledby="confirmPrint-title">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">承运修理厂选择</p>
+
+                    <p class="allocation-close"><a href="javascript:;"  data-dismiss="modal"
+                                                   aria-label="Close"><span aria-hidden="true"></span></a>
+                        <!--<button type="button" class="close allocation-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+
+                </div>
+
+                <div class="modal-body modal-bodys">
+                    <p>本地域内的修理厂</p>
+                    <div class="divSalvage leftSalvage">
+                        <div class="divSalvageContent"><br/>
+                            <div class="form-inline margin-bottom20">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" style="width: 150px;height: 25px" ng-model="recAddressId">
+                                    <button type="button" class="btn btn-primary btn-xs" ng-click="salvageSearch()"><span
+                                            class="glyphicon glyphicon-search"></span>搜索
+                                    </button>
+                                </div>
+                            </div>
+                            <table class="table table-bordered table-hover salvageTable">
+                                <thead>
+                                    <th width="30%">地址ID</th>
+                                    <th>地址详情</th>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in salvageModel" ng-click="salvageTableRowClick(item)">
+                                        <td>{{item.recAddressId}}</td>
+                                        <td>{{item.deAddress}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="divSalvage btnSelectSalvage">>>></div>
+                    <div class="divSalvage rightSalvage">
+                        <div class="divSalvageContent">
+                            <ul>
+                                <li ng-repeat="item in salvageRightModel"><p class="sp-text">{{item.recAddressId}} {{item.deAddress}}</p><p class="salvage-close" ng-click="salvageClose(item)">x</p></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class=" addStation-btns">
+                    <button type="button" class="btn btn-primary" ng-click="enterSalvage()">确认</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

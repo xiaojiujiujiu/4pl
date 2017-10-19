@@ -1,0 +1,29 @@
+<div class="right-main">
+    <pl4-query style="border-top: 0"></pl4-query>
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    <p ng-hide="isData" style="text-align: center;overflow:hidden;padding: 10px;">暂无数据</p>
+
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+    <div class="modal fade" data-backdrop="static"  id="lookGird" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 60%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">日志</p>
+
+                    <p class="allocation-close"><a href="javascript:;"  data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div class="new-version-border">
+                    <p>业务单号：<span>{{logModalBanner.goodsCode}}</span></p>
+                    <p>汽修厂名称：<span>{{logModalBanner.brand}}</span></p>
+                    <p>汽修厂地址：<span>{{logModalBanner.name}}</span></p>
+                </div>
+                <div style="width: 100%;" class="new-version-table">
+                    <pl4-grid grid-table="logModalResult" th-header="logModalThHeader"></pl4-grid>
+                    <!--<pl4-paging select-option="logPagingSelect" paging-num="5" to-page="LogDataPage()" paging="logPaging"></pl4-paging>-->
+                    <div class="clear" style="margin-bottom: 10px"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

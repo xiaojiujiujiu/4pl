@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>出库单</title>
+    <link rel="stylesheet" href="base.css"/>
+    <link rel="stylesheet" href="print.css"/>
+
+
+    <script src="../lib/jquery-1.11.3.min.js"></script>
+    <script src="../lib/jquery.tmpl.min.js"></script>
+    <script src="js/common.js"></script>
+    <script type="text/javascript" src="js/LodopFuncs.js"></script>
+</head>
+<body>
+<script type="text/html" id="printTmpl">
+    <div id="container">
+        <style>
+
+
+            .head_info li {
+                float: left;
+                width: 33%;
+            }
+
+            .head_info span {
+                font-size: 12px;
+            }
+            .footer p{
+                float: left;
+            }
+			.table td {
+                font-size: 10px;
+            }
+
+        </style>
+        <div class="header">
+            <h1 class="header-logo"><img src="../img/logo-gary.png"></h1>
+
+            <h1 class="header-center">出库单</h1>
+
+            <p class="clear"></p>
+        </div>
+        <div class="head_info">
+            <ul>
+                <li>业务单号：<span id="taskId">${banner.taskId}</span></li>
+                <li>业务类型：<span>${banner.orderTypeName}</span></li>
+                <li>收货方：<span>${banner.receiverName}</span></li>
+                <li>配送方式：<span>${banner.deliveryTypeName}</span></li>
+                <li>联系方式：<span>${banner.receTel}</span></li>
+                <li>结算方式：<span id="payTypeName">${banner.payTypeName}</span></li>
+                <li>收货方地址：<span>${banner.receAdd}</span></li>
+                <li>订单金额：<span>${banner.orderFee}</span></li>
+            </ul>
+            <p class="clear"></p>
+        </div>
+        <div class="clear hr1" style="margin-top: 14px">&nbsp;</div>
+        <div class="table">
+            <table>
+                <thead>
+                <th ">#</th>
+                <th >商品名称</th>
+                <th >规格型号</th>
+                <th >出厂编码</th>
+                <th >商品品牌</th>
+                <th width="6%">计量单位</th>
+                <th width="6%">订单数量</th>
+                <th width="6%">出库数量</th>
+				<th >单价</th>
+				<th >总金额</th>
+                </thead>
+                <tbody>
+                {{each(k,v) grid}}
+                <tr>
+                    <td>${k+1}</td>
+                    <td>${v.goodsName}</td>
+                    <td>${v.goodsStyle}</td>
+                    <td>${v.serialNumber}</td>
+                    <td>${v.brand}</td>
+                    <td>${v.goodsUnit}</td>
+                    <td>${v.needCount}</td>
+                    <td>${v.outGoodCount}</td>
+ 					<td>${v.orderPrice}</td>
+					<td>${v.totalOrderPrice}</td>
+                </tr>
+                {{/each}}
+
+                </tbody>
+            </table>
+        </div>
+        <div class="clear hr1" ></div>
+        <div class="footer">
+            <!--<p style="width: 400px;">&nbsp;</p>
+            <p style="width: 140px">商品种类：4</p>
+            <p style="width: 130px">商品数量：40</p>
+            <p style="width: 124px">商品金额：400</p>-->
+            <p >发货方：</p>
+            <p>配送员：</p>
+            <p >收货方：</p>
+
+        </div>
+        <div class="clear"></div>
+        <div class="buttons" id="printBtns">
+            <input type="button" value="打印" onclick="printdiv()"/>
+            <input type="button" value="关闭" onclick="common.closeWindow()" style="margin-left: 189px" />
+        </div>
+    </div>
+</script>
+<script language="javascript">
+    function printdiv() {
+        var printBtns = document.getElementById('printBtns');
+        printBtns.style.display='none';
+        var taskId = $('#taskId').text();
+        var payTypeName = $('#payTypeName').text();
+        if(payTypeName && payTypeName=='货到付款'){
+        	lodopWebPrint('出库单',0,120,15,15,taskId);
+        }else{
+        	lodopWebPrint('出库单',0,120,15,15);
+        }
+       // window.print();
+        
+        printBtns.style.display='block';
+        return false;
+    }
+    $(function(){
+        var urlStr = common.parseQueryString(window.location.href);
+        var data = {
+            param:{
+                query: urlStr
+            }
+        }
+        data.param = JSON.stringify(data.param)
+        $.ajax({
+            type: "POST",
+            url: common.host+'/outGoodsOrder/outGoodsOrderDetailPrintList?'+common.tokenInfo,
+            data: data,
+            dataType: "json",
+            success: function(data){
+                if(data.status.code=="1000"){
+                    alert(data.status.msg);
+                }else{
+                    data.commonHost=common.host+"/pl4";
+                    $('#printTmpl').tmpl(data).appendTo($('body'));
+                   // console.log(data.banner.payTypeName)
+                   // data.banner.payTypeName=="货到付款"?$('#img').css('display','block'):$('#img').css('display','none');
+                }
+            },
+            error: function(err){
+                console.log(err)
+            }
+        });
+    })
+</script>
+</body>
+</html>

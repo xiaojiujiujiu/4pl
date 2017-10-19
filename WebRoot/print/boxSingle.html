@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>条码打印</title>
+    <link rel="stylesheet" href="base.css"/>
+    <link rel="stylesheet" href="print.css"/>
+    <style>
+        #container {
+            width: 100%;
+            margin: 8px 0;
+        }
+        .img{
+            width: 200px;
+            height: 200px;
+            margin:20px 0 0 0px;
+            text-align: left;
+        }
+        .img p{
+            font-size: 14px;
+            font-weight: bold;
+            font-family: "微软雅黑";
+            line-height: 30px;
+        }
+        .buttons {
+            width: 100%;
+            margin: 30px auto ;
+        }
+        .header{
+            margin:0px 0 50px 80px;
+        }
+    </style>
+</head>
+<body>
+
+
+<script src="../lib/jquery-1.11.3.min.js"></script>
+<script src="../lib/jquery.tmpl.min.js"></script>
+<script src="js/common.js"></script>
+<script type="text/html" id="printTmpl">
+    <div id="container">
+        <div class="buttons" id="printBtns">
+            <input type="button" value="打印" onclick="printdiv()" style="margin-left: 120px"/>
+            <input type="button" value="关闭" onclick="common.closeWindow()" style="margin-left: 50px" />
+        </div>
+        {{each(j,y) grid}}
+        <div class="header">
+            <div class="img">
+                <img src="${y.barCodeUrl}"   height="150" width="250">
+                <p><span style="font-size: 16px;padding-right: 5px;">收货点</span>${y.receivingPoint}</p>
+                <p><span style="float:left;font-size: 16px;padding-right: 5px;">收<br>货<br>人</span><span style="float:left">${y.receiverName}<br>${y.receAdd}<br>${y.receTel}</span></p>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+
+</script>
+<script language="javascript">
+    function printdiv() {
+        var printBtns = document.getElementById('printBtns');
+        printBtns.style.display='none';
+        window.print();
+        printBtns.style.display='block';
+        return false;
+    }
+    $(function(){
+        var urlStr = common.parseQueryString(window.location.href);
+        if(urlStr.ids){
+            urlStr.ids=urlStr.ids.split(',');
+        }
+        var data = {
+            param:{
+                query: urlStr
+            }
+        }
+        data.param = JSON.stringify(data.param)
+        $.ajax({
+            type: "POST",
+            url: common.ehost+'/personalOrder/printPersonalOrderBoxs?'+common.tokenInfo+"&id="+urlStr.id,
+            data: data,
+            dataType: "json",
+            success: function(data){
+                if(data.status.code=='0000'){
+                    $('#printTmpl').tmpl(data).appendTo($('body'));
+                }else{
+                    alert(data.status.msg);
+                }
+            },
+            error: function(err){
+                console.log(err)
+            }
+        });
+    })
+
+
+</script>
+</body>
+</html>

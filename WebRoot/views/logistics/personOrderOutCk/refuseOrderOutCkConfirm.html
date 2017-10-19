@@ -1,0 +1,39 @@
+
+<div class="right-main">
+	<pl4-query></pl4-query>
+	<pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+
+	<div class="form-inline addStation-btns"
+		style="float: left; margin-top: -10px;">
+		<label>目的地：</label> <select style="min-width: 150px"
+			class="form-control"
+			ng-options="o.id as o.name for o in pageModel.distributionSelect.select1.data"
+			ng-model="pageModel.distributionSelect.select1.id"></select>
+		<button type="button" class="btn btn-primary btn-sm"
+			data-toggle="modal" data-target="" ng-click="confirmInCk()">
+			确认退货出库</button>
+		<button class="btn btn-primary btn-sm" data-target=""
+			ng-click="back()">返回</button>
+	</div>
+	<!--
+    	select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+	<pl4-paging select-option="pagingSelect" paging-num="5"
+		to-page="goToPage()" paging="paging"></pl4-paging>
+
+	<!-- Modal -->
+	<div class="modal fade" data-backdrop="static" id="equalModal"
+		tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document"
+			style="width: 25%; height: auto">
+			<div class="modal-content">
+				<p style="text-align: center; font-size: 16px; padding-top: 15px;">{{confirmTitle}}</p>
+				<div class="addStation-btns">
+					<button class="btn btn-primary btn-sm" ng-click="enterAddCarrier()">
+						确认</button>
+					<button class="btn btn-default btn-sm" data-dismiss="modal">
+						取消</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

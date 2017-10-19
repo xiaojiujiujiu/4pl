@@ -1,0 +1,75 @@
+<div class="right-main">
+    <pl4-query></pl4-query>
+    <div class="margin-bottom15">
+        <a class="btn btn-primary btn-sm" href="#/main/newOtherChuOrder" >
+            发起出库申请
+        </a>
+        <a class="btn btn-primary btn-sm" href="#/main/newOtherRuOrder" >
+            发起入库申请
+        </a>
+    </div>
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+
+    <div class="modal fade" data-backdrop="static"  id="alloModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 60%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">查看</p>
+
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div style="padding: 15px 0">
+                    <div class="addStation">
+                        <div class="new-version-border margin0 margin-bottom15">
+                            <p>申请编号:<span>{{banner.taskId}}</span></p>
+                            <p>申请人:<span>{{banner.userName}}</span></p>
+                            <p>出入库类型:<span>{{banner.type}}</span></p>
+                            <p>出入库描述:<span>{{banner.userRemarks}}</span></p>
+                            <p>驳回原因:<span>{{banner.rejectRemarks}}</span></p>
+                        </div>
+                        <div class="addStation-btns-color margin-bottom15">
+                            <pl4-excel grid-table="alloResult" action="/ckOtherChuRuOrder/impToExcel" ex-params="exParams"></pl4-excel>
+                        </div>
+                        <pl4-grid grid-table="alloResult" th-header="allTHeader"></pl4-grid>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" data-backdrop="static"  id="compileData" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 60%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">编辑</p>
+
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div style="padding: 10px 5px">
+                    <div class="search-container">
+                        <div class="form-group" style="display: inline-block">
+                            <label >出库类型：</label>
+                            <select  class="form-control" style="display: inline-block" ng-options="o.id as o.name for o in compileDataModel.typeList.select" ng-model="compileDataModel.typeList.id"></select>
+                        </div>
+                        <div class="form-group" style="display: inline-block">
+                            <label >申请人：</label>
+                            <select  class="form-control" style="display: inline-block" ng-options="o.id as o.name for o in compileDataModel.personList.select" ng-model="compileDataModel.personList.id"></select>
+                        </div>
+                        <div class="form-group" style="display: inline-block">
+                            <label >用途描述：</label>
+                            <input class="form-control" style="display: inline-block" type="text" ng-model="compileDataModel.userRemarks">
+                        </div>
+                    </div>
+                    <div class="addStation">
+                        <pl4-grid grid-table="compileResult" th-header="compileTHeader"></pl4-grid>
+                    </div>
+                    <div class="addStation-btns" style="margin-right:10px;">
+                        <button class="btn btn-primary" ng-click="confirmCompile()"> 确定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,354 @@
+<div class="right-main">
+    <pl4-query></pl4-query>
+    <div class="margin-bottom15">
+        <button class="btn btn-primary btn-sm"  ng-click="addGift()">
+            新建货位
+        </button>
+        <button class="btn btn-primary btn-sm"  ng-click="recall()">
+            调回
+        </button>
+ <!--   <button class="btn btn-primary btn-sm"  ng-click="renewal()">
+            更换货位
+        </button>
+         -->
+    </div>
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    <!--
+    	select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+    <div class="modal fade" data-backdrop="static"  id="createGift" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="height: auto;width: auto;">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">{{giftTtle}}</p>
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div style="padding: 10px 0px">
+                 <div style="padding-left:35px">
+                <p>
+            <span style="padding-right: 20px">柜子数：{{benchCount}}</span>
+              </p>
+                </div>
+                    <div class="addStation">
+                        <form role="form" name="verifyForm1">
+                            <pl4-verify-message form-name="verifyForm1"></pl4-verify-message>
+                            <div class="addStation-input" style="width:120%; overflow:hidden;">
+                               <div style="float:left; width:255px;">
+                                   <div class="form-inline">
+                                       <span style="color: white">*</span>柜子1：
+                                   </div>
+                                   <div class="form-inline">
+                                       <span class="verify">*</span>第1行
+                                       <input type="number" class="form-control" ng-model="giftModel.column11" required  name="column11"  maxlength="1" min="1" max="9" style="width: 80px;margin: 0 5px;">格
+                                   </div>
+                                   <div class="form-inline">
+                                       <span style="color: white">*</span>长
+                                       <input type="text" class="form-control" ng-model="giftModel.length11"   name="length11" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">宽
+                                       <input type="text" class="form-control" ng-model="giftModel.width11"   name="width11" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">高
+                                       <input type="text" class="form-control" ng-model="giftModel.height11"   name="height11" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;">
+                                   </div>
+                                   <div class="form-inline">
+                                       <span  style="color: white">*</span>第2行
+                                       <input type="text" class="form-control" ng-model="giftModel.column12"   name="column12" maxlength="1" onkeyup="value=value.replace(/[^\d]/g,'')" style="width: 80px;margin: 0 5px;">格
+                                   </div>
+                                   <div class="form-inline">
+                                       <span style="color: white">*</span>长
+                                       <input type="text" class="form-control" ng-model="giftModel.length12"   name="length12" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">宽
+                                       <input type="text" class="form-control" ng-model="giftModel.width12"   name="width12" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">高
+                                       <input type="text" class="form-control" ng-model="giftModel.height12"   name="height12" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;">
+                                   </div>
+                                   <div class="form-inline">
+                                       <span  style="color: white">*</span>第3行
+                                       <input type="text" class="form-control" ng-model="giftModel.column13"   name="column13" maxlength="1"  onkeyup="value=value.replace(/[^\d]/g,'')" style="width: 80px;margin: 0 5px;">格
+                                   </div>
+                                   <div class="form-inline">
+                                       <span style="color: white">*</span>长
+                                       <input type="text" class="form-control" ng-model="giftModel.length13"   name="length13" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">宽
+                                       <input type="text" class="form-control" ng-model="giftModel.width13"   name="width13" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">高
+                                       <input type="text" class="form-control" ng-model="giftModel.height13"   name="height13" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;">
+                                   </div>
+                                   <div class="form-inline">
+                                       <span  style="color: white">*</span>第4行
+                                       <input type="text" class="form-control" ng-model="giftModel.column14"   name="column14" maxlength="1" onkeyup="value=value.replace(/[^\d]/g,'')" style="width: 80px;margin: 0 5px;">格
+                                   </div>
+                                   <div class="form-inline">
+                                       <span style="color: white">*</span>长
+                                       <input type="text" class="form-control" ng-model="giftModel.length14"   name="length14" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">宽
+                                       <input type="text" class="form-control" ng-model="giftModel.width14"   name="width14" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">高
+                                       <input type="text" class="form-control" ng-model="giftModel.height14"   name="height14" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;">
+                                   </div>
+                                   <div class="form-inline">
+                                       <span  style="color: white">*</span>第5行
+                                       <input type="text" class="form-control" ng-model="giftModel.column15"   name="column15" maxlength="1" onkeyup="value=value.replace(/[^\d]/g,'')" style="width: 80px;margin: 0 5px;">格
+                                   </div>
+                                   <div class="form-inline">
+                                       <span style="color: white">*</span>长
+                                       <input type="text" class="form-control" ng-model="giftModel.length15"   name="length15" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">宽
+                                       <input type="text" class="form-control" ng-model="giftModel.width15"   name="width15" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">高
+                                       <input type="text" class="form-control" ng-model="giftModel.height15"   name="height15" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;">
+                                   </div>
+                                   <div class="form-inline">
+                                       <span  style="color: white">*</span>第6行
+                                       <input type="text" class="form-control" ng-model="giftModel.column16"   name="column16" maxlength="1" onkeyup="value=value.replace(/[^\d]/g,'')" style="width: 80px;margin: 0 5px;">格
+                                   </div>
+                                   <div class="form-inline">
+                                       <span style="color: white">*</span>长
+                                       <input type="text" class="form-control" ng-model="giftModel.length16"   name="length16" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">宽
+                                       <input type="text" class="form-control" ng-model="giftModel.width16"   name="width16" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">高
+                                       <input type="text" class="form-control" ng-model="giftModel.height16"   name="height16" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;">
+                                   </div>
+                                   <div class="form-inline">
+                                       <span  style="color: white">*</span>第7行
+                                       <input type="text" class="form-control" ng-model="giftModel.column17"   name="column17" maxlength="1" onkeyup="value=value.replace(/[^\d]/g,'')" style="width: 80px;margin: 0 5px;">格
+                                   </div>
+                                   <div class="form-inline">
+                                       <span style="color: white">*</span>长
+                                       <input type="text" class="form-control" ng-model="giftModel.length17"   name="length17" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">宽
+                                       <input type="text" class="form-control" ng-model="giftModel.width17"   name="width17" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">高
+                                       <input type="text" class="form-control" ng-model="giftModel.height17"   name="height17" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;">
+                                   </div>
+                               </div>
+                                <div style="float:left; width:255px;" ng-if="isCabinetTwoShow">
+                                    <div class="form-inline">
+                                        <span style="color: white">*</span>柜子2：
+                                    </div>
+                                    <div class="form-inline">
+                                        <span class="verify">*</span>第1行
+                                        <input type="number" class="form-control" ng-model="giftModel.column21" required  name="column21" maxlength="1" min="1" max="9" style="width: 80px;margin: 0 5px;">格
+                                    </div>
+                                    <div class="form-inline">
+                                        <span style="color: white">*</span>长
+                                        <input type="text" class="form-control" ng-model="giftModel.length21"   name="length21" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">宽
+                                        <input type="text" class="form-control" ng-model="giftModel.width21"   name="width21" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">高
+                                        <input type="text" class="form-control" ng-model="giftModel.height21"   name="height21" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;">
+                                    </div>
+                                    <div class="form-inline">
+                                        <span  style="color: white">*</span>第2行
+                                        <input type="text" class="form-control" ng-model="giftModel.column22"   name="column22" maxlength="1" onkeyup="value=value.replace(/[^\d]/g,'')" style="width: 80px;margin: 0 5px;">格
+                                    </div>
+                                    <div class="form-inline">
+                                        <span style="color: white">*</span>长
+                                        <input type="text" class="form-control" ng-model="giftModel.length22"   name="length22" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">宽
+                                        <input type="text" class="form-control" ng-model="giftModel.width22"   name="width22" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">高
+                                        <input type="text" class="form-control" ng-model="giftModel.height22"   name="height22" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;">
+                                    </div>
+                                    <div class="form-inline">
+                                        <span  style="color: white">*</span>第3行
+                                        <input type="text" class="form-control" ng-model="giftModel.column23"   name="column23" maxlength="1" onkeyup="value=value.replace(/[^\d]/g,'')" style="width: 80px;margin: 0 5px;">格
+                                    </div>
+                                    <div class="form-inline">
+                                        <span style="color: white">*</span>长
+                                        <input type="text" class="form-control" ng-model="giftModel.length23"   name="length23" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">宽
+                                        <input type="text" class="form-control" ng-model="giftModel.width23"   name="width23" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">高
+                                        <input type="text" class="form-control" ng-model="giftModel.height23"   name="height23" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;">
+                                    </div>
+                                    <div class="form-inline">
+                                        <span  style="color: white">*</span>第4行
+                                        <input type="text" class="form-control" ng-model="giftModel.column24"   name="column24" maxlength="1" onkeyup="value=value.replace(/[^\d]/g,'')" style="width: 80px;margin: 0 5px;">格
+                                    </div>
+                                    <div class="form-inline">
+                                        <span style="color: white">*</span>长
+                                        <input type="text" class="form-control" ng-model="giftModel.length24"   name="length24" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">宽
+                                        <input type="text" class="form-control" ng-model="giftModel.width24"   name="width24" maxlength="4" style="width: 50px;margin: 0 5px;">高
+                                        <input type="text" class="form-control" ng-model="giftModel.height24"   name="height24" maxlength="4" style="width: 50px;">
+                                    </div>
+                                    <div class="form-inline">
+                                        <span  style="color: white">*</span>第5行
+                                        <input type="text" class="form-control" ng-model="giftModel.column25"   name="column25" maxlength="1" onkeyup="value=value.replace(/[^\d]/g,'')" style="width: 80px;margin: 0 5px;">格
+                                    </div>
+                                    <div class="form-inline">
+                                        <span style="color: white">*</span>长
+                                        <input type="text" class="form-control" ng-model="giftModel.length25"   name="length25" maxlength="4" style="width: 50px;margin: 0 5px;">宽
+                                        <input type="text" class="form-control" ng-model="giftModel.width25"   name="width25" maxlength="4" style="width: 50px;margin: 0 5px;">高
+                                        <input type="text" class="form-control" ng-model="giftModel.height25"   name="height25" maxlength="4" style="width: 50px;">
+                                    </div>
+                                    <div class="form-inline">
+                                        <span  style="color: white">*</span>第6行
+                                        <input type="text" class="form-control" ng-model="giftModel.column26"   name="column26" maxlength="1" onkeyup="value=value.replace(/[^\d]/g,'')" style="width: 80px;margin: 0 5px;">格
+                                    </div>
+                                    <div class="form-inline">
+                                        <span style="color: white">*</span>长
+                                        <input type="text" class="form-control" ng-model="giftModel.length26"   name="length26" maxlength="4" style="width: 50px;margin: 0 5px;">宽
+                                        <input type="text" class="form-control" ng-model="giftModel.width26"   name="width26" maxlength="4" style="width: 50px;margin: 0 5px;">高
+                                        <input type="text" class="form-control" ng-model="giftModel.height26"   name="height26" maxlength="4" style="width: 50px;">
+                                    </div>
+                                    <div class="form-inline">
+                                        <span  style="color: white">*</span>第7行
+                                        <input type="text" class="form-control" ng-model="giftModel.column27"   name="column27" maxlength="1" onkeyup="value=value.replace(/[^\d]/g,'')" style="width: 80px;margin: 0 5px;">格
+                                    </div>
+                                    <div class="form-inline">
+                                        <span style="color: white">*</span>长
+                                        <input type="text" class="form-control" ng-model="giftModel.length27"   name="length27" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')"  style="width: 50px;margin: 0 5px;">宽
+                                        <input type="text" class="form-control" ng-model="giftModel.width27"   name="width27" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">高
+                                        <input type="text" class="form-control" ng-model="giftModel.height27"   name="height27" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;">
+                                    </div>
+                                </div>
+                                <div style="float:left; width:255px;" ng-if="isCabinetThreeShow">
+                                    <div class="form-inline">
+                                        <span style="color: white">*</span>柜子3：
+                                    </div>
+                                    <div class="form-inline">
+                                        <span class="verify">*</span>第1行
+                                        <input type="number" class="form-control" ng-model="giftModel.column31" required  name="column31" maxlength="1" min="1" max="9" style="width: 80px;margin: 0 5px;">格
+                                    </div>
+                                    <div class="form-inline">
+                                        <span style="color: white">*</span>长
+                                        <input type="text" class="form-control" ng-model="giftModel.length31"   name="length31" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">宽
+                                        <input type="text" class="form-control" ng-model="giftModel.width31"   name="width31" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">高
+                                        <input type="text" class="form-control" ng-model="giftModel.height31"   name="height31" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;">
+                                    </div>
+                                    <div class="form-inline">
+                                        <span  style="color: white">*</span>第2行
+                                        <input type="text" class="form-control" ng-model="giftModel.column32"   name="column32" maxlength="1" onkeyup="value=value.replace(/[^\d]/g,'')" style="width: 80px;margin: 0 5px;">格
+                                    </div>
+                                    <div class="form-inline">
+                                        <span style="color: white">*</span>长
+                                        <input type="text" class="form-control" ng-model="giftModel.length32"   name="length32" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">宽
+                                        <input type="text" class="form-control" ng-model="giftModel.width32"   name="width32" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">高
+                                        <input type="text" class="form-control" ng-model="giftModel.height32"   name="height32" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;">
+                                    </div>
+                                    <div class="form-inline">
+                                        <span  style="color: white">*</span>第3行
+                                        <input type="text" class="form-control" ng-model="giftModel.column33"   name="column33" maxlength="1" onkeyup="value=value.replace(/[^\d]/g,'')" style="width: 80px;margin: 0 5px;">格
+                                    </div>
+                                    <div class="form-inline">
+                                        <span style="color: white">*</span>长
+                                        <input type="text" class="form-control" ng-model="giftModel.length33"   name="length33" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">宽
+                                        <input type="text" class="form-control" ng-model="giftModel.width33"   name="width33" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">高
+                                        <input type="text" class="form-control" ng-model="giftModel.height33"   name="height33" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;">
+                                    </div>
+                                    <div class="form-inline">
+                                        <span  style="color: white">*</span>第4行
+                                        <input type="text" class="form-control" ng-model="giftModel.column34"   name="column34" maxlength="1" onkeyup="value=value.replace(/[^\d]/g,'')" style="width: 80px;margin: 0 5px;">格
+                                    </div>
+                                    <div class="form-inline">
+                                        <span style="color: white">*</span>长
+                                        <input type="text" class="form-control" ng-model="giftModel.length34"   name="length34" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">宽
+                                        <input type="text" class="form-control" ng-model="giftModel.width34"   name="width34" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">高
+                                        <input type="text" class="form-control" ng-model="giftModel.height34"   name="height34" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;">
+                                    </div>
+                                    <div class="form-inline">
+                                        <span  style="color: white">*</span>第5行
+                                        <input type="text" class="form-control" ng-model="giftModel.column35"   name="column35" maxlength="1" onkeyup="value=value.replace(/[^\d]/g,'')" style="width: 80px;margin: 0 5px;">格
+                                    </div>
+                                    <div class="form-inline">
+                                        <span style="color: white">*</span>长
+                                        <input type="text" class="form-control" ng-model="giftModel.length35"   name="length35" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">宽
+                                        <input type="text" class="form-control" ng-model="giftModel.width35"   name="width35" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">高
+                                        <input type="text" class="form-control" ng-model="giftModel.height35"   name="height35" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;">
+                                    </div>
+                                    <div class="form-inline">
+                                        <span  style="color: white">*</span>第6行
+                                        <input type="text" class="form-control" ng-model="giftModel.column36"   name="column36" maxlength="1" onkeyup="value=value.replace(/[^\d]/g,'')" style="width: 80px;margin: 0 5px;">格
+                                    </div>
+                                    <div class="form-inline">
+                                        <span style="color: white">*</span>长
+                                        <input type="text" class="form-control" ng-model="giftModel.length36"   name="length36" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">宽
+                                        <input type="text" class="form-control" ng-model="giftModel.width36"   name="width36" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">高
+                                        <input type="text" class="form-control" ng-model="giftModel.height36"   name="height36" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;">
+                                    </div>
+                                    <div class="form-inline">
+                                        <span  style="color: white">*</span>第7行
+                                        <input type="text" class="form-control" ng-model="giftModel.column37"   name="column37" maxlength="1" onkeyup="value=value.replace(/[^\d]/g,'')" style="width: 80px;margin: 0 5px;">格
+                                    </div>
+                                    <div class="form-inline">
+                                        <span style="color: white">*</span>长
+                                        <input type="text" class="form-control" ng-model="giftModel.length37"   name="length37" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">宽
+                                        <input type="text" class="form-control" ng-model="giftModel.width37"   name="width37" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">高
+                                        <input type="text" class="form-control" ng-model="giftModel.height37"   name="height37" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;">
+                                    </div>
+                                </div>
+                                <div style="float:left; width:255px;" ng-if="isCabinetFourShow">
+                                    <div class="form-inline">
+                                        <span style="color: white">*</span>柜子4：
+                                    </div>
+                                    <div class="form-inline">
+                                        <span class="verify">*</span>第1行
+                                        <input type="number" class="form-control" ng-model="giftModel.column41" required  name="column41" maxlength="1" min="1" max="9" style="width: 80px;margin: 0 5px;">格
+                                    </div>
+                                    <div class="form-inline">
+                                        <span style="color: white">*</span>长
+                                        <input type="text" class="form-control" ng-model="giftModel.length41"   name="length41" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">宽
+                                        <input type="text" class="form-control" ng-model="giftModel.width41"   name="width41" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">高
+                                        <input type="text" class="form-control" ng-model="giftModel.height41"   name="height41" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;">
+                                    </div>
+                                    <div class="form-inline">
+                                        <span  style="color: white">*</span>第2行
+                                        <input type="text" class="form-control" ng-model="giftModel.column42"   name="column42" maxlength="1" onkeyup="value=value.replace(/[^\d]/g,'')" style="width: 80px;margin: 0 5px;">格
+                                    </div>
+                                    <div class="form-inline">
+                                        <span style="color: white">*</span>长
+                                        <input type="text" class="form-control" ng-model="giftModel.length42"   name="length42" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">宽
+                                        <input type="text" class="form-control" ng-model="giftModel.width42"   name="width42" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">高
+                                        <input type="text" class="form-control" ng-model="giftModel.height42"   name="height42" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;">
+                                    </div>
+                                    <div class="form-inline">
+                                        <span  style="color: white">*</span>第3行
+                                        <input type="text" class="form-control" ng-model="giftModel.column43"   name="column43" maxlength="1" onkeyup="value=value.replace(/[^\d]/g,'')" style="width: 80px;margin: 0 5px;">格
+                                    </div>
+                                    <div class="form-inline">
+                                        <span style="color: white">*</span>长
+                                        <input type="text" class="form-control" ng-model="giftModel.length43"   name="length43" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">宽
+                                        <input type="text" class="form-control" ng-model="giftModel.width43"   name="width43" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">高
+                                        <input type="text" class="form-control" ng-model="giftModel.height43"   name="height43" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;">
+                                    </div>
+                                    <div class="form-inline">
+                                        <span style="color: white">*</span>第4行
+                                        <input type="text" class="form-control" ng-model="giftModel.column44"   name="column44" maxlength="1" onkeyup="value=value.replace(/[^\d]/g,'')" style="width: 80px;margin: 0 5px;">格
+                                    </div>
+                                    <div class="form-inline">
+                                        <span style="color: white">*</span>长
+                                        <input type="text" class="form-control" ng-model="giftModel.length44"   name="length44" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">宽
+                                        <input type="text" class="form-control" ng-model="giftModel.width44"   name="width44" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">高
+                                        <input type="text" class="form-control" ng-model="giftModel.height44"   name="height44" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;">
+                                    </div>
+                                    <div class="form-inline">
+                                        <span  style="color: white">*</span>第5行
+                                        <input type="text" class="form-control" ng-model="giftModel.column45"   name="column45" maxlength="1" onkeyup="value=value.replace(/[^\d]/g,'')" style="width: 80px;margin: 0 5px;">格
+                                    </div>
+                                    <div class="form-inline">
+                                        <span style="color: white">*</span>长
+                                        <input type="text" class="form-control" ng-model="giftModel.length45"   name="length45" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">宽
+                                        <input type="text" class="form-control" ng-model="giftModel.width45"   name="width45" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">高
+                                        <input type="text" class="form-control" ng-model="giftModel.height45"   name="height45" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;">
+                                    </div>
+                                    <div class="form-inline">
+                                        <span  style="color: white">*</span>第6行
+                                        <input type="text" class="form-control" ng-model="giftModel.column46"   name="column46" maxlength="1" onkeyup="value=value.replace(/[^\d]/g,'')" style="width: 80px;margin: 0 5px;">格
+                                    </div>
+                                    <div class="form-inline">
+                                        <span style="color: white">*</span>长
+                                        <input type="text" class="form-control" ng-model="giftModel.length46"   name="length46" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">宽
+                                        <input type="text" class="form-control" ng-model="giftModel.width46"   name="width46" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">高
+                                        <input type="text" class="form-control" ng-model="giftModel.height46"   name="height46" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;">
+                                    </div>
+                                    <div class="form-inline">
+                                        <span  style="color: white">*</span>第7行
+                                        <input type="text" class="form-control" ng-model="giftModel.column47"   name="column47" maxlength="1" onkeyup="value=value.replace(/[^\d]/g,'')" style="width: 80px;margin: 0 5px;">格
+                                    </div>
+                                    <div class="form-inline">
+                                        <span style="color: white">*</span>长
+                                        <input type="text" class="form-control" ng-model="giftModel.length47"   name="length47" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">宽
+                                        <input type="text" class="form-control" ng-model="giftModel.width47"   name="width47" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;margin: 0 5px;">高
+                                        <input type="text" class="form-control" ng-model="giftModel.height47"   name="height47" maxlength="4" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px;">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--<div class="addStation-border-b" style="margin:30px 0 5px 0"></div>-->
+                            <div class="addStation-btns">
+                                <button class="btn btn-primary btn-sm" ng-disabled="verifyForm1.$invalid" ng-click="enterAdd()">
+                                    确认
+                                </button>
+                                <button class="btn btn-default btn-sm" data-dismiss="modal">
+                                    取消
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

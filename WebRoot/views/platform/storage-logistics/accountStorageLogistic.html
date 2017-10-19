@@ -1,0 +1,157 @@
+<div class="right-main">
+
+    <div>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="active" ng-click="navClick(0)"><a href="#storage" aria-controls="storage" role="tab" data-toggle="tab">仓储管理账号</a></li>
+            <li ng-click="navClick(1)"><a href="#logistic" aria-controls="logistic" role="tab" data-toggle="tab">配送管理账号</a></li>
+        </ul>
+    </div>
+    <div role="tabpanel" class="tab-pane active" id="storage">
+        <div ng-if="isStorageOrLogistics" style="margin-top: 10px;">
+            <div class="form-inline">
+                <div class="form-group">
+                    <label class="ng-binding">仓储名称：</label>
+                    <input type="text" class="form-control" ng-model="searchModel.ckName">
+                </div>
+                <button type="button" class="btn btn-primary btn-sm" ng-click="searchClick1()">查询</button>
+                <button type="button" style="margin-left: 50px" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addStorageModal" ng-click="btnAddStorage()">添加仓储管理账号</button>
+            </div>
+            <br/>
+            <pl4-grid grid-table="storageResult" th-header="storageThHeader" paging="storagePaging"></pl4-grid>
+            <!--
+                select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+            <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage(0)" paging="storagePaging"></pl4-paging>
+        </div>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="logistic">
+        <div ng-if="!isStorageOrLogistics" style="margin-top: 10px;">
+            <div class="form-inline">
+                <div class="form-group">
+                    <label class="ng-binding">物流名称：</label>
+                    <input type="text" class="form-control ng-pristine ng-untouched ng-valid" ng-model="searchModel.wlName">
+                </div>
+                <button type="button" class="btn btn-primary btn-sm" ng-click="searchClick2()">查询</button>
+                <button type="button" style="margin-left: 50px" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addLogisticModal" ng-click="btnAddLogistic()">添加配送管理账号</button>
+            </div>
+            <br/>
+            <pl4-grid grid-table="logisticResult" th-header="logisticThHeader" paging="logisticPaging"></pl4-grid>
+            <!--
+                select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+            <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage(1)" paging="logisticPaging"></pl4-paging>
+        </div>
+    </div>
+
+    <div class="modal fade" data-backdrop="static"  id="addStorageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 60%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">{{storageAccountTitle}}</p>
+
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div style="padding: 10px 5px">
+                    <div class="addStation">
+                        <div class="addStation-input" style="width: 54%">
+                            <form role="form" name="verifyForm1">
+                            <div class="form-inline">
+                                <label>选择仓库：</label>
+                                <select class="form-control" ng-model="RDCModel.id" ng-options="o.id as o.name for o in RDCModel.select" ng-change="RDCModel.change()"></select>
+                                <select ng-if="CDCModel.select.length>0" class="form-control" ng-model="CDCModel.id" ng-options="o.id as o.name for o in CDCModel.select"></select>
+                            </div>
+                            <div class="form-inline">
+                                <label><span class="verify">*</span>负&nbsp;&nbsp;责&nbsp;&nbsp;人：</label>
+                                <input type="text" class="form-control" ng-model="storageAccountModel.userName" required>
+                            </div>
+                            <div class="form-inline">
+                                <label><span class="verify">*</span>联系电话：</label>
+                                <input type="text" class="form-control" ng-model="storageAccountModel.userTel" required>
+                            </div>
+                            <div class="form-inline">
+                                <label><span class="verify">*</span>公司职务：</label>
+                                <input type="text" class="form-control" ng-model="storageAccountModel.userPosition" required>
+                            </div>
+                            <div class="form-inline">
+                                <label><span class="verify">*</span>平台账号：</label>
+                                <input type="text" class="form-control" ng-model="storageAccountModel.account" required>
+                            </div>
+                            <div class="form-inline">
+                                <label><span class="verify">*</span>平台密码：</label>
+                                <input type="text" class="form-control" ng-model="storageAccountModel.password" required>
+                            </div>
+                            <div class="addStation-btns" >
+                                <button class="btn btn-primary btn-sm" ng-disabled="verifyForm1.$invalid" ng-click="enterAdd()">
+                                    提交
+                                </button>
+                                <button class="btn btn-default btn-sm" data-dismiss="modal">
+                                    取消
+                                </button>
+                            </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" data-backdrop="static"  id="addLogisticModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 60%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">{{logisticAccountTitle}}</p>
+
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div style="padding: 10px 5px">
+                    <div class="addStation">
+                        <div class="addStation-input" style="width: 45%">
+                            <form role="form" name="verifyForm2">
+                            <!--<div class="form-inline">
+                                <label>选择仓库：</label>
+                                <select class="form-control" ng-model="RDCModel.id" ng-options="o.id as o.name for o in RDCModel.select" ng-change="RDCModel.change()"></select>
+                                <select ng-if="CDCModel.select.length>0" class="form-control" ng-model="CDCModel.id" ng-options="o.id as o.name for o in CDCModel.select" ng-change="CDCModel.change()"></select>
+                            </div>-->
+                            <div class="form-inline">
+                                <label><span class="verify">*</span>选择物流：</label>
+                                <select class="form-control" ng-model="wlDept.id" ng-options="o.id as o.name for o in wlDept.select"></select>
+                            </div>
+
+                            <div class="form-inline">
+                                <label><span class="verify">*</span>负&nbsp;&nbsp;责&nbsp;&nbsp;人：</label>
+                                <input type="text" class="form-control" ng-model="logisticAccountModel.userName" required>
+                            </div>
+                            <div class="form-inline">
+                                <label><span class="verify">*</span>联系电话：</label>
+                                <input type="text" class="form-control" ng-model="logisticAccountModel.userTel" required>
+                            </div>
+                            <div class="form-inline">
+                                <label><span class="verify">*</span>公司职务：</label>
+                                <input type="text" class="form-control" ng-model="logisticAccountModel.userPosition" required>
+                            </div>
+                            <div class="form-inline">
+                                <label><span class="verify">*</span>平台账号：</label>
+                                <input type="text" class="form-control" ng-model="logisticAccountModel.account" required>
+                            </div>
+                            <div class="form-inline">
+                                <label><span class="verify">*</span>平台密码：</label>
+                                <input type="text" class="form-control" ng-model="logisticAccountModel.password" required>
+                            </div>
+                            <div class="addStation-btns" style="width: 90%;text-align: center">
+                                <button class="btn btn-primary btn-sm" ng-disabled="verifyForm2.$invalid" ng-click="enterLogisticAdd()">
+                                    提交
+                                </button>
+                                <button class="btn btn-default btn-sm" data-dismiss="modal">
+                                    取消
+                                </button>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

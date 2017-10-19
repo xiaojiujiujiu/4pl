@@ -1,0 +1,146 @@
+<div class="right-main">
+    <pl4-query></pl4-query>
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    <!--
+    	select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+
+    <div class="modal fade" data-backdrop="static"  id="deleteData" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 30%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title"></p>
+
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div >
+                    <p style="text-align: center;padding: 10px 0 0 0;font-size: 16px;">
+                        确认将业务单从当前界面
+                        删除，并显示在原界面？
+                    </p>
+                    <div class="addStation-btns" style="margin-right:10px;">
+                        <button class="btn btn-primary" ng-click="deleteDetermine()"> 确定</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-right: 15px; ">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!--修改-->
+    <div class="modal fade" data-backdrop="static"  id="modifyCar" tabindex="-1" role="dialog" aria-labelledby="confirmPrint-title">
+        <div class="modal-dialog" role="document" style="width: 60%;">
+            <div class="modal-content">
+                <div class="modal-header allocation-head ">
+                    <p type="button" class=" allocation-close" ><a href="javascript:;"  data-dismiss="modal"></a></p>
+                    <p class="allocation-title">修改</p>
+                </div>
+                <div class="modal-body modal-bodys receipt-modal-body">
+                    <form role="form" name="verifyForm1" class="form-inline" AutoComplete="off">
+                        <h5>发件方信息</h5>
+                        <div class="form-group" style="position: relative">
+                            <label class="ng-binding">发件方编号：</label>
+                            <input type="text" class="form-control" name="senderNumber" ng-model="newIndentModel.senderNumber"   maxlength="20"  disabled/>
+                        </div>
+                        <div class="form-group" style="position: relative">
+                            <label class="ng-binding"><span class="verify">*</span>发件方：</label>
+                            <input type="text" class="form-control" name="chuHuoName" ng-model="newIndentModel.chuHuoName" required  maxlength="15"  disabled/>
+                        </div>
+                        <div class="form-group">
+                            <label class="ng-binding"><span class="verify">*</span>发件方电话：</label>
+                            <input type="text" class="form-control" name="chuHTel" ng-model="newIndentModel.chuHTel" required  maxlength="15"  disabled/>
+                        </div>
+                        <div class="form-group">
+                            <label class="ng-binding"><span class="verify">*</span>发件方地址：</label>
+                            <span>{{newIndentModel.chuHAdds}}</span>
+                            <!--<address-linkage address-model="addressModel" disabled=true></address-linkage>-->
+                        </div>
+                        <div class="form-group">
+                            <label class="ng-binding"><span class="verify">*</span>详细地址：</label>
+                            <input type="text" class="form-control" ng-model="newIndentModel.chuHAdd" required  maxlength="32"  name="chuHAdd" disabled/>
+                        </div>
+                        <h5>收件方信息</h5>
+                        <div class="form-group" style="position: relative">
+                            <label class="ng-binding"><span class="verify">*</span>收件方：</label>
+                            <input type="text" class="form-control" ng-model="newIndentModel.receiverName" required  maxlength="15" name="receiverName" disabled/>
+
+                        </div>
+                        <div class="form-group">
+                            <label class="ng-binding"><span class="verify">*</span>收件方电话：</label>
+                            <input type="text" class="form-control" ng-model="newIndentModel.receTel" required   name="receTel" maxlength="13" disabled/>
+                        </div>
+                        <div class="form-group">
+                            <label class="ng-binding"><span class="verify">*</span>收件方地址：</label>
+                            <span>{{newIndentModel.receAdds}}</span>
+                            <!--<address-linkage address-model="address2Model" disabled="disabled"></address-linkage>-->
+                        </div>
+                        <div class="form-group">
+                            <label class="ng-binding"><span class="verify">*</span>详细地址：</label>
+                            <input type="text" class="form-control" ng-model="newIndentModel.receAdd" required  maxlength="32" name="receAdd" disabled/>
+                        </div>
+                        <h5>货物信息</h5>
+                        <div class="form-group">
+                            <label class="ng-binding"><span class="verify">*</span>件数：</label>
+                            <input type="text" class="form-control" ng-model="newIndentModel.acceGoodCount" required  maxlength="32" name="acceGoodCount" disabled />
+                        </div>
+                        <div class="form-group">
+                            <label class="ng-binding"><span class="verify">*</span>运费（元）：</label>
+                            <input type="text" class="form-control" ng-model="newIndentModel.pay" required  maxlength="32" name="pay" onkeyup="this.value=this.value.replace(/(\d*\.\d{2}).*/,'$1');" />
+                        </div>
+                        <div class="form-group">
+                            <label class="ng-binding"><span class="verify"></span>重量（kg）：</label>
+                            <input type="text" class="form-control" ng-model="newIndentModel.weight"   maxlength="32" name="weight" disabled/>
+                        </div>
+                        <div class="form-group">
+                            <label class="ng-binding"><span class="verify"></span>体积（m³）：</label>
+                            <input type="text" class="form-control" ng-model="newIndentModel.size"   maxlength="32" name="size" disabled/>
+                        </div>
+                        <div class="form-group">
+                            <label class="ng-binding"><span class="verify"></span>代收款金额（元）：</label>
+                            <input type="text" class="form-control" ng-model="newIndentModel.collectMoney"   maxlength="32" name="collectMoney" onkeyup="this.value=this.value.replace(/(\d*\.\d{2}).*/,'$1');"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="ng-binding"><span class="verify"></span>代收款回款时效：</label>
+                            <input type="text" class="form-control" ng-model="newIndentModel.collectTimeliness"   maxlength="32" name="collectTimeliness" disabled/>
+                        </div>
+                        <div class="form-group">
+                            <label class="ng-binding"><span class="verify"></span>代收款手续费（元）：</label>
+                            <input type="text" class="form-control" ng-model="newIndentModel.fee"   maxlength="32" name="fee" />
+                        </div>
+                        <div class="form-group">
+                            <label class="ng-binding"><span class="verify"></span>保价金额：</label>
+                            <input type="text" class="form-control" ng-model="newIndentModel.offerMoney"   maxlength="32" name="offerMoney" disabled/>
+                        </div>
+                        <div class="form-group">
+                            <label class="ng-binding"><span class="verify"></span>保价费：</label>
+                            <input type="text" class="form-control" ng-model="newIndentModel.insuranceMoney"   maxlength="32" name="insuranceMoney" disabled/>
+                        </div>
+                        <div class="form-group">
+                            <label class="ng-binding"><span class="verify">*</span>运费付款方：</label>
+                            <select name="" ng-model="newIndentModel.paySide" ng-change="tebSelect()" class="form-control" style="display: inline-block;width: 100px;" disabled>
+                                <option value="1">发货方付</option>
+                                <option value="2">收货方付</option>
+                            </select>
+                            <select name=""  ng-model="newIndentModel.payType" ng-if="isShow2" class="form-control" style="display: inline-block;width: 100px;" disabled>
+                                <option value="2">月付</option>
+                                <option value="1">现付</option>
+                            </select>
+                            <select name=""  ng-model="newIndentModel.payType" ng-if="isShow" class="form-control" style="display: inline-block;width: 100px;" disabled>
+                                <option value="1">现付</option>
+                            </select>
+                        </div>
+                        <h5>备注信息</h5>
+                        <div style="padding-top: 5px;">
+                            <textarea rows="5" cols="100" ng-model="newIndentModel.remarks" maxlength="80" style="margin-top: 1px;"></textarea>
+                        </div>
+                    </form>
+                    <div class=" addStation-btns" style="margin-bottom:15px;">
+                        <button type="button" class="btn btn-primary" ng-click="modifyDetermine()">确认</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-right: 15px; ">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

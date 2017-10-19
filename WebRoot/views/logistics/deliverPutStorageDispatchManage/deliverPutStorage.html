@@ -1,0 +1,83 @@
+<div class="right-main">
+
+    <div>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="active" ng-click="navClick(0)"><a href="#storage" aria-controls="storage" role="tab"
+                                                         data-toggle="tab">VMI取货入库</a></li>
+            <li ng-click="navClick(1)"><a href="#logistic" aria-controls="logistic" role="tab"
+                                          data-toggle="tab">分拨入库</a></li>
+        </ul>
+    </div>
+    <div role="tabpanel" class="tab-pane active" id="storage">
+        <div ng-if="isTabs" style="padding: 20px 10px;border: 1px solid #ccc;border-top: 0;">
+            <div class="form-inline">
+                <form>
+                    <div class="form-group">
+                        <label class="ng-binding">取货单号：</label>
+                        <input type="text" class="form-control" style="width: 210px" ng-model="searchModel1.take">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm" ng-click="search1Click1()">查询
+                    </button>
+                </form>
+            </div>
+            <br/>
+            <p>VMI取货单列表：</p>
+            <pl4-grid grid-table="tab1Result1" th-header="tab1ThHeader1"></pl4-grid>
+            <div>
+                <button type="submit" class="btn btn-primary btn-sm" ng-click="printAll1()">打印所有箱单
+                </button>
+            </div>
+            <br>
+            <div class="form-inline" style="margin-left: 20px">
+                <form>
+                <div class="form-group">
+                    <label class="ng-binding">业务单号/箱号：</label>
+                    <input type="text" class="form-control" style="width: 220px" ng-model="searchModel1.business">
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm" ng-click="search1Click2()">确定</button>
+                </form>
+            </div>
+            <p>VMI入库列表：</p>
+            <pl4-grid grid-table="tab1Result2" th-header="tab1ThHeader2"></pl4-grid>
+            <div>
+                <button type="button" class="btn btn-primary btn-sm" ng-click="enterDispatch1()">确认入库</button>
+            </div>
+        </div>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="logistic">
+        <div ng-if="!isTabs" style="padding: 20px 10px;border: 1px solid #ccc;border-top: 0;">
+            <div class="form-inline" style="margin-left: 20px">
+                <form>
+                <div class="form-group">
+                    <label class="ng-binding">分拨单号：</label>
+                    <input type="text" class="form-control" style="width: 210px" ng-model="searchModel2.dispatch">
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm" ng-click="search2Click1()">确定
+                </button>
+                </form>
+            </div>
+            <br/>
+            <p>分拨单列表：</p>
+            <pl4-grid grid-table="tab2Result1" th-header="tab2ThHeader1"></pl4-grid>
+            <br>
+            <!--<button type="button" class="btn btn-primary btn-sm" ng-click="printAll2()">打印所有箱单</button>-->
+            <div class="form-inline" style="margin-left: 20px">
+                <form>
+                <div class="form-group">
+                    <label class="ng-binding">业务单号/箱号：</label>
+                    <input type="text" class="form-control" style="width: 220px" ng-model="searchModel2.business">
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm" ng-click="search2Click2()">确定
+                </button>
+                </form>
+            </div>
+            <p>分拨入库列表：</p>
+            <pl4-grid grid-table="tab2Result2" th-header="tab2ThHeader2"></pl4-grid>
+            <br>
+            <button type="button" class="btn btn-primary btn-sm" ng-click="enterDispatch2()">确认入库</button>
+
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,35 @@
+<div class="modal fade" data-backdrop="static"  id="goodsAlloModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 730px">
+        <div class="modal-content">
+            <div class="allocation-head">
+                <p class="allocation-title">设置货位</p>
+
+                <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal" ></a>
+                </p>
+            </div>
+            <div class="allocation-container" style="overflow-y: auto">
+                <div class="container-table">
+                    <div style="margin-bottom: 10px">
+                        <button class="btn btn-default btn-sm" ng-click="addAllo()" ng-if="shouldCount>=0" type="button">添加货位</button>
+                        <span style="margin-left: 20%" ng-if="shouldCount>=0">应上数量:{{shouldCount}}</span>
+                    </div>
+                    <div style="overflow:hidden;width: 100%;">
+                        <div style="float:left;width: 70%;">
+                            <pl4-grid grid-table="goodsAllocation" th-header="goodsAllocationHeader"></pl4-grid>
+                        </div>
+                        <div class="container-select" style="float: right;">
+                            <select class="form-control" ng-repeat="item in goodsAlloSelectSet"
+                                    ng-options="o.id as o.name for o in goodsAlloSelectSet[item.model]"
+                                    ng-model="goodsAlloSelectSet[item.selectModel]"
+                                    ng-change="selectChange(item.changeCallBack)"></select>
+                        </div>
+                    </div>
+                    <div class="clear addStation-btns" >
+                        <button class="btn btn-primary btn-sm" ng-click="enterAlloDc('#goodsAlloModal')" type="button">确定</button>
+                        <button class="btn btn-default btn-sm" ng-click="cancelAllo()" data-dismiss="modal" type="button">返回</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

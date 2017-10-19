@@ -1,0 +1,112 @@
+body {
+    width: 794px;
+    margin: 0 auto;
+    font-family: 'Arial Normal', 'Arial';
+}
+.clear {
+    clear: both;
+}
+
+#container {
+    width: 100%;
+    margin: 50px 0;
+}
+
+
+
+.header-logo {
+    float: left;
+    width: 150px;
+    height: 55px;
+}
+.header-logo img{
+    width:100%;
+}
+.header-center {
+    float: left;
+    width: 168px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 28px;
+    color: black;
+    font-weight: 400;
+    margin-left: 124px;
+
+}
+
+.header-right {
+    width: 190px;
+    height: 70px;
+    float: right;
+}
+.header-right img{
+    width: 190px;
+    height: 70px;
+}
+.head_info {
+    position: relative;
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #333333;
+}
+.header-title1,.header-title2{
+    margin-top: 15px;
+    width: 100%;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 16px;
+    color: #333333;
+}
+.header-title2{
+    margin-top: 20px;
+}
+.header-title2 .h-s2{
+    float: right;
+    font-size: 20px;
+    font-weight: 400;
+}
+.table{
+    margin-top: 10px;
+}
+.table table{
+
+    width: 100%;
+}
+.table table th{
+    color: #333333;
+    font-weight: 400;
+}
+.table table th,.table table td{
+    border: 1px solid #5F5F5F;
+    padding: 3px 5px;
+    text-align: center;
+}
+.footer{
+    padding-bottom: 40px;
+    margin-top: 20px;
+}
+.footer p{
+    width: 30%!important;
+}
+.hr1 {
+    height: 0;
+    width: 100%;
+    border:1px solid black;
+    margin-top: 20px;
+}
+.buttons{
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 80px;
+}
+.buttons input{
+    padding: 3px 10px;
+    border-radius: 3px;
+}
+
+@page{
+    size:auto;
+    margin-top:0mm;
+    margin-bottom:0mm;
+}

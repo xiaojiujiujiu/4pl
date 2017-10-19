@@ -1,0 +1,85 @@
+<div class="right-main">
+    <div>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="active" ng-click="navClick(0)"><a href="#nav1" aria-controls="nav1" role="tab"
+                                                         data-toggle="tab">未分配</a></li>
+            <li ng-click="navClick(1)"><a href="#nav2" aria-controls="nav2" role="tab"
+                                          data-toggle="tab">已分配</a></li>
+        </ul>
+    </div>
+    <div role="tabpanel" class="tab-pane active" id="nav1" ng-if="navShow">
+        <div class="form-inline  search-container" style="padding: 0px 10px">
+            <form >
+            <!--<div class="form-group form-group-media">-->
+                <!--<label>VMI地址选择：</label>-->
+                <!--<select class="form-control form-control2 form-control3" style="width: 30%!important;" ng-options="o.id as o.name for o in pageModel.vmiSelect.select1.data"-->
+                        <!--ng-model="pageModel.vmiSelect.select1.id"-->
+                        <!--ng-change="pageModel.vmiSelect.select1.change()"></select>-->
+                <!--<select class="form-control form-control2 form-control3" style="width: 30%!important;" ng-options="o.id as o.name for o in pageModel.vmiSelect.select2.data"-->
+                        <!--ng-model="pageModel.vmiSelect.select2.id"-->
+                        <!--ng-change="pageModel.vmiSelect.select2.change()"></select>-->
+            <!--</div>-->
+            <div class="form-group form-group-media">
+                <label>订单生成日期：</label>
+                <input type="text" readonly="readonly" style="width: 31%;" class="form-control form-control2" pl4-datepicker
+                       format="yyyy-mm-dd" ng-model="pageModel.dateTime.startTime">
+                <i>--</i>
+                <input type="text" readonly="readonly" style="width: 31%;" class="form-control form-control2" pl4-datepicker
+                       format="yyyy-mm-dd" ng-model="pageModel.dateTime.endTime">
+
+            </div>
+                <button type="submit" ng-class="{'btn-search-7':btnSearch7,'btn-search-5':btnSearch5,'btn-search-3':btnSearch3}" class="btn btn-primary btn-sm btn-query btn-search" ng-click="btnClick(0)">查询</button>
+
+        </form>
+        </div>
+        <pl4-grid grid-table="gridResult1" th-header="gridThHeader1" paging="paging1"></pl4-grid>
+        <!--
+            select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+        <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage(0)"
+                    paging="paging1"></pl4-paging>
+        <div class="form-inline addStation-btns" style="float: left;margin-top: -10px;">
+            <label>选择配送中心：</label>
+            <select class="form-control " style="min-width: 100px" ng-options="o.id as o.name for o in pageModel.distributionSelect.select1.data"
+                    ng-model="pageModel.distributionSelect.select1.id"
+                    ng-change="pageModel.distributionSelect.select1.change()"></select>
+            <!--<select class="form-control " style="min-width: 100px" ng-options="o.id as o.name for o in pageModel.distributionSelect.select2.data"-->
+                    <!--ng-model="pageModel.distributionSelect.select2.id"-->
+                    <!--ng-change="pageModel.distributionSelect.select2.change()"></select>-->
+            <button type="submit" class="btn btn-primary btn-sm" ng-click="btnDistribution()">分配</button>
+        </div>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="nav2" ng-if="!navShow">
+        <div class="form-inline  search-container" style="padding: 0px 10px">
+            <form >
+            <!--<div class="form-group form-group-media">-->
+                <!--<label>VMI地址选择：</label>-->
+                <!--<select class="form-control form-control2 form-control3" style="width: 30%;" ng-options="o.id as o.name for o in pageModel.vmiSelect.select1.data"-->
+                        <!--ng-model="pageModel.vmiSelect.select1.id"-->
+                        <!--ng-change="pageModel.vmiSelect.select1.change()" ></select>-->
+                <!--<select class="form-control form-control2 form-control3" style="width: 30%;" ng-options="o.id as o.name for o in pageModel.vmiSelect.select2.data"-->
+                        <!--ng-model="pageModel.vmiSelect.select2.id"-->
+                        <!--ng-change="pageModel.vmiSelect.select2.change()"></select>-->
+            <!--</div>-->
+            <div class="form-group form-group-media" >
+                <label>订单生成日期：</label>
+                <input type="text" readonly="readonly" style="width: 31%;"class="form-control form-control2" pl4-datepicker
+                       format="yyyy-mm-dd" ng-model="pageModel.dateTime.startTime">
+                <i>--</i>
+                <input type="text" readonly="readonly" style="width: 31%;"class="form-control form-control2" pl4-datepicker
+                       format="yyyy-mm-dd" ng-model="pageModel.dateTime.endTime">
+            </div>
+
+                <button type="submit"  ng-class="{'btn-search-7':btnSearch7,'btn-search-5':btnSearch5,'btn-search-3':btnSearch3}" class="btn btn-primary btn-sm btn-query" ng-click="btnClick(1)">查询</button>
+
+
+            </form>
+        </div>
+        <pl4-grid grid-table="gridResult2" th-header="gridThHeader2" paging="paging2"></pl4-grid>
+        <!--
+            select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+        <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage(1)"
+                    paging="paging2"></pl4-paging>
+
+    </div>
+</div>

@@ -1,0 +1,24 @@
+<div class="right-main">
+    <pl4-select china-cities="chinaCities"></pl4-select>
+    <div>
+        <label>选择类型：</label>
+        <label style="font-weight: 300;" class="minLabel"><input type="radio" name="inside" ng-change="radioInsideChange()"
+                                                ng-model="radioInside" value="insideOut"/>内部出库明细</label>
+        <label style="font-weight: 300;" class="minLabel"><input type="radio" name="inside" ng-change="radioInsideChange()"
+                                                ng-model="radioInside" value="insideIn"/>内部入库明细</label>
+    </div>
+    <pl4-query></pl4-query>
+    <div>
+        <span>{{radioInsideText}}列表</span>
+        <button class="btn btn-primary btn-sm" style="margin-left: 20px">
+            导出EXCEL
+        </button>
+    </div>
+    <br/>
+    <div >
+        <pl4-grid grid-table="result" th-header="thHeader" paging="paging" style="width: 2000px"></pl4-grid>
+    </div>
+    <!--
+    	select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+</div>

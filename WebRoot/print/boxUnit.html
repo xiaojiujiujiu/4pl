@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>箱单打印</title>
+    <link rel="stylesheet" href="base.css"/>
+    <link rel="stylesheet" href="boxUnit.css"/>
+    <script src="../lib/jquery-1.11.3.min.js"></script>
+    <script src="../lib/jquery.tmpl.min.js"></script>
+    <script src="js/common.js"></script>
+    <script type="text/javascript" src="js/LodopFuncs.js"></script>
+</head>
+<body>
+<script type="text/html" id="printTmpl">
+<div id="container">
+    {{each(j,k) grid}}
+    <div class="header">
+        <ul class="header-top-ul">
+            <li style="width: 198px; height: 50px;"><img src="../img/logo-gary.png" width="200" height="50"/></li>
+            <li class="header-top-ul-center">${k.boxNo}</li>
+            <li style="width: 270px; height: 50px;float: right"><img src="${k.boxNoURL}" width="270" height="50"/></li>
+        </ul>
+        <p class="clear print-date"><label>打印日期: </label>${k.printDate}</p>
+    </div>
+    <div class="center1">
+        <ul>
+            <li class="li-left"><label>发货人:</label>${k.chuHuoName}</li>
+            <li class="li-right"><label>发货人电话:</label>${k.bossTel}</li>
+        </ul>
+        <div class="clear"></div>
+    </div>
+    <div class="center2">
+        <ul>
+            <li class="li-left"><label>收货人:</label>${k.receiverName}</li>
+            <li class="li-right"><label>收货人电话:</label>${k.receTel}</li>
+            <li class="li-left" style="width: 100%"><label>收货人地址:</label>${k.receAdd}</li>
+            <li class="li-left"><label>结算方式:</label>${k.payType}</li>
+            <li class="li-right"><label>应付金额:</label>${k.orderPrice}</li>
+            <li class="clear li-left boxNum"><label>箱号:</label><img src="${k.boxNoURL}" width="280" height="50"/></li>
+            <li class="li-right"><label>收货人签字:</label></li>
+        </ul>
+        <p class="clear"></p>
+    </div>
+    <div class="footer">
+        <ul>
+            <li class="li-left"><label>收货人:${k.receiverName}</label></li>
+            <li class="li-right"><label>收货人电话:${k.receTel}</label></li>
+            <li class="li-left" style="width: 100%"><label>收货人地址:</label>${k.receAdd}</li>
+            <li class="li-left"><label>结算方式:${k.payType}</label></li>
+            <li class="li-right"><label>应付金额:</label>${k.orderPrice}</li>
+
+        </ul>
+        <p class="clear"></p>
+
+    </div>
+    {{/each}}
+</div>
+    <div class="buttons" id="printBtns">
+        <input type="button" value="打印" onclick="printdiv()"/>
+        <input type="button" value="关闭" onclick="common.closeWindow()" style="margin-left: 189px"/>
+    </div>
+
+</script>
+<script>
+    function printdiv() {
+        var printBtns = document.getElementById('printBtns');
+        printBtns.style.display = 'none';
+       // window.print();
+        lodopWebPrint('箱单打印',0,0,15,15);
+        printBtns.style.display = 'block';
+        return false;
+    }
+    $(function () {
+        var urlStr = common.parseQueryString(window.location.href);
+        var data = {
+            param: {
+                query: {grid:"["+window.localStorage.getItem('pl4boxUnitPrintGrid')+"]"}
+            }
+        }
+        data.param = JSON.stringify(data.param)
+        $.ajax({
+            type: "POST",
+            url: common.host + '/returnPickQuery/printBoxNo?' + location.search.substr(1),
+            data: data,
+            dataType: "json",
+            success: function (data) {
+
+                var date = new Date();
+                data.printTime = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes();
+                $('#printTmpl').tmpl(data).appendTo($('body'));
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        });
+    })
+
+</script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<div class="takegoods">
+    <div class="right-title-nav">
+        <span class="fw-bold title-nav-items" ng-click="navClick(0)">收货入库<i class="triangle-right"></i></span>
+        <!--<span class="title-nav-items" ng-click="navClick(1)">-->
+        	<!--<i class="triangle-topright"></i>-->
+        	<!--<i class="triangle-bottomright"></i>-->
+        	<!--收货入库-->
+        	<!--<i class="triangle-right"></i>-->
+        <!--</span>-->
+        <span class="title-nav-items bg-gray" ng-click="navClick(2)">
+        	<i class="triangle-topright bt-gray"></i>
+        	<i class="triangle-bottomright bb-gray"></i>
+        	明细查看
+        	<i class="triangle-right bl-gray"></i>
+        </span>
+    </div>
+    <div class="banner-container">
+        <p>收货仓库：<span ng-bind="banner.receiverName">新乡RDC</span></p>
+        <p>业务单号：<span ng-bind="banner.taskId">BH201510120001</span></p>
+        <p>业务类型：<span ng-bind="banner.orderTypeName"></span></p>
+        <p>发货方：<span ng-bind="banner.chuHuoName"></span></p>
+        <!-- <p>商品单数：<span ng-bind="banner.chuhTypeCount"></span></p> -->
+        <p>应收数量：<span ng-bind="banner.chuhGoodCount"></span></p>
+    </div>
+    <pl4-query style="border-top: 0; "></pl4-query>
+    <!--<div class="form-inline padding-15">-->
+        <!--<label>商品条码：</label>-->
+        <!--<input class="form-control" pl4-data-type="sku" type="text" ng-model="pageModel.SKU">-->
+        <!--<button class="btn btn-primary btn-sm" ng-click="searchClick()">-->
+            <!--查询-->
+        <!--</button>-->
+    <!--</div>-->
+
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+
+
+    <!--select-option:显示条数数据  paging-num:显示分页个数 to-page:点击页数方法 paging:分页配置数据-->
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+    <div class="addStation-btns" style="float: left;margin-top: -10px;">
+        <button class="btn btn-primary btn-sm" ng-click="takeGoodsDown()">
+           	 确认收货
+        </button>
+        <button ng-click="back()" class="btn btn-primary btn-sm" >
+          	  返回
+        </button>
+    </div>
+
+    <div class="modal fade" data-backdrop="static"  id="editDate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+        <div class="modal-dialog" role="document" style="height: auto;width: 400px;">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">收货差异</p>
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div style="padding: 10px 5px">
+                    <div class="addStation">
+                        <form role="form" name="verifyForm1">
+                            <div class="addStation-input" style="width:100%;">
+                                <div class="form-inline" >
+                                    <label>外包装损毁：</label>
+                                    <input type="text" onkeyup="value=value.replace(/[^\d]/g,'')" class="form-control" ng-model="goodsDifferenceModel.packageDamage"   name="productionDate"  maxlength="32">
+                                </div>
+                                <div class="form-inline" >
+                                    <label>货物损毁：</label>
+                                    <input type="text" onkeyup="value=value.replace(/[^\d]/g,'')"class="form-control" ng-model="goodsDifferenceModel.damage"  name="invalidDate"  maxlength="32">
+                                </div>
+                                <div class="form-inline" >
+                                    <label>丢失：</label>
+                                    <input type="text"onkeyup="value=value.replace(/[^\d]/g,'')" class="form-control" ng-model="goodsDifferenceModel.lost"  name="invalidDate"   maxlength="32">
+                                </div>
+                            </div>
+                            <!--<div class="addStation-border-b" style="margin:30px 0 5px 0"></div>-->
+                            <div class="addStation-btns">
+                                <button class="btn btn-primary btn-sm"  ng-click="enterAdd()">
+                                    确认
+                                </button>
+                                <button class="btn btn-default btn-sm" data-dismiss="modal">
+                                    取消
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

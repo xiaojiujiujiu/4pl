@@ -1,0 +1,67 @@
+<div class="right-main">
+    <div>
+        <button class="btn btn-primary btn-sm"  ng-click="addGift()">
+            添加礼品
+        </button>
+        <pl4-excel grid-table="result" btn-title="导出模板" action="/gift/exportGiftExcel" ex-params="exParams"></pl4-excel>
+        <button class="btn btn-primary btn-sm"  ngf-select="impUploadFiles($files)" multiple="multiple" >
+            导入礼品信息
+        </button>
+        <span ng-show="isShow">{{impUploadFilesProgress}}</span>
+    </div>
+
+    <pl4-query></pl4-query>
+
+
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    <!--
+    	select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+    <div class="modal fade" data-backdrop="static"  id="createGift" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="height: auto;width: 400px;">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">{{giftTtle}}</p>
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div style="padding: 10px 5px">
+                    <div class="addStation">
+                        <form role="form" name="verifyForm1">
+                            <pl4-verify-message form-name="verifyForm1"></pl4-verify-message>
+                            <div class="addStation-input" style="width:100%;">
+                                <div class="form-inline">
+                                    <label><span class="verify">*</span>礼品编码：</label>
+                                    <input type="text" class="form-control" ng-model="giftModel.sku" ng-disabled="skuDisabled" required name="sku" verify-message="请输入礼品编码" maxlength="32">
+                                </div>
+                                <div class="form-inline">
+                                    <label><span class="verify">*</span>礼品名称：</label>
+                                    <input type="text" class="form-control" ng-model="giftModel.giftName" required name="giftName"  verify-message="请输入礼品名称" maxlength="32">
+                                </div>
+                                <div class="form-inline">
+                                    <label><span class="verify">*</span>礼品品牌：</label>
+                                    <input type="text" class="form-control" ng-model="giftModel.brand" required  name="brand" verify-message="请输入礼品品牌" maxlength="32">
+                                </div>
+                                <div class="form-inline">
+                                    <label><span class="verify">*</span>礼品分类：</label>
+                                    <select name="categroy" class="form-control" ng-options="o.id as o.name for o in giftModel.giftType.select" ng-model="giftModel.giftType.id">
+                                    </select>
+                                </div>
+                            </div>
+                            <!--<div class="addStation-border-b" style="margin:30px 0 5px 0"></div>-->
+                            <div class="addStation-btns">
+                                <button class="btn btn-primary btn-sm" ng-disabled="verifyForm1.$invalid" ng-click="enterAdd()">
+                                    确认
+                                </button>
+                                <button class="btn btn-default btn-sm" data-dismiss="modal">
+                                    取消
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

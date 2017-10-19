@@ -1,0 +1,134 @@
+<style>
+    .modal-body .form-group{
+        width: 28%;
+    }
+</style>
+<div class="right-main">
+<pl4-query></pl4-query>
+    <div class="margin-bottom15">
+        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addCar" ng-click="addData()">
+            新增物流供应商
+        </button>
+    </div>
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    <!--
+    	select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+
+    <!-- Modal -->
+    <div class="modal fade" data-backdrop="static"  id="addCar" tabindex="-1" role="dialog" aria-labelledby="confirmPrint-title">
+        <div class="modal-dialog" role="document" style="width: 70%;height: auto">
+            <div class="modal-content">
+                <div class="modal-header allocation-head ">
+                    <p type="button" class=" allocation-close" ><a href="javascript:;"  data-dismiss="modal"></a></p>
+                    <p class="allocation-title" id="">{{addCarTitle}}</p>
+                </div>
+                <div class="modal-body modal-bodys">
+                    <form class="form-inline margin-bottom20" role="form" name="verifyForm1">
+                        <div class="form-group">
+                            <label class="ng-binding"><span class="verify">*</span>仓库名称：</label>
+                            <input type="text" class="form-control" ng-model="newCar.owerckName" required maxlength="10">
+                        </div>
+                           <div class="form-group">
+                             <label class="ng-binding"><span class="verify">*</span>配送类型：</label>
+                             <select class="form-control" ng-model="newCar.wlType" ng-options="o.id as o.name for o in newCar.wlTypeSelect"></select>
+                         </div>
+                        <div class="form-group">
+                            <label class="ng-binding"><span class="verify">*</span>合作配送商/百库直营：</label>
+                            <input type="text" class="form-control" ng-model="newCar.deliveryFacilitator" required  maxlength="10"  />
+                        </div>
+                         <div class="form-group">
+                            <label class="ng-binding"><span class="verify">*</span>结算方式：</label>
+                            <select class="form-control" ng-model="newCar.payType" ng-options="o.id as o.name for o in newCar.payTypeSelect"></select>
+                        </div>
+                        <div class="form-group">
+                            <label class="ng-binding">覆盖汽修厂数量：</label>
+                            <input type="text" class="form-control" ng-model="newCar.bindGarageAmount"  onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="9"/>
+                        </div>
+                       
+                       
+                        <div class="form-group">
+                            <label class="ng-binding"><span class="verify">*</span>车牌号：</label>
+                            <input type="text" class="form-control" ng-model="newCar.licenseNumber" maxlength="10">
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label class="ng-binding"><span class="verify">*</span>路线名称：</label>
+                            <input type="text" class="form-control" ng-model="newCar.lineName" required maxlength="20" />
+                        </div>
+                          <div class="form-group">
+                            <label class="ng-binding"><span class="verify">*</span>配送频次：</label>
+                            <input type="text" class="form-control" ng-model="newCar.deliveryRate" required maxlength="20" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="9"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="ng-binding"><span class="verify">*</span>配送车型：</label>
+                            <input type="text" class="form-control" ng-model="newCar.motorcycleType" required maxlength="20" />
+                        </div>
+                        <div class="form-group">
+                            <label class="ng-binding">路线说明：</label>
+                    <textarea class="form-control" ng-model="newCar.instruction" style="margin-top: 1px;" maxlength="200">
+                    </textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class=" addStation-btns" >
+
+                    <button type="button" class="btn btn-primary" ng-click="addCar()" ng-disabled="verifyForm1.$invalid">确认</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-right: 15px; " ng-click="deleteData()">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" data-backdrop="static"  id="queryCar" tabindex="-1" role="dialog" aria-labelledby="confirmPrint-title">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header allocation-head ">
+                    <p type="button" class=" allocation-close" ><a href="javascript:;" style="color: white;" data-dismiss="modal"></a></p>
+                    <p class="allocation-title" >{{addCarTitle}}</p>
+                </div>
+                <div class="modal-body modal-bodys">
+                    <form class="form-inline margin-bottom20" role="form" name="verifyForm">
+                        <!--<div class="form-group">
+                           <label class="ng-binding"><span class="verify">*</span>车辆编号：</label>
+                           <input type="text" class="form-control" ng-model="newCar.carId">
+                           <select class="form-control">
+
+                               <option label="北京海淀物流部" >北京海淀物流部</option>
+                           </select>
+                       </div>-->
+                        <div class="form-group">
+                            <label class="ng-binding"><span class="verify"></span>车牌号：</label>
+                            <input type="text" class="form-control" ng-model="newCar.licenseNumber" required  maxlength="10">
+                        </div>
+                        <div class="form-group">
+                            <label class="ng-binding"><span class="verify"></span>车辆名称：</label>
+                            <input type="text" class="form-control" ng-model="newCar.vehicleName" required maxlength="10">
+                        </div>
+                        <!--  <div class="form-group">
+                             <label class="ng-binding">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="verify">*</span>状态：</label>
+                             <select class="form-control" ng-model="newCar.vehicleState" ng-options="o.id as o.name for o in newCar.vehicleStateSelect"></select>
+                         </div> -->
+                        <div class="form-group">
+                            <label class="ng-binding"><span class="verify"></span>车属单位：</label>
+                            <input type="text" class="form-control" ng-model="newCar.vehicleUnit" required maxlength="20">
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label class="ng-binding"><span class="verify"></span>车型：</label>
+                            <input type="text" class="form-control" ng-model="newCar.vehicleModel" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="ng-binding"><span class="verify"></span>行驶证号：</label>
+                            <input type="text" class="form-control" ng-model="newCar.drivingNum" required maxlength="20" onkeyup="value=value.replace(/[^\d]/g,'')"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="ng-binding">车辆描述：</label>
+                    <textarea class="form-control" ng-model="newCar.vehicleDescription" style="margin-top: 1px;">
+                    </textarea>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

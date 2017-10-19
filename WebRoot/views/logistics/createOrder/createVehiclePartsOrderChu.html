@@ -1,0 +1,89 @@
+<style>
+     .add-autoplete-ul2 {
+        min-width: 150px;
+        left: 105px;
+    }
+    .glyphicon-triangle-bottom{
+        right: 30px;
+        top:3px;
+    }
+</style>
+<div class="right-main">
+
+    <div class="banner-container">
+        <p>发货方：<span ng-bind="banner.chuHuoName"></span></p>
+        <p>发货方电话：<span ng-bind="banner.chuHTel"></span></p>
+        <p>发货方地址：<span ng-bind="banner.chuHAdd"></span></p>
+        <p>收货方：<span ng-bind="banner.receiverName"></span></p>
+        <p>收货方电话：<span ng-bind="banner.receTel"></span></p>
+        <p>收货方地址：<span ng-bind="banner.receAdd"></span></p>
+        <p>中转目的地：<span ng-bind="banner.transitName"></span></p>
+        <p>备注：<span ng-bind="banner.remarks"></span></p>
+    </div>
+    <div class="margin-bottom15">
+        <button type="button" class="btn btn-primary btn-sm"  ng-click="sendGoods(0)"  >
+            直发
+        </button>
+        <button type="button" class="btn btn-primary btn-sm"  ng-click="sendGoods(1)"  >
+            中转
+        </button>
+    </div>
+    <pl4-grid grid-table="result" th-header="thHeader"></pl4-grid>
+
+    <div>
+        <div class="addStation-btns" style="float: left;margin-top: -10px;">
+            <button class="btn btn-primary btn-sm" ng-click="goBack()">
+                返回
+            </button>
+        </div>
+        <p style="float: right; padding-right: 50px" ng-show="isAmountShow">明细运费合计：{{amountModel.amountTo}}</p>
+    </div>
+
+    <div class="modal fade" data-backdrop="static"  id="sendGoods" tabindex="-1" role="dialog" aria-labelledby="confirmPrint-title">
+        <div class="modal-dialog" role="document" style="width: 470px;">
+            <div class="modal-content">
+                <div class="modal-header allocation-head ">
+                    <p type="button" class=" allocation-close" ><a href="javascript:;"  data-dismiss="modal"></a></p>
+                    <p class="allocation-title">{{operationTitle}}</p>
+                </div>
+                <div class="addStation" style="margin: 10px 5px">
+                    <form role="form" name="verifyForm1" class="form-inline" AutoComplete="off">
+                        <pl4-verify-message form-name="verifyForm1"></pl4-verify-message>
+                        <div class="form-inline" ng-show="isWlDeptShow">
+                            <label class="ng-binding"><span class="verify">*</span>中转至：</label>
+                            <select class="form-control" ng-model="newIndentModel.wlDeptName" ng-options="o.id as o.name for o in newIndentModel.wlDeptNameSelect"></select>
+                        </div>
+                        <div class="form-inline" style="position: relative">
+                            <label class="ng-binding"><span class="verify">*</span>第三方名称：</label>
+                            <input type="text"  class="form-control" ng-model="newIndentModel.carrierName" required  maxlength="15" placeholder="请选择" name="carrierName" verify-message="请输入第三方名称"/>
+                            <span class="glyphicon glyphicon-triangle-bottom" ng-click="showListFun()" style="cursor: pointer"></span>
+                            <ul class="autoplete-ul add-autoplete-ul2" ng-show="isShow">
+                                <li ng-repeat="item in dataList" data-index="{{item.value}}" ng-bind="item.name" ng-click="listSelect(item)"></li>
+                            </ul>
+                        </div>
+                        <div class="form-inline">
+                            <label class="ng-binding"><span class="verify">*</span>联系人：</label>
+                            <input type="text" class="form-control" ng-model="newIndentModel.carrierMan" required  maxlength="32"  name="carrierMan" verify-message="请输入联系人"/>
+                        </div>
+                        <div class="form-inline">
+                            <label class="ng-binding"><span class="verify">*</span>联系方式：</label>
+                            <input type="text" class="form-control" ng-model="newIndentModel.mobilePhone" required   name="mobilePhone" pl4-verify="phone" ng-pattern="/^1[3|5|8|7][0-9]\d{4,8}$/" verify-message="请输入正确联系方式" maxlength="11" ng-minlength="11"/>
+                        </div>
+                        <div class="form-inline">
+                            <label class="ng-binding"><span class="verify">*</span>第三方单号：</label>
+                            <input type="text" class="form-control" ng-model="newIndentModel.thirdWlId" required   name="thirdWlId"  verify-message="请输入第三方单号" maxlength="15"/>
+                        </div>
+                        <div class="form-inline">
+                            <label class="ng-binding"><span class="verify">*</span>订单运费：</label>
+                            <input type="text" class="form-control" ng-model="newIndentModel.pay" required   name="pay"  verify-message="请输入订单运费" maxlength="15"  onkeyup="value=value.replace(/[^\d.]/g,'')"/>
+                        </div>
+                    </form>
+                    <div class=" addStation-btns" style="margin-bottom:15px;">
+                        <button type="button" class="btn btn-primary" ng-click="operationEnterAdd()" ng-disabled="verifyForm1.$invalid" >确认</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-right: 15px;" ng-click="deleteData()">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

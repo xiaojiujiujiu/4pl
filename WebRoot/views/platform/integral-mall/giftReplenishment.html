@@ -1,0 +1,85 @@
+<div class="right-main">
+    <a class="btn btn-primary btn-sm"  href="#/main/giftReplenishmentConfirm">
+        添加任务
+    </a>
+
+
+    <pl4-query></pl4-query>
+
+
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+    <div class="modal fade" data-backdrop="static"  id="logModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 60%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">日志</p>
+
+                    <p class="allocation-close"><a href="javascript:;"  data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div class="new-version-table margin-top15">
+                    <pl4-grid grid-table="openModelResult" th-header="openModelThHeader"></pl4-grid>
+                    <!--<pl4-paging select-option="logPagingSelect" paging-num="5" to-page="logGoToPage()" paging="orderLogPaging"></pl4-paging>-->
+                    <div class="clear"></div>
+                    <!--<div class="addStation-border-b" style="margin:10px 0px 5px"></div>-->
+                    <div class="addStation-btns">
+                        <button class="btn btn-primary btn-sm" data-dismiss="modal">关闭</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" data-backdrop="static"  id="lookModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 60%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">查看</p>
+
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                    <div class="new-version-border">
+                            <p >
+                               业务单号：
+                                <span>{{lookBannerModel.taskId}}</span>
+                            </p>
+                            <p >
+                               创建日期：
+                                <span>{{lookBannerModel.createTime}}</span>
+                            </p>
+                            <p>
+                               订单状态：
+                                <span>{{lookBannerModel.inGoodsState}}</span>
+                            </p>
+                            <p>
+                               供应商：
+                                <span>{{lookBannerModel.chuHuoName}}</span>
+                            </p>
+                            <p >
+                                收货仓库：
+                                <span>{{lookBannerModel.receiverName}}</span>
+                            </p>
+                            <p >
+                               承运快递：
+                                <span>{{lookBannerModel.wlDeptName}}</span>
+                            </p>
+                            <p>
+                               快递单号：
+                                <span>{{lookBannerModel.thirdWlId}}</span>
+                            </p>
+                        </div>
+                        <div class="new-version-table">
+
+                            <pl4-grid grid-table="lookModelResult" th-header="lookModelThHeader"></pl4-grid>
+                        </div>
+                     <!--<div class="addStation-border-b" style="margin:10px 20px 5px"></div>-->
+                    <!--<pl4-paging select-option="logPagingSelect" paging-num="5" to-page="logGoToPage()" paging="orderLogPaging"></pl4-paging>-->
+                    <div class="clear" ></div>
+                <div style="margin-right: 15px;" class="addStation-btns">
+                        <button class="btn btn-primary btn-sm" data-dismiss="modal">关闭</button>
+                    </div>
+                </div>
+            </div>
+        </div>

@@ -1,0 +1,19 @@
+<div class="right-main">
+    <div class="banner-container">
+        <!-- <p>收货仓库：<span ng-bind="banner.receiverName">新乡RDC</span></p>-->
+        <p>业务单号：<span ng-bind="banner.taskId">BH201510120001</span></p>
+        <p>业务类型：<span ng-bind="banner.orderType "></span></p>
+        <p>收货方：<span ng-bind="banner.receiverName"></span></p>
+        <!-- <p>商品单数：<span ng-bind="banner.chuhTypeCount"></span></p> -->
+        <!--<p>应收数量：<span ng-bind="banner.chuhGoodCount"></span></p>-->
+    </div>
+    <pl4-grid grid-table="result" th-header="thHeader"></pl4-grid>
+    <div class="addStation-btns" style="text-align: left!important;">
+        <button class="btn btn-primary btn-sm" ng-click="update()">
+            返回
+        </button>
+        <!-- <button class="btn btn-primary btn-sm" style="margin-left: 100px" ng-click="print()">
+             打印入库单
+         </button>-->
+    </div>
+</div>

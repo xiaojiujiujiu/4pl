@@ -1,0 +1,86 @@
+<style>
+    .modal-body .form-group{
+        width: 28%;
+    }
+    .modal.in .modal-dialog{
+        z-index: 0;
+    }
+    .dropdown-menu{
+        z-index: 100000000;
+    }
+</style>
+<div class="right-main">
+    <div class="margin-bottom15">
+        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addCar" ng-click="addData()">
+            新增车辆
+        </button>
+    </div>
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    <p ng-hide="isData" style="text-align: center;overflow:hidden;padding: 10px;">暂无数据</p>
+    <!--
+    	select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+
+    <!-- Modal -->
+    <div class="modal fade" data-backdrop="static"  id="addCar" tabindex="-1" role="dialog" aria-labelledby="confirmPrint-title">
+        <div class="modal-dialog" role="document" style="width: 62%">
+            <div class="modal-content">
+                <div class="modal-header allocation-head ">
+                    <p type="button" class=" allocation-close" ><a href="javascript:;"  data-dismiss="modal"></a></p>
+                    <p class="allocation-title" id="">{{addCarTitle}}</p>
+                </div>
+                <div class="modal-body modal-bodys">
+                    <form class="form-inline margin-bottom20" role="form" name="verifyForm">
+                        <div class="form-group">
+                            <label class="ng-binding"><span class="verify">*</span>车辆名称：</label>
+                            <input type="text" class="form-control" ng-model="newCar.vehicleName" required  maxlength="10">
+                        </div>
+                        <div class="form-group">
+                            <label class="ng-binding"><span class="verify">*</span>车牌号：</label>
+                            <input type="text" class="form-control" ng-model="newCar.licenseNumber" required  maxlength="10"  />
+                        </div>
+                        <div class="form-group">
+                            <label class="ng-binding"><span class="verify">*</span>权属：</label>
+                            <select class="form-control" ng-model="newCar.property" ng-options="o.id as o.name for o in newCar.propertySelect" ng-change="toggleInput()"></select>
+                        </div>
+                        <div class="form-group" ng-if="!isShow">
+                            <label class="ng-binding"><span class="verify">*</span>租金：</label>
+                            <input type="text" class="form-control" ng-model="newCar.rent"  onkeyup="value=value.replace(/[^\d.]/g,'')" required maxlength="8"/>
+                        </div>
+                        <div class="form-group" ng-if="!isShow">
+                            <label class="ng-binding"><span class="verify">*</span>租赁模式：</label>
+                            <select class="form-control" ng-model="newCar.leaseType" ng-options="o.id as o.name for o in newCar.leaseTypeSelect" ></select>
+                        </div>
+                        <div class="form-group" ng-if="!isShow">
+                            <label class="ng-binding"><span class="verify">*</span>起租日：</label>
+                            <input type="text" class="form-control" ng-model="newCar.leaseDate" format="yyyy-mm-dd"  pl4-datepicker required readonly="readonly">
+                        </div>
+                        <div class="form-group" ng-if="!isShow">
+                            <label class="ng-binding">租期：</label>
+                            <select class="form-control" ng-model="newCar.leaseTime" ng-options="o.id as o.name for o in newCar.leaseTimeSelect"></select>
+                        </div>
+                        <div class="form-group" ng-if="isShow">
+                            <label class="ng-binding"><span class="verify">*</span>购入时间：</label>
+                            <input type="text" class="form-control" ng-model="newCar.salesDate" required  format="yyyy-mm-dd" pl4-datepicker readonly="readonly" />
+                        </div>
+                        <div class="form-group">
+                            <label class="ng-binding"><span class="verify">*</span>原值/参考原值：</label>
+                            <input type="text" class="form-control" ng-model="newCar.originalValue"  maxlength="15" required onkeyup="value=value.replace(/[^\d.]/g,'')"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="ng-binding">备注：</label>
+                 　　　　   <textarea class="form-control" ng-model="newCar.remarks" style="margin-top: 1px;" maxlength="200">
+                    </textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class=" addStation-btns" >
+
+                    <button type="button" class="btn btn-primary" ng-click="addCar()" ng-disabled="verifyForm.$invalid">确认</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-right: 15px; " ng-click="deleteData()">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

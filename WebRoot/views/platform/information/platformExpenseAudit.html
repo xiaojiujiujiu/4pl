@@ -1,0 +1,103 @@
+<div class="takegoods">
+    <div>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="active" ng-click="navClick(2)"><a href="#a" aria-controls="storage" role="tab" data-toggle="tab">运营费用</a></li>
+            <li ng-click="navClick(1)"><a href="#b" aria-controls="logistic" role="tab" data-toggle="tab">配送费用</a></li>
+        </ul>
+    </div>
+    <div style="padding-top: 15px;">
+        <pl4-storage-select></pl4-storage-select>
+    </div>
+    <div role="tabpanel" class="tab-pane active" id="nav1" ng-if="navShow">
+        <div class="form-inline search-container padding-15">
+            <div class="form-group">
+                <label>发票号：</label>
+                <input type="text" style="min-width: 100px" class="form-control" ng-model="pageModel.receiptId">
+
+            </div>
+            <div class="form-group ">
+                <label>审核状态：</label>
+                <select class="form-control" style="min-width: 100px" ng-options="o.id as o.name for o in examinestatu.examinestatuSelect"
+                        ng-model="examinestatu.id"></select>
+            </div>
+            <button type="submit" class="btn btn-primary btn-query " ng-click="searchClick(2)">查询</button>
+        </div>
+    </div>
+    <div role="tabpanel" class="tab-pane active" id="nav2" ng-if="!navShow">
+        <div class="form-inline search-container padding-15">
+            <div class="form-group">
+                <label>订单号：</label>
+                <input type="text" style="min-width: 100px" class="form-control" ng-model="pageModel.waybill">
+            </div>
+            <div class="form-group">
+                <label>业务单号：</label>
+                <input type="text" style="min-width: 100px" class="form-control" ng-model="pageModel.taskId">
+            </div>
+            <div class="form-group ">
+                <label>审核状态：</label>
+                <select class="form-control" style="min-width: 100px" ng-options="o.id as o.name for o in examinestatu.examinestatuSelect"
+                        ng-model="examinestatu.id"></select>
+            </div>
+            <button type="submit" class="btn btn-primary btn-query " ng-click="searchClick(1)">查询</button>
+        </div>
+    </div>
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+
+    <!--select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+    <div class="modal fade" data-backdrop="static"  id="examination" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 30%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">通过</p>
+
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div style="padding: 10px 5px">
+                    <p style="text-align: center;font-size: 16px;padding-top: 10px;">确认审核通过该条信息？
+                    </p>
+                            <div class="addStation-btns" >
+                                <button class="btn btn-primary btn-sm"  ng-click="examinationAdd()">
+                                    确认
+                                </button>
+                                <button class="btn btn-default btn-sm"
+                                        data-dismiss="modal">
+                                    取消
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div class="modal fade" data-backdrop="static"  id="reject" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 30%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">驳回</p>
+
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div style="padding: 10px 5px">
+                    <p style="text-align: center;font-size: 16px;padding-top: 10px;">确认审核驳回该条信息？
+                    </p>
+                    <div class="addStation-btns" >
+                        <button class="btn btn-primary btn-sm"  ng-click="rejectAdd()">
+                            确认
+                        </button>
+                        <button class="btn btn-default btn-sm"
+                                data-dismiss="modal">
+                            取消
+                        </button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+</div>

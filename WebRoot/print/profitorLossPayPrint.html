@@ -1,0 +1,150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>损溢结算单</title>
+    <link rel="stylesheet" href="base.css"/>
+    <link rel="stylesheet" href="print.css"/>
+    <script type="text/javascript" src="js/LodopFuncs.js"></script>
+</head>
+<body>
+
+
+<script src="../lib/jquery-1.11.3.min.js"></script>
+<script src="../lib/jquery.tmpl.min.js"></script>
+<script src="js/common.js"></script>
+<script type="text/html" id="printTmpl">
+    <div id="container">
+        <style>
+            .head_info li {
+                float: left;
+                width: 33%;
+            }
+
+            .head_info span {
+                font-size: 12px;
+            }
+            .footer p{
+                float: left;
+            }
+            .fontSize14{
+                font-size: 14px;
+                font-weight: normal;
+            }
+        </style>
+        <div class="header">
+            <div class="header-logo">
+                <img src="../img/logo-gary.png" alt="logo">
+            </div>
+            <h1 class="header-center">损溢结算单</h1>
+            <div class="header-right">
+                <img src="${banner.imgUrl}"   height="53" width="140">
+            </div>
+            <p class="clear"></p>
+        </div>
+        <div class="header-title1">
+            订单信息
+        </div>
+        <div class="head_info">
+            <ul>
+                <li>损溢单号：<span>${banner.taskId}</span></li>
+                <li>审批人：<span>${banner.examineUser}</span></li>
+                <li>结算时间：<span>${banner.updateTime}</span></li>
+                <li>差异总金额：<span>${banner.orderPrice}</span></li>
+            </ul>
+            <p class="clear"></p>
+        </div>
+        <div class="header-title2">
+            <span>商品信息</span>
+
+        </div>
+        <div class="clear hr1" style="margin-top: 14px">&nbsp;</div>
+        <div class="table">
+            <table>
+                <thead>
+                <th width="4%">序号</th>
+                <th width="8%">供应商</th>
+                <th width="8%">客户</th>
+                <th width="8%">商品编码</th>
+               <!-- <th width="7.5%">商品品类</th>-->
+                <th width="8%">商品品牌</th>
+                <th width="8%">规格型号</th>
+                <th width="8%">商品名称</th>
+                <th width="8%">计量单位</th>
+                <th width="8%">损溢类型</th>
+                <th width="8%">损溢数量</th>
+                <th width="8%">商品单价</th>
+                <th width="8%">小计</th>
+                <th width="8%">备注</th>
+                </thead>
+                <tbody>
+                {{each(j,y) grid}}
+                <tr>
+                    <td>${j+1}</td>
+                    <td>${y.partyName}</td>
+                    <td>${y.customerName}</td>
+                    <td>${y.sku}</td>
+                    <td>${y.goodsBrand}</td>
+                    <td>${y.modelName}</td>
+                    <td>${y.goodsName}</td>
+                    <td>${y.unitName}</td>
+                    <td>${y.reportTypeName}</td>
+                    <td>${y.reportCount}</td>
+                    <td>${y.stockPrice}</td>
+                    <td>${y.subTotal}</td>
+                    <td>${y.remarks}</td>
+                </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+        <div class="clear hr1" style="margin-top: 40px"></div>
+        <div class="footer">
+            <p>盘点人：${banner.payType}</p>
+            <p>审核人：${banner.examineUser}</p>
+            <p>操作人：${banner.optUser}</p>
+        </div>
+        <div class="clear"></div>
+
+    </div>
+    <div class="buttons" id="printBtns">
+        <input type="button" value="打印" onclick="printdiv()"/>
+        <input type="button" value="关闭" onclick="common.closeWindow()" style="margin-left: 189px" />
+    </div>
+</script>
+<script language="javascript">
+    function printdiv() {
+        var printBtns = document.getElementById('printBtns');
+        printBtns.style.display='none';
+       // window.print();
+        lodopWebPrint('损溢结算单',0,120,15,15);
+        printBtns.style.display='block';
+        return false;
+    }
+    $(function(){
+        var urlStr = common.parseQueryString(window.location.href);
+        var data = {
+            param:{
+                query: urlStr
+            }
+        }
+        data.param = JSON.stringify(data.param)
+        $.ajax({
+            type: "POST",
+            url: common.host+'/lossAndOverflowPay/printCkLossAndOverflowList?'+common.tokenInfo,
+            data: data,
+            dataType: "json",
+            success: function(data){
+                $('#printTmpl').tmpl(data).appendTo($('body'));
+            },
+            error: function(err){
+                console.log(err)
+            }
+        });
+    })
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>内部入库单</title>
+    <link rel="stylesheet" href="base.css"/>
+    <link rel="stylesheet" href="print.css"/>
+    <script src="../lib/jquery-1.11.3.min.js"></script>
+    <script src="../lib/jquery.tmpl.min.js"></script>
+    <script src="js/common.js"></script>
+    <script type="text/javascript" src="js/LodopFuncs.js"></script>
+</head>
+<body>
+<script type="text/html" id="printTmpl">
+
+    <div id="container">
+        <style>
+            .head_info li {
+                float: left;
+                width: 33%;
+            }
+
+            .head_info span {
+                font-size: 12px;
+            }
+
+
+            .footer p{
+                width: 50%;
+                float: left;
+                text-align: center;
+            }
+
+        </style>
+        <div class="header">
+            <h1 class="header-logo"><img src="../img/logo-gary.png"></h1>
+
+            <h1 class="header-center">内部入库单</h1>
+
+            <h1 class="header-right"><img src="${banner.picUrl}" /></h1>
+
+            <p class="clear"></p>
+        </div>
+        <div class="header-title1">
+            订单信息
+        </div>
+        <div class="head_info">
+            <ul>
+                <li>出库单位：<span>${banner.ckName}</span></li>
+                <li>申请人：<span>${banner.userName}</span></li>
+                <li>审批人：<span>${banner.examineUser}</span></li>
+                <li>入库描述：<span>${banner.userRemarks}</span></li>
+                <li>入库类型：<span>${banner.type}</span></li>
+                <li>审批时间：<span>${banner.updateTime}</span></li>
+            </ul>
+            <p class="clear"></p>
+        </div>
+        <div class="clear hr1"></div>
+        <div class="table">
+            <table>
+                <thead>
+                <th width="5%">序号</th>
+                <th width="9%">供应商</th>
+                <th width="9%">客户</th>
+                <th width="9%">商品编码</th>
+                <th width="9%">商品名称</th>
+                <th width="9%">规格型号</th>
+                <th width="9%">出厂编号</th>
+                <th width="8%">商品品牌</th>
+                <th width="8%">库存数量</th>
+                <th width="8%">申请数量</th>
+                <th width="8%">单价</th>
+                <th width="8%">小计</th>
+                </thead>
+                <tbody>
+                {{each(j,y) grid}}
+                <tr>
+                    <td>${j+1}</td>
+                    <td>${y.suppliersName}</td>
+                    <td>${y.customerName}</td>
+                    <td>${y.sku}</td>
+                    <td>${y.goodsName}</td>
+                    <td>${y.modelName}</td>
+                    <td>${y.factoryCode}</td>
+                    <td>${y.goodsBrandName}</td>
+                    <td>${y.stockCount}</td>
+                    <td>${y.reportcount}</td>
+                    <td>${y.price}</td>
+                    <td>${y.subtotal}</td>
+                </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+        <div class="clear hr1" style="margin-top: 40px"></div>
+        <div class="footer">
+            <p class="f-p1">商品种类：${banner.goodsType}</p>
+            <p class="f-p2">商品数量：${banner.goodsCount}</p>
+            <p class="f-p2">商品金额：${banner.totalMoney}</p>
+        </div>
+        <div class="footer">
+            <p class="f-p1">出库人：</p>
+            <p class="f-p2">领取人：</p>
+        </div>
+        <div class="clear"></div>
+        <div class="buttons" id="printBtns">
+            <input type="button" value="打印" onclick="printdiv()"/>
+            <input type="button" value="关闭" onclick="common.closeWindow()" style="margin-left: 189px" />
+        </div>
+    </div>
+</script>
+<script language="javascript">
+    function printdiv() {
+        var printBtns = document.getElementById('printBtns');
+        printBtns.style.display='none';
+        //window.print();
+        lodopWebPrint('内部入库单',0,120,15,15);
+        printBtns.style.display='block';
+        return false;
+    }
+    $(function(){
+        var urlStr = common.parseQueryString(window.location.href);
+        var data = {
+            param:{
+                query: urlStr
+            }
+        }
+        data.param = JSON.stringify(data.param);
+
+        $.ajax({
+            type: "POST",
+            url: common.host+'/ckOtherChuRuOrder/printCkOtherChuRuOrder?'+common.tokenInfo,
+
+            data: data,
+            dataType: "json",
+            success: function(data){
+                /* var date=new Date();
+                 data.printTime=date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()+' '+date.getHours()+':'+date.getMinutes();
+                 */
+                $('#printTmpl').tmpl(data).appendTo($('body'));
+            },
+            error: function(err){
+                console.log(err)
+            }
+        });
+    })
+</script>
+</body>
+</html>

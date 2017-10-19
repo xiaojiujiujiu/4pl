@@ -1,0 +1,160 @@
+<!-- 
+  - Created by hui.sun on 15/12/10.
+ -->
+<div class="right-main">
+   <!--  <div class="right-title-nav">
+        <span class="fw-bold title-nav-items">
+            包装业务
+            <i class="triangle-right"></i>
+        </span>
+        <span class="title-nav-items bg-gray" ng-click="orderPackHref()">
+        	<i class="triangle-topright bt-gray"></i>
+        	<i class="triangle-bottomright bb-gray"></i>
+        	订单包装
+        	<i class="triangle-right bl-gray"></i>
+        </span>
+    </div> -->
+    <div>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="active" ng-click="tabChange(1)">
+                <a href="#storage" aria-controls="storage" role="tab" data-toggle="tab">未分配</a>
+            </li>
+            <li ng-click="tabChange(2)">
+                <a href="#logistic" aria-controls="logistic" role="tab" data-toggle="tab">已分配</a>
+            </li>
+        </ul>
+
+    </div>
+    <pl4-query style="border-top: 0"></pl4-query>
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    <!--
+    	select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+    <div class="modal fade" data-backdrop="static"  id="logModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 60%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">订单详情</p>
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div style="padding: 10px 5px">
+                    <div class="new-version-border">
+                            <p>取货单号：<span>{{modalBanner.taskId}}</span></p>
+                            <p>发货方：<span>{{modalBanner.chuHuoName}}</span></p>
+                            <p>发货地址：<span>{{modalBanner.chuHAdd}}</span></p>
+                            <p>收货方：<span>{{modalBanner.receiverName}}</span></p>
+                            <p>收货地址：<span>{{modalBanner.receAdd}}</span></p>
+                    </div>
+                    <div class="new-version-table">
+                        <pl4-grid grid-table="openModelResult" th-header="openModelThHeader"></pl4-grid>
+                    </div>
+                    <div class="clear" style="margin-bottom: 10px"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" data-backdrop="static"  id="enterPrint" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">请确认是否打印成功</p>
+
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div class="allocation-container">
+                    <div class="allocation-addGoods-content">
+
+                        <div class="addStation-btns">
+                            <button class="btn btn-primary btn-sm" type="button" ng-click="printConfirm()">打印成功</button>
+                            <button class="btn btn-default btn-sm" data-dismiss="modal" type="button">打印失败</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     <div class="modal fade" data-backdrop="static"  id="cancelTake" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">请确认是否取消分配</p>
+
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div class="allocation-container">
+                    <div class="allocation-addGoods-content">
+
+                        <div class="addStation-btns">
+                            <button class="btn btn-primary btn-sm" type="button" ng-click="cancelTakeConfirm()">确认</button>
+                            <button class="btn btn-default btn-sm" data-dismiss="modal" type="button">取消</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" data-backdrop="static"  id="orderLogModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="height: auto;width: 400px;">
+            <div class="modal-content">
+               <!-- <div class="allocation-head">
+                    <p class="allocation-title"></p>
+
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>-->
+                <div class="allocation-container">
+                    <div class="allocation-addGoods-content">
+                        <div style="width:100%;" class="addStation-input">
+                            <div class="form-inline">
+                                <label>配送方式：</label>
+                                <select name="deliveryType" class="form-control" ng-options="o.id as o.name for o in orderLogModal.deliveryType" ng-model="orderLogModal.deliveryType.id" ng-change="toggleInput()">
+                                </select>
+                            </div>
+                            <div class="form-inline" ng-show="isShow">
+                                <label>配送员：</label>
+                                <select name="driverId" class="form-control" ng-options="o.id as o.name for o in orderLogModal.driverId" ng-model="orderLogModal.driverId.id">
+                                </select>
+                            </div>
+                            <div class="form-inline" ng-show="isShow2">
+                                <label>配送服务商：</label>
+                                <select name="driverId" class="form-control" ng-options="o.id as o.name for o in orderLogModal.wlCompId" ng-model="orderLogModal.wlCompId.id">
+                                </select>
+                            </div>
+                            <div class="form-inline" ng-show="isShow1">
+                                <label>配送车辆：</label>
+                                <select name="carId" class="form-control" ng-options="o.id as o.name for o in orderLogModal.carId" ng-model="orderLogModal.carId.id">
+                                </select>
+                            </div>
+                            <div class="form-inline" ng-show="isShow2">
+                                <label>第三方单号：</label>
+                                    <input type="text" class="form-control" ng-model="orderLogModal.thirdWild" required name="thirdWild"  verify-message="请输入第三方单号" maxlength="32">
+                            </div>
+                            <div class="form-inline" ng-show="isShow2">
+                                <label>结算方式：</label>
+                                <select name="clearType" class="form-control" ng-options="o.id as o.name for o in orderLogModal.clearType" ng-model="orderLogModal.clearType.id">
+                                </select>
+                            </div>
+                            <div class="form-inline" ng-show="isShow2">
+                                <label>计费方式：</label>
+                                <select name="billingType" class="form-control" ng-options="o.id as o.name for o in orderLogModal.billingType" ng-model="orderLogModal.billingType.id">
+                                </select>
+                            </div>
+                            <div class="form-inline" ng-show="isShow2">
+                                <label>运     费：</label>
+                                <input type="text" class="form-control" ng-model="orderLogModal.freight" required name="freight"  verify-message="请输入运     费" maxlength="32" onkeyup="this.value=(this.value.match(/\d+(\.\d{0,2})?/)||[''])[0]">
+                            </div>
+                        </div>
+                        <div class="addStation-btns">
+                            <button class="btn btn-primary btn-sm" type="button" ng-click="deliverConfirm()">确认</button>
+                            <button class="btn btn-default btn-sm" data-dismiss="modal" type="button">取消</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,65 @@
+<!-- 
+  - Created by hui.sun on 15/12/9.
+ -->
+<div class="right-main">
+    <div class="right-title-nav">
+        <span class="fw-bold title-nav-items" ng-click="goItemUpShelf()">商品上架<i class="triangle-right"></i></span>
+        <span class="title-nav-items">
+        	<i class="triangle-topright"></i>
+        	<i class="triangle-bottomright"></i>
+        	明细查看
+        	<i class="triangle-right"></i>
+        </span>
+    </div>
+    <div class="banner-container">
+        <p>收货仓库：<span ng-bind="banner.receiverName">新乡RDC</span></p>
+        <p>业务单号：<span ng-bind="banner.taskId">BH201510120001</span></p>
+    </div>
+    <div class="search-container form-inline padding-15">
+        <form ng-submit="searchClick()">
+            <label>商品编码：</label>
+            <input class="form-control" pl4-data-type="sku" type="text" ng-model="sku">
+            <button type="submit" class="btn btn-primary btn-sm btn-query margin-l-20">
+                查询
+            </button>
+        </form>
+    </div>
+    
+   <!-- <div class="statistics-container">
+        <p>未上架数量</p>
+        <div class="not-type">
+            <p ng-bind="banner.noPutTypeCount">10</p>
+            <p>商品种类</p>
+        </div>
+        <div class="not-num">
+            <p ng-bind="banner.noPutCount">67</p>
+            <p>商品数量</p>
+        </div>
+    </div>-->
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    
+    <!--select-option:显示条数数据  paging-num:显示分页个数 to-page:点击页数方法 paging:分页配置数据-->
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+    <div class="addStation-btns" style="float: left;margin-top: -10px;">
+        <button class="btn btn-primary btn-sm"  data-target="" ng-click="back()">
+            返回
+        </button>
+    </div>
+    <div class="modal fade" data-backdrop="static"  id="alloModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 40%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">货位查看</p>
+
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div style="padding: 10px 5px">
+                    <div class="addStation">
+                        <pl4-grid grid-table="alloResult" th-header="allTHeader"></pl4-grid>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

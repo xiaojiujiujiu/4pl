@@ -1,0 +1,225 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>配送单</title>
+    <link rel="stylesheet" href="base.css"/>
+    <link rel="stylesheet" href="print.css"/>
+
+</head>
+<body>
+<script src="../lib/jquery-1.11.3.min.js"></script>
+<script src="../lib/jquery.tmpl.min.js"></script>
+<script src="js/common.js"></script>
+<script type="text/javascript" src="js/LodopFuncs.js"></script>
+<script type="text/html" id="printTmpl">
+    <div id="container">
+        <style>
+            body{
+                font-size: 14px;
+            }
+            #container{
+                border:1px solid black;
+                border-bottom: 0;
+            }
+            .header-title1{
+                font-size: 22px;
+                text-align: center;
+                border-bottom: 1px solid black;
+                line-height: 45px;
+                color:black;
+            }
+            .main{
+                width: 100%;
+                overflow: hidden;
+                border-bottom: 1px solid black;
+            }
+            .main-l{
+                float: left;
+                width: 480px;
+                padding: 10px;
+                box-sizing: border-box;
+
+            }
+            .main-l li{
+                float: left;
+            }
+            .main-l li:nth-child(1){
+                width: 15px;
+                font-size: 18px;
+                padding-right: 10px;
+                color:black;
+            }
+            .main-l li:nth-child(2){
+                line-height: 22px;
+            }
+            .main-r{
+                float: left;
+                width: 313px;
+                border-left: 1px solid black;
+                min-height:65px;
+            }
+            .main-r li{
+                float: left;
+                border-bottom: 1px solid black;
+                line-height: 40px;
+                width:155px;
+                text-align: center;
+            }
+            .main-r li:nth-child(2n){
+                width: 156px;
+                border-left: 1px solid black;
+            }
+            .border0{
+                border-bottom:0!important;
+            }
+            .border-r-0{
+                border-left:0!important;
+            }
+            .main-r p{
+                font-size: 18px;
+                color: black;
+                text-align: center;
+                padding: 21px 0;
+            }
+            .main-r span{
+                padding-top: 10px;
+                display: inline-block;
+            }
+            .main-r span em{
+                font-size: 18px;
+                font-style: normal;
+            }
+            .footer{
+                border-bottom: 1px solid black;
+                padding: 0;
+                margin: 0;
+                overflow: hidden;
+            }
+            .footer p{
+                width: 33%;
+                text-align: center;
+                line-height: 30px;
+                float: left;
+            }
+            .statement{
+                padding: 10px;
+                border-bottom: 1px black dashed;
+                line-height: 28px;
+            }
+            .statement b{
+                font-size: 18px;
+            }
+        </style>
+        <div class="header-title1">
+            ${banner.chuhName}
+        </div>
+        <div class="main">
+            <ul class="main-l">
+                <li>收货人</li>
+                <li>${banner.receiverName}<br>${banner.address}<br>${banner.receTel}</li>
+            </ul>
+            <ul class="main-r">
+                <li>运费</li>
+                <li>${banner.pay }</li>
+                <li>代收货款</li>
+                <li>${banner.collectMoney }</li>
+                <li class="border0">总计</li>
+                <li class="border0">${banner.countMoney }</li>
+            </ul>
+        </div>
+        <div class="main">
+            <ul class="main-l">
+                <li>备注</li>
+                <li style="width: 430px;">${banner.remarks}</li>
+            </ul>
+            <div class="main-r border-r-0">
+                <p>物流 : 百库</p>
+            </div>
+        </div>
+        <div class="footer">
+            <p>收货点：${banner.receivingPoint}</p>
+            <p>物流电话：${banner.phone}</p>
+            <p>订单日期：${banner.createTime}</p>
+        </div>
+        <div class="statement">
+            <b>声明:</b>   托运人应声明货物价值，自愿向承运人申请保价运输，如不保价，
+            容易破损易碎的货物，责任自负！出现丢损将按运费金额的两倍最高十倍赔偿，但每单最高赔偿限为人民币100元整。
+        </div>
+        <div class="header-title1" style="padding: 10px 0">
+            <img src="${banner.barCodeUrl}" alt="">
+        </div>
+        <div class="header-title1">
+            ${banner.chuhName}
+        </div>
+        <div class="main">
+            <ul class="main-l">
+                <li>收货人</li>
+                <li>${banner.receiverName}<br>${banner.address}<br>${banner.receTel}</li>
+            </ul>
+            <ul class="main-r">
+                <li>运费</li>
+                <li>${banner.pay }</li>
+                <li>代收货款</li>
+                <li>${banner.collectMoney }</li>
+                <li class="border0">总计</li>
+                <li class="border0">${banner.countMoney }</li>
+            </ul>
+        </div>
+        <div class="main">
+            <ul class="main-l">
+                <li>备注</li>
+                <li style="width: 430px;">${banner.remarks}</li>
+            </ul>
+            <div class="main-r border-r-0">
+                <span><em>客户签字</em>（货物收到无缺损）:</span>
+            </div>
+        </div>
+        <div class="footer">
+            <p>收货点：${banner.receivingPoint}</p>
+            <p>物流：百库</p>
+            <p>订单日期：${banner.createTime}</p>
+        </div>
+    </div>
+    <div class="buttons" id="printBtns">
+        <input type="button" value="打印" onclick="printdiv()"/>
+        <input type="button" value="关闭" onclick="common.closeWindow()" style="margin-left: 189px" />
+    </div>
+</script>
+<script language="javascript">
+    function printdiv() {
+        var printBtns = document.getElementById('printBtns');
+        printBtns.style.display='none';
+       // window.print();
+        lodopWebPrint('配送单',0,120,15,15);
+        printBtns.style.display='block';
+        return false;
+    }
+    $(function(){
+        var urlStr = common.parseQueryString(window.location.href);
+        var data = {
+            param:{
+                query: urlStr
+            }
+        }
+        data.param = JSON.stringify(data.param)
+        $.ajax({
+            type: "POST",
+            url: common.ehost+'/personalOrder/printPersonalOrderBox?'+common.tokenInfo,
+            data: data,
+            dataType: "json",
+            success: function(data){
+                console.log(data)
+                $('#printTmpl').tmpl(data).appendTo($('body'));
+            },
+            error: function(err){
+                console.log(err)
+            }
+        });
+    })
+
+
+</script>
+</body>
+</html>

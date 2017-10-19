@@ -1,0 +1,31 @@
+<!-- 
+  - Created by hui.sun on 15/12/9.
+ -->
+<div class="right-main">
+<div ng-show="ifShowSelect">
+    <pl4-storage-select></pl4-storage-select>
+</div>
+</br>
+ <div>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="active" ng-click="tabChange(1)">
+                <a href="#storage" aria-controls="storage" role="tab" data-toggle="tab">未确认</a>
+            </li>
+            <li ng-click="tabChange(2)">
+                <a href="#logistic" aria-controls="logistic" role="tab" data-toggle="tab">已确认</a>
+            </li>
+        </ul>
+
+    </div>
+    <pl4-query></pl4-query>
+     <div class="margin-bottom15" ng-if="navShow">
+        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"  ng-click="confirmMoney()">
+            确认
+        </button>
+    </div>
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    <!--
+    	select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+</div>

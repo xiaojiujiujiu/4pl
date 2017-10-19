@@ -1,0 +1,55 @@
+<!-- 
+  - Created by hui.sun on 15/12/10.
+ -->
+<div class="right-main">
+    <div class="right-title-nav">
+        <span class="title-nav-items " ng-click="orderPickingHref()">
+            订单拣货
+            <i class="triangle-right"></i>
+        </span>
+        <span class="title-nav-items">
+        	<i class="triangle-topright"></i>
+        	<i class="triangle-bottomright"></i>
+        	拣货单查看
+        	<i class="triangle-right"></i>
+        </span>
+    </div>
+    <div class="banner-container">
+        <p>业务单号：<span>{{banner.taskId}}</span></p>
+        <!-- <p>商品单数：<span>{{banner.goodsTypeCount}}</span></p> -->
+        
+    </div>
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    <!--
+    	select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+    <div class="addStation-btns-color">
+        <button class="btn btn-primary btn-sm" ng-click="printPickingOrders()">
+            打印拣货单
+        </button>
+        <button class="btn btn-primary btn-sm" data-target="" style="margin-left: 10px;" ng-click="back()">
+            返回
+        </button>
+    </div>
+    <div class="modal fade" data-backdrop="static"  id="enterPrintModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">请确认是否打印成功</p>
+
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div class="allocation-container">
+                    <div class="allocation-addGoods-content">
+
+                        <div class="addStation-btns">
+                            <button class="btn btn-primary btn-sm" type="button" ng-click="printConfirm()">打印成功</button>
+                            <button class="btn btn-default btn-sm" data-dismiss="modal" type="button">打印失败</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,75 @@
+<!-- 
+  - Created by hui.sun on 15/12/9.
+ -->
+<div class="right-main">
+    <pl4-query></pl4-query>
+    <div class="form-inline search-container padding-15">
+        <form ng-submit="searchClick()">
+        <label>业务单号/箱号：</label>
+        <input class="form-control" type="text" ng-model="taskId" >
+        <button type="submit" class="btn btn-primary btn-sm btn-query margin-l-20">
+            查询
+        </button>
+        </form>
+    </div>
+
+
+    <pl4-grid grid-table="result" th-header="thHeader"></pl4-grid>
+    <!--
+    	select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+    <!--<pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>-->
+    <div class="clear">
+
+        <button type="button" class="btn btn-primary btn-sm" ng-click="enterDeliver()">
+            确认配送
+        </button>
+
+         <!--<button type="button" class="btn btn-primary btn-sm" ng-click="print()" style="margin-left: 10px;">补打发货单</button>
+    </div>
+    Button trigger modal -->
+
+
+    <!-- Modal -->
+    <!--<div class="modal fade" data-backdrop="static"  id="confirmShipments" tabindex="-1" role="dialog" aria-labelledby="confirmPrint-title">
+        <div class="modal-dialog" role="document" style="width: 250px">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">确认</p>
+
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div class="allocation-container" style="text-align: center">
+                    <h3>确认发货操作？</h3>
+                    &lt;!&ndash; <div>
+                        <input class="form-control confirmPrintInput" type="text">
+                    </div> &ndash;&gt;
+                </div>
+                <div class="modal-footer" style="text-align: center;">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" ng-click="enterDeliver()">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>-->
+    <!--第三方数据-->
+    <div class="modal fade" data-backdrop="static"  id="thirdDeliver" tabindex="-1" role="dialog" aria-labelledby="confirmPrint-title">
+        <div class="modal-dialog" role="document" style="width: 70%">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">绑定快递单号</p>
+
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div style="padding: 10px 5px">
+                    <pl4-grid grid-table="thirdDeliverGrid" th-header="thirdDeliverGridHeader"></pl4-grid>
+                </div>
+                <div class="modal-footer" style="text-align: center;border-top: 0">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" ng-click="bindDeliver()">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

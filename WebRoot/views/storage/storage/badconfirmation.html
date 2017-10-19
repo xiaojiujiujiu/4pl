@@ -1,0 +1,44 @@
+<!--
+  - Created by hui.sun on 15/12/9.
+ -->
+<div class="right-main">
+    <div class="right-title-nav">
+        <span class="fw-bold title-nav-items" ng-click="goItemUpShelf()">残损品上架<i class="triangle-right"></i></span>
+        <span class="title-nav-items">
+        	<i class="triangle-topright"></i>
+        	<i class="triangle-bottomright"></i>
+        	明细查看
+        	<i class="triangle-right"></i>
+        </span>
+    </div>
+
+    <div class="banner-container">
+        <p>收货仓库：<span ng-bind="banner.receiverName"></span></p>
+        <p>业务单号：<span ng-bind="banner.taskId"></span></p>
+    </div>
+    <div class=" form-inline padding-15">
+        <form ng-submit="searchClick()">
+            <label>商品编码：</label>
+            <input class="form-control" pl4-data-type="sku" type="text" ng-model="pageModel.sku">
+            <button type="submit" class="btn btn-primary btn-sm">
+                查询
+            </button>
+        </form>
+    </div>
+
+
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+
+    <!--select-option:显示条数数据  paging-num:显示分页个数 to-page:点击页数方法 paging:分页配置数据-->
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+    <div class="addStation-btns" style="float: left;margin-top: -10px;">
+        <button class="btn btn-primary btn-sm" ng-click="putGoodsDown()">
+            确认上架
+        </button>
+        <button class="btn btn-primary btn-sm" data-target="" style="margin-left: 10px;" ng-click="back()">
+            返回
+        </button>
+    </div>
+
+    <pl4-goodsallocation ng-hide="goodsAlloSelectSet.ngHide"></pl4-goodsallocation>
+</div>

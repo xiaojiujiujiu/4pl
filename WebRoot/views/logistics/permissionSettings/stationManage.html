@@ -1,0 +1,73 @@
+<div class="right-main">
+    <!-- <pl4-query></pl4-query>-->
+    <div class="margin-bottom15">
+        <button class="btn btn-primary btn-sm" ng-click="addStationClick()">
+            添加岗位
+        </button>
+    </div>
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()"
+            paging="paging"></pl4-paging>
+    <div class="modal fade" data-backdrop="static"  id="addStation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width:900px;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">{{stationTitle}}</p>
+
+                    <p class="allocation-close"><a href="javascript:;"  data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div style="padding: 10px 5px">
+                    <div class="addStation">
+                                    <form role="form" name="verifyForm">
+                                    <pl4-verify-message form-name="verifyForm"></pl4-verify-message>
+                                        <div class="form-inline">
+                                           <!--  <label><span class="verify">*</span>岗位编号：</label>
+                                            <input type="text" class="form-control" ng-model="stationModel.code" required  name="code" verify-message="请输入岗位编号" >
+                                            --> 
+                                            <label><span class="verify">*</span>岗位名称：</label>
+                                            <input type="text" class="form-control" ng-model="stationModel.postName" required  name="postName" maxlength="10" verify-message="请输入岗位名称">
+                                            <!-- <label><span class="verify">*</span>上级岗位：</label>
+                                            <input type="text" class="form-control" ng-model="stationModel.parentName" required> -->
+                                            <label><span class="verify">*</span>岗位介绍：</label>
+                                            <input type="text" class="form-control" ng-model="stationModel.postRemark" required maxlength="30" style="width: 200px;">
+                                        </div>
+                                        <div class="addStation-checked">
+                                            <label class="addStation-checked-title">选择岗位权限</label>
+                                            <hr/>
+                                            <div class="addStation-checkbox">
+                                                <div ng-repeat="item in sysStationData" >
+                                                    <p><i class="glyphicon glyphicon-triangle-bottom addStation-icon"></i><!--<label><input type="checkbox" ng-change="checkedChangeAll(item)" ng-model="item.checked"
+                                                                     ng-checked="item.checked"/></label>-->{{item.text}}</p>
+                                                    <ul>
+                                                        <li ng-repeat="check in item.children"><label><input type="checkbox" value="{{check.id}}"
+                                                                                                             ng-change="checkedChange(item,check)"
+                                                                                                             ng-model="check.checked"
+                                                                                                             ng-checked="check.checked"/>{{check.text}}</label>
+                                                        </li>
+                                                    </ul>
+                                                    <p class="clear"></p>
+                                                </div>
+                                            </div>
+                                            <div class="clear"></div>
+
+                                        </div>
+                                        <div class="addStation-btns" >
+                                            <button class="btn btn-primary btn-sm" ng-disabled="verifyForm.$invalid" ng-click="enterAddStation()">
+                                                确认
+                                            </button>
+                                            <button class="btn btn-default btn-sm" data-dismiss="modal" ng-click="offChecked()">
+                                                取消
+                                            </button>
+                                        </div>
+                                    </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="isAddStation" class="addStation">
+
+    </div>
+</div>

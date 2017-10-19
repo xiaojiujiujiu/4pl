@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>破损/丢失登记单</title>
+    <link rel="stylesheet" href="base.css"/>
+    <link rel="stylesheet" href="print.css"/>
+
+</head>
+<body>
+
+<script src="../lib/jquery-1.11.3.min.js"></script>
+<script src="../lib/jquery.tmpl.min.js"></script>
+<script src="js/common.js"></script>
+<script type="text/javascript" src="js/LodopFuncs.js"></script>
+<script type="text/html" id="printTmpl">
+    <div id="container">
+		<style>
+
+
+			.head_info span {
+				font-size: 12px;
+			}
+			.footer p{
+				float: left;
+			}
+			.header-title1{
+				font-size: 13px;
+				font-weight: 400;
+			}
+		</style>
+	    <div class="header">
+	        <h1 class="header-logo"><img src="../img/logo-gary.png"></h1>
+	
+	        <h1 class="header-center" style="width: 204px;">破损/丢失登记单</h1>
+	
+	        <!--<h1 class="header-right">编码</h1>-->
+	
+	        <p class="clear"></p>
+	    </div>
+	    <div class="header-title1">
+	        ${banner.taskId}订单中下列商品，因【${banner.distributName}】 联系方式 【${banner.phone}】
+	        的原因造成丢失/破损，经过双方合理协商【${banner.distributName}】同意照价赔偿·······
+	    </div>
+	    <div class="header-title2">
+	        <span>商品信息</span>
+	    </div>
+	    <div class="clear hr1" style="margin-top: 14px">&nbsp;</div>
+	    <div class="table">
+	        <table>
+	            <thead>
+		            <th width="5%">#</th>
+		             <th width="15%">供应商</th>
+		            <th width="10%">商品编码</th>
+		            <th width="10%">商品名称</th>
+		            <th width="5">规格型号</th>
+		            <th width="10">出厂编码</th>
+		            <th width="5%">数量</th>
+		            <th width="10%">单价</th>
+		            <th width="10%">小计</th>
+					<th width="10%">差异</th>
+					<th width="10%">差异备注</th>
+	            </thead>
+	            <tbody>
+	            	{{each(k, v) grid}}
+		            <tr>
+		                <td>${k+1}</td>
+		                <td>${v.supliers}</td>
+		                 <td>${v.sku}</td>
+		                <td>${v.goodsName}</td>
+		                <td>${v.model}</td>
+		                 <td>${v.factoryCode}</td>
+		                <td>${v.breakCount}</td>
+		                <td>${v.payPrice}</td>
+		                <td>${v.moneyCount}</td>
+						<td>${v.diffDescription}</td>
+						<td>${v.remarks}</td>
+		            </tr>
+		            {{/each}}
+	            </tbody>
+	        </table>
+	    </div>
+	    <div class="clear hr1" style="margin-top: 40px"></div>
+	    <div class="footer">
+	        <p style="width: 400px;">&nbsp;</p>
+	        <p style="width: 140px">&nbsp;</p>
+	        <p style="width: 130px">&nbsp;</p>
+	        <p style="width: 124px">共计：${banner.countMoney}元</p>
+	        <p style="margin-top: 50px;width: 540px">收款人：${banner.receMan}</p>
+	        <p style="margin-top: 50px;">交款人：${banner.payMan}</p>
+	
+	    </div>
+	    <div class="clear"></div>
+	    <div class="buttons" id="printBtns">
+	        <input type="button" value="打印" onclick="printdiv()"/>
+	        <input type="button" value="关闭" onclick="common.closeWindow()" style="margin-left: 189px" />
+	    </div>
+	</div>
+</script>
+
+<script language="javascript">
+    function printdiv() {
+        var printBtns = document.getElementById('printBtns');
+        printBtns.style.display='none';
+        //window.print();
+		lodopWebPrint('破损/丢失登记单',0,120,15,15);
+        printBtns.style.display='block';
+        return false;
+    }
+    $(function(){
+        var urlStr = common.parseQueryString(window.location.href);
+        var data = {
+            param:{
+                query: urlStr
+            }
+        }
+        data.param = JSON.stringify(data.param)
+        $.ajax({
+            type: "POST",
+            url: common.host+'/compensateMonitor/printDetail?'+common.tokenInfo,
+            data: data,
+            dataType: "json",
+            success: function(data){
+                $('#printTmpl').tmpl(data).appendTo($('body'));
+            },
+            error: function(err){
+                console.log(err)
+            }
+        });
+    })
+</script>
+</body>
+</html>

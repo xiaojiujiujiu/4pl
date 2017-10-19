@@ -1,0 +1,17 @@
+<div class="right-main">
+    <pl4-select china-cities="chinaCities"></pl4-select>
+    <pl4-query></pl4-query>
+    <div>
+        <span>调拨明细列表</span>
+        <button class="btn btn-primary btn-sm" style="margin-left: 20px">
+            导出EXCEL
+        </button>
+    </div>
+    <br/>
+    <div >
+        <pl4-grid grid-table="result" th-header="thHeader" paging="paging" style="width: 2300px"></pl4-grid>
+    </div>
+    <!--
+    	select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+</div>

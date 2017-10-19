@@ -1,0 +1,71 @@
+<div class="right-main">
+    <pl4-query></pl4-query>
+    <div class="margin-bottom15">
+        <button class="btn btn-primary btn-sm" ng-click="addStationClick()" data-toggle="modal"
+                data-target="#addCustomer">
+            添加人员
+        </button>
+    </div>
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+    <div class="modal fade" data-backdrop="static"  id="addCustomer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 30%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">{{addTitle}}</p>
+
+                    <p class="allocation-close"><a href="javascript:;"  data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div style="padding: 10px 5px">
+                    <div class="addStation">
+                            <form role="form" name="verifyForm" class="form-horizontal">
+                                    <pl4-verify-message form-name="verifyForm"></pl4-verify-message>
+                                     <div class="form-inline" style="padding-left: 51px;">
+                                            <span class="verify">*</span>表示必填项
+                                     </div>
+                                     <div class="form-inline" >
+                                        <label><span class="verify">*</span>岗位：</label>
+                                        <select  class="form-control" ng-options="o.id as o.name for o in CustomerPos.select" ng-model="CustomerPos.id"></select>
+                                    </div>
+                                     <div class="form-inline">
+                                        <label><span class="verify">*</span>账号：</label>
+                                        <input type="text" class="form-control" ng-model="addCustomerModel.account" required name="account" verify-message="请输入账号" maxlength="15">
+                                    </div>
+                                    <div class="form-inline">
+                                        <label><span class="verify">*</span>姓名：</label>
+                                        <input type="text" class="form-control" ng-model="addCustomerModel.driverName" required name="driverName" verify-message="请输入姓名" maxlength="15">
+                                    </div>
+                                    <div class="form-inline">
+                                        <label><span class="verify">*</span>工号：</label>
+                                        <input type="text" class="form-control" ng-model="addCustomerModel.jobNum" required name="jobNum" verify-message="请输入工号" maxlength="15" onkeyup="value=value.replace(/[^\d]/g,'')">
+                                    </div>
+                                    <!-- <div class="form-inline">
+                                         <label>密码：</label>
+                                         <input type="password" class="form-control" ng-model="addCustomerModel.pwd" required ng-minlength="6">
+                                     </div>-->
+                                    <div class="form-inline">
+                                        <label><span class="verify">*</span>手机：</label>
+                                        <input type="text" class="form-control" ng-model="addCustomerModel.mobilephone" onkeyup="value=value.replace(/[^\d]/g,'')" required name="mobilephone" pl4-verify="phone" verify-message="请输入正确手机号码" maxlength="11" >
+                                    </div>
+                                 
+                                    <div class="form-inline" style="padding-left: 52px;">
+                                            <span class="verify">*</span>密码：默认123456
+                                     </div>
+                                <div class="addStation-btns" >
+                                    <button class="btn btn-primary btn-sm" ng-disabled="verifyForm.$invalid" ng-click="enterAddStation()">
+                                        确认
+                                    </button>
+                                    <button class="btn btn-default btn-sm"
+                                            data-dismiss="modal">
+                                        取消
+                                    </button>
+                                </div>
+                            </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

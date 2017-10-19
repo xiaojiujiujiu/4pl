@@ -1,0 +1,45 @@
+<!-- 
+  - Created by hui.sun on 15/12/10.
+ -->
+<div class="right-main">
+    <pl4-query></pl4-query>
+    <!--<div class="margin-bottom15">-->
+        <!--<a  class="btn btn-primary btn-sm"  href="#/main/orderStorage">-->
+            <!--订单入库-->
+        <!--</a>-->
+    <!--</div>-->
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    <div>
+        <p>
+            <span style="padding-right: 20px;">应收件数总合计：{{banner.acceGoodCounts}}</span>
+            <span style="padding-right: 20px;">实收件数总合计：{{banner.realcounts}}</span>
+            <span style="padding-right: 20px;">运费总合计：{{banner.pays}}</span>
+            <span style="padding-right: 20px;">代收货款总合计：{{banner.collectMoneys}}</span>
+        </p>
+    </div>
+    <!--
+    	select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+    <div class="modal fade" data-backdrop="static"  id="lookCall" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="height: auto;width: 60%;">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">分拨单详情</p>
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div style="padding: 10px 5px;margin-bottom: 15px;">
+
+                    <div class="new-version-border">
+                        <p>分拨入库单号：<span>{{modalBanner.stockTaskId}}</span></p>
+                        <p>入库时间：<span>{{modalBanner.inGoodsTime}}</span></p>
+                        <p>操作人：<span>{{modalBanner.userName }}</span></p>
+                    </div>
+                    <div class="new-version-table">
+                        <pl4-grid grid-table="openModelResult" th-header="openModelThHeader" verify="verify"></pl4-grid>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

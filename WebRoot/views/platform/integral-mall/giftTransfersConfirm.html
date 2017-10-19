@@ -1,0 +1,38 @@
+<div class="right-main">
+    <div class="form-group form-inline addStation-btns-color">
+            <label class="" >发货仓库：</label>
+            <select ng-disabled="skuDisabled"  class="form-control" ng-options="o.id as o.name for o in giftTransfersConfirmModel.rdcId.select" ng-model="giftTransfersConfirmModel.rdcId.id"></select>
+            <button class="btn btn-primary btn-sm "  ng-click="addTransfersGift()">
+                添加调拨礼品
+            </button>
+    </div>
+
+    <pl4-grid grid-table="result1" th-header="thHeader" paging="paging"></pl4-grid>
+        <div class="form-inline addStation-btns-color">
+            <label class="" >收货仓库：</label>
+            <select class="form-control" ng-options="o.id as o.name for o in giftTransfersConfirmModel.wlCompId.select" ng-model="giftTransfersConfirmModel.wlCompId.id"></select>
+            <button type="button" class="btn btn-primary btn-sm" ng-disabled="isDisabled" ng-click="confirmTransfers()">确认调拨</button>
+        </div>
+
+    <!--弹出层-->
+    <div class="modal fade" data-backdrop="static"  id="createTransfersGift" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 60%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">{{giftTtle}}</p>
+                    <p class="allocation-close"><a href="javascript:;"  data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div style="padding: 10px 5px">
+                    <pl4-query></pl4-query>
+                    <pl4-grid grid-table="result2" th-header="addThHeader" paging="storagePaging"></pl4-grid>
+                    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+                    <button class="btn btn-primary btn-sm" ng-click="addTransfers()">
+                        添加选择
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,64 @@
+<div >
+<table border="0" class="table table-bordered table-hover">
+    <thead>
+        <th ng-repeat="item in header" style="{{item.style}}" ng-hide="item.isThShow">
+            <input ng-if="item.checkAll" ng-checked="masterChecked" ng-click="checkAll()" type="checkbox"/>{{item.name}}
+        </th>
+    </thead>
+    <tbody>
+        <tr ng-repeat="item in dataTable track by $index" ng-class="item.pl4Total?'pl4-total-tr':''" class="gild-tr-odd">
+            <td style="display: none" ng-bind="itemIndex=$index"></td>
+            <td style="width: 100px;" ng-if="item[head.field]||!item.pl4RowspanCols" ng-class="{'pl4-grid-color-red':hasClassRed(item[head.field])}" ng-class="item.pl4Total?'pl4-total-td':''" ng-repeat="head in header" rowspan='{{item.pl4Rowspan&&item.pl4Rowspan.rows&&item.pl4Rowspan.field.indexOf(head.field)==-1?item.pl4Rowspan.rows:-1}}' data-header="{{head.name}}" data-title="{{item[head.field]}}">
+
+                <span style="display: none" ng-bind="headIndex=$index"></span>
+                <span ng-if="head.type=='pl4GridCount'" ng-click="columnClick(itemIndex,headIndex,item,head.field,head.onclick)">{{item.pl4GridIndex!='total'?item.pl4GridIndex+1:''}}</span>
+                <input ng-if="head.check" ng-checked="item.pl4GridCheckbox.checked" ng-click="check(item.pl4GridCheckbox)"
+                       type="checkbox" ng-model="item[head.field]" ng-click="columnClick(itemIndex,headIndex,item,head.field,head.onclick)" style="{{head.style}}" />
+                <span ng-if="!head.check&&!head.input&&!head.link&&head.type!='operate'&&head.type!='select'&&head.type!='rd'" class="pl4-dataBinding" ng-click="columnClick(itemIndex,headIndex,item,head.field,head.onclick)">{{!item.pl4Total?item[head.field]:!head.total?(item[head.field]|currency:''):item[head.field]}}</span>
+                <a ng-if="head.link" href="{{item['pl4GridLink'+$index]}}" ng-click="columnClick(itemIndex,headIndex,item,head.field,head.onclick)">{{item[head.field]}}</a>
+                <span ng-if="head.input&&head.type!='update'">
+                    <input ng-if="!head.verify&&!head.verifyDisabled" ng-disabled="head.disable" class="form-control" ng-click="columnClick(itemIndex,headIndex,item,head.field,head.onclick)"
+                           type="{{head.type&&head.type!='operate'?head.type:'text'}}" pl4-data-type="{{head.pl4DataType}}"
+                           ng-model="item[head.field]" style="{{head.style}}" maxlength="{{head.maxlength}}" ng-change="gridRowsBlur(itemIndex,head.call,item)" id={{head.id}} />
+                    <input ng-if="head.verify&&!head.verifyDisabled" ng-disabled="head.disable" class="form-control" ng-click="columnClick(itemIndex,headIndex,item,head.field,head.onclick)"
+                           ng-class="item['input'+itemIndex+'-'+$index]?'input'+itemIndex+'-'+$index+' has-error':'input'+itemIndex+'-'+$index"
+                           type="{{head.type&&head.type!='operate'?head.type:'text'}}" pl4-data-type="{{head.pl4DataType}}"
+                           ng-model="item[head.field]"
+                           ng-blur="verifyInputNum(head,itemIndex,$index,item)" style="{{head.style}}"/>
+                    <!--根据目标字段设置disable-->
+                    <input ng-if="head.verifyDisabled" ng-disabled="$verifyDisabled(head,item)" class="form-control" ng-click="columnClick(itemIndex,headIndex,item,head.field,head.onclick)"
+                    ng-class="item['input'+itemIndex+'-'+$index]?'input'+itemIndex+'-'+$index+' has-error':'input'+itemIndex+'-'+$index"
+                    type="{{head.type&&head.type!='operate'?head.type:'text'}}" pl4-data-type="{{head.pl4DataType}}"
+                    ng-model="item[head.field]"
+                    ng-blur="verifyInputNum(head,itemIndex,$index,item)" style="{{head.style}}"  />
+                </span>
+
+                <select ng-if="head.type=='select'"  ng-options="o.id as o.name for o in item[head.field]" ng-disabled="head.disable" ng-model="item[head.selected]" ng-change="pl4GridSelectChange(index,headIndex,head,item)" class="form-control grid-select" dataSelected="{{head.selected}}">
+                   <!--  <option ng-repeat="k in item[head.field]" value="{{k.id}}" ng-selected="k.selected">{{k.name}}</option> -->
+                </select>
+                <span ng-if="head.input&&head.type=='update'">
+                    <span ng-if="!item['pl4gridUpdate'+itemIndex]&&item[head.field]!=''" ng-click="columnClick(itemIndex,headIndex,item,head.field,head.onclick)">{{item[head.field]}}</span>
+                    <input ng-readonly="$index==1" style="{{head.style}}" class="form-control" ng-if="!head.verify&&(item['pl4gridUpdate'+itemIndex]||item[head.field]=='')" pl4-data-type="{{head.pl4DataType}}" ng-click="columnClick(itemIndex,headIndex,item,head.field,head.onclick)" type="text" ng-model="item[head.field]" />
+                    <input ng-readonly="$index==1" style="{{head.style}}" ng-if="head.verify&&(item['pl4gridUpdate'+itemIndex]||item[head.field]=='')" ng-click="columnClick(itemIndex,headIndex,item,head.field,head.onclick)" type="text"
+                           class="form-control" pl4-data-type="{{head.pl4DataType}}"
+                           ng-class="item['input'+itemIndex+'-'+$index]?'input'+itemIndex+'-'+$index+' has-error':'input'+itemIndex+'-'+$index"
+                           ng-model="item[head.field]" ng-blur="verifyInputNum(head,itemIndex,$index,item)" />
+                </span>
+             <!--<span ng-if="head.type=='operate'&&item.op" style="font-size: 12px" ng-repeat="btn in item.op">   <a-->
+                   <!--href="javascript:;" ng-click="gridRowsClickOp(itemIndex,item,btn,head)   " role="button">{{btn.text}}</a>|</span>-->
+                 <span ng-if="head.type=='operate'&&item.op" style="font-size: 12px;color: #3886db;" ng-repeat="btn in item.op">  <i style="display:none;" ng-bind="opIndex=$index"></i> <a
+                         href="javascript:;" ng-click="gridRowsClickOp(itemIndex,item,btn,head)   " role="button">{{btn.text}}</a> {{(opIndex < item.op.length-1)?'|':''}} </span>
+                <a ng-if="head.type=='operate'&&!item.op"
+                   style="{{btn.style}}" ng-repeat="btn in head.buttons"
+                   href="javascript:;" ng-click="gridRowsClick(itemIndex,btn,item)" role="button">{{btn.text}}</a>
+                <a ng-if="head.type=='goodsAlloOperate'&&!item['goodsAlloOperateShow'+$index]"
+                   style="{{btn.style}}" ng-repeat="btn in head.buttons"
+                   href="javascript:;" ng-click="gridRowsClick(itemIndex,btn,item)" role="button">{{btn.text}}</a>
+
+                <label ng-repeat="r in head.rds" style="{{r.style}}" class="isIe"><input t="{{r.text}}"  ng-if="head.type=='rd'"
+                    type="radio" value="{{r.value}}" ng-model="item[head.field]"/>{{r.text}}</label>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</div>

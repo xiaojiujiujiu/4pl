@@ -1,0 +1,30 @@
+<div class="right-main">
+    <div class="banner-container">
+        <p>盘点单号：<span>{{banner.taskId}}</span></p>
+        <!--<p>盘点人：<span>{{banner.inventoryUser}}</span></p>-->
+        <p>操作人：<span>{{banner.opUser}}</span></p>
+        <p>盘点时间：<span>{{banner.createTime}}</span></p>
+    </div>
+    <div  class="form-inline search-container padding-15">
+        <div class="addStation-btns" style="text-align: left!important;" >
+            <label> 商品编码：</label>
+            <input class="form-control"pl4-data-type="sku" type="text" ng-model="pageModel.SKU">
+            <button class="btn btn-primary btn-sm btn-query margin-l-20"  ng-click="searchClick()">
+                查询
+            </button>
+            <pl4-excel grid-table="result" btn-title="导出盘点信息" action="/ckInventory/impInventoryOrderToExcel" ex-params="exGoodsAlloParam"></pl4-excel>
+            <button class="btn btn-primary btn-sm btn-query "  ngf-select="impUploadFiles($files)" multiple="multiple" >
+                导入盘点信息
+            </button>
+            <span ng-show="isShow">{{impUploadFilesProgress}}</span>
+        </div>
+    </div>
+
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    <div class="addStation-btns" style="text-align: left!important;">
+        <button class="btn btn-primary btn-sm"  ng-click="completeRegistration()">
+            完成登记
+        </button>
+        <button class="btn btn-primary btn-sm" ng-click="update()" data-dismiss="modal" type="button">返回</button>
+    </div>
+</div>

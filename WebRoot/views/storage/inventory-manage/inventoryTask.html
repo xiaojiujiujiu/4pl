@@ -1,0 +1,29 @@
+<div class="right-main">
+    <pl4-query></pl4-query>
+   <div class="margin-bottom15">
+       <a class="btn btn-primary btn-sm" href="#/main/addInventory" >
+           新建盘点业务
+       </a>
+   </div>
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    <p ng-hide="isData" style="text-align: center;overflow:hidden;padding: 10px;">暂无数据</p>
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+
+    <div class="modal fade" data-backdrop="static"  id="alloModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 40%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">查看明细</p>
+
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div style="padding: 10px 5px">
+                    <div class="addStation">
+                        <pl4-grid grid-table="alloResult" th-header="allTHeader"></pl4-grid>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

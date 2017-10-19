@@ -1,0 +1,50 @@
+<div class="right-main">
+    <pl4-query></pl4-query>
+    <button class="btn btn-primary btn-sm margin-bottom15" ng-click="addGoodsAllo()">添加货位</button>
+    <button class="btn btn-primary btn-sm margin-bottom15" ng-click="selectPrint()">打印货位码</button>
+    <button class="btn btn-primary btn-sm margin-bottom15" ng-click="initPrint()">初始化打印</button>
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    <!--select-option:显示条数数据  paging-num:显示分页个数 to-page:点击页数方法 paging:分页配置数据-->
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+    
+    <div class="modal fade" data-backdrop="static"  id="addGoodsAlloModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="height: auto;width: 500px;">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">添加货位</p>
+
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div class="allocation-container">
+                    <div class="allocation-addGoods-content">
+                        <div class="form-inline">
+                            <label>货区选择：</label>
+                            <select class="form-control" ng-model="addStorage.areaIdSelected" ng-options="o.id as o.name for o in addStorage.areaId"></select>
+                        </div>
+                        <div class="form-inline">
+                            <label>分区选择：</label>
+                            <select class="form-control" ng-model="addStorage.subAreaIdSelected" ng-options="o.id as o.name for o in addStorage.subAreaId"></select>&nbsp;&nbsp;
+                            <label>货架行数：</label>
+                            <input class="form-control"  style="width: 100px" type="text" ng-model="addStorage.rowNo"/>
+                        </div>
+                        <div class="form-inline">
+                            <label>货架列数：</label>
+                            <input class="form-control" style="width: 80px" type="text" ng-model="addStorage.columnNo"/>&nbsp;&nbsp;
+                            <label>货位数：</label>
+                            <input class="form-control" style="width: 80px" type="text" ng-model="addStorage.layerCount"/>&nbsp;&nbsp;
+                        </div>
+                        <div class="form-inline">
+                            <label>货架层数：</label>
+                            <input class="form-control" style="width: 80px" type="text" ng-model="addStorage.huoWeiCount"/>
+                        </div>
+                        <div class="addStation-btns">
+                            <button class="btn btn-pri·ary btn-sm  btn-primary" ng-click="addGoodsAlloEnter()" type="button">确定</button>
+                            <button class="btn btn-default btn-sm" data-dismiss="modal" type="button">取消</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

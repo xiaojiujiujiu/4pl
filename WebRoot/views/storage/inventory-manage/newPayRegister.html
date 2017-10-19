@@ -1,0 +1,33 @@
+<div class="right-main">
+    <div class="form-inline" >
+        <form ng-submit="orderSearchClick()">
+        <label>业务单号：</label>
+        <input type="text" class="form-control" ng-model="taskId">
+        <button class="btn btn-primary btn-sm" type="submit">
+            查询
+        </button>
+        </form>
+    </div>
+    <br/>
+    <div ng-if="isOrderSearchClick">
+        <pl4-query></pl4-query>
+        <div class="form-inline" >
+            <form ng-submit="searchClick()">
+            <label>商品编码：</label>
+            <input type="text" class="form-control" pl4-data-type="sku" ng-model="pageModel.sku">
+            <button class="btn btn-primary btn-sm" type="submit">
+                查询
+            </button>
+            </form>
+        </div>
+        <div>订单内商品</div>
+        <pl4-grid grid-table="result" th-header="thHeader"></pl4-grid>
+        <div class="form-inline">
+            <label>原因描述：</label>
+            <input type="text" class="form-control" ng-model="searchModel.remark">
+            <button class="btn btn-primary btn-sm" ng-click="enterPrintOrderClick()">
+                	确认打印登记单
+            </button>
+        </div>
+    </div>
+</div>

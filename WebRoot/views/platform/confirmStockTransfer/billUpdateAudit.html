@@ -1,0 +1,48 @@
+<div class="right-main">
+
+    <pl4-storage-select></pl4-storage-select>
+    <pl4-query></pl4-query>
+
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    <!--
+    	select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+    <div class="modal fade" data-backdrop="static"  id="adopt" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 25%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">通过</p>
+
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <p style="text-align: center;font-size: 16px;padding: 10px 0 0">确认允许此业务单进行修改？
+                </p>
+                <div style="margin-right: 15px;" class="addStation-btns">
+                    <button class="btn btn-primary btn-sm"  ng-click="confirmAdopt()">确定</button>
+                    <button class="btn btn-primary btn-sm" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" data-backdrop="static"  id="reject" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 25%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">驳回</p>
+
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div style="padding: 15px;">
+                    <p> 请输入驳回备注</p>
+                    <textarea style="margin-top: -1px;" cols="60" rows="3" ng-model="remarksModel.rejectRemarks"></textarea>
+                </div>
+                <div style="margin-right: 15px;" class="addStation-btns">
+                    <button class="btn btn-primary btn-sm"  ng-click="confirmReject()">确定</button>
+                    <button class="btn btn-primary btn-sm" data-dismiss="modal" ng-click="close()">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

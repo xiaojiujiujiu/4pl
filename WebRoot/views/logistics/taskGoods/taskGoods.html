@@ -1,0 +1,37 @@
+<!-- 
+  - Created by hui.sun on 15/12/10.
+ -->
+<div class="right-main">
+
+    <!-- <pl4-select china-cities="chinaCities"></pl4-select> -->
+    <pl4-query></pl4-query>
+    <!--<div>查询列表</div>-->
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    <!--
+    	select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+    <div class="modal fade" data-backdrop="static"  id="logModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 60%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">取货详情</p>
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div style="padding: 10px 5px">
+                    <div class="new-version-border">
+                            <p>取货单号：<span>{{modalBanner.taskId}}</span></p>
+                            <p>发货方：<span>{{modalBanner.chuHuoName}}</span></p>
+                            <p>发货地址：<span>{{modalBanner.chuHAdd}}</span></p>
+                            <p>收货方：<span>{{modalBanner.receiverName}}</span></p>
+                            <p>收货地址：<span>{{modalBanner.receAdd}}</span></p>
+                    </div>
+                    <div class="new-version-table">
+                        <pl4-grid grid-table="openModelResult" th-header="openModelThHeader"></pl4-grid>
+                    </div>
+                    <div class="clear" style="margin-bottom: 10px"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

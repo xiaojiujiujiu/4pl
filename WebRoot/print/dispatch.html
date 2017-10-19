@@ -1,0 +1,139 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>分拨单</title>
+    <link rel="stylesheet" href="base.css"/>
+    <link rel="stylesheet" href="print.css"/>
+
+</head>
+<body>
+
+
+<script src="../lib/jquery-1.11.3.min.js"></script>
+<script src="../lib/jquery.tmpl.min.js"></script>
+<script src="js/common.js"></script>
+<script type="text/javascript" src="js/LodopFuncs.js"></script>
+<script type="text/html" id="printTmpl">
+    <div id="container">
+        <style>
+            .head_info li {
+                float: left;
+                width: 33%;
+            }
+
+            .head_info span {
+                font-size: 12px;
+            }
+
+            .footer p {
+                float: left;
+            }
+
+            .fontSize14 {
+                font-size: 14px;
+                font-weight: normal;
+            }
+        </style>
+        <div class="header">
+            <div class="header-logo">
+                <img src="../img/logo-gary.png" alt="logo">
+            </div>
+            <h1 class="header-center">分拨单</h1>
+            <div class="header-right">
+                <img src="${query.barCodeURL}" height="53" width="140">
+            </div>
+            <p class="clear"></p>
+        </div>
+        <div class="header-title1">
+            订单信息
+        </div>
+        <div class="head_info">
+            <ul>
+                <li>分拨单号：<span>${query.fbTaskId}</span></li>
+                <li>分拨地址：<span>${query.address}</span></li>
+                <li>分拨日期：<span>${query.printTime}</span></li>
+            </ul>
+            <p class="clear"></p>
+        </div>
+        <div class="header-title2">
+            <span>商品信息</span>
+
+        </div>
+        <div class="clear hr1" style="margin-top: 14px">&nbsp;</div>
+        <div class="table">
+            <table>
+                <thead>
+                <th width="8%">序号</th>
+                <th width="18%">业务单号</th>
+                <th width="18%">客户单号</th>
+                <th width="18%">配送地址</th>
+                <th width="12%">箱数</th>
+                <th width="13%">备注</th>
+                </thead>
+                <tbody>
+                {{each(j,y) grid}}
+                <tr>
+                    <td>${j+1}</td>
+                    <td>${y.taskId}</td>
+                    <td>${y.orderID}</td>
+                    <td>${y.receAdd}</td>
+                    <td>${y.boxCount}</td>
+                    <td>${y.remarks}</td>
+                </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+        <div class="clear hr1" style="margin-top: 40px"></div>
+        <div class="footer">
+            <p style="">分拨人：${query.fbUser}</p>
+
+        </div>
+        <div class="clear"></div>
+
+    </div>
+    <div class="buttons" id="printBtns">
+        <input type="button" value="打印" onclick="printdiv()"/>
+        <input type="button" value="关闭" onclick="common.closeWindow()" style="margin-left: 189px"/>
+    </div>
+</script>
+<script language="javascript">
+    function printdiv() {
+        var printBtns = document.getElementById('printBtns');
+        printBtns.style.display = 'none';
+        //window.print();
+        lodopWebPrint('分拨单',0,120,15,15);
+        printBtns.style.display = 'block';
+        return false;
+    }
+    $(function () {
+        var urlStr = common.parseQueryString(window.location.href);
+        var data = {
+            param: {
+                query: urlStr
+            }
+        }
+        data.param = JSON.stringify(data.param)
+        $.ajax({
+            type: "POST",
+            url: common.host + '/TempAllotTask/printTempAllotTaskList?' + common.tokenInfo,
+            data: data,
+            dataType: "json",
+            success: function (data) {
+                console.log(data)
+                var date = new Date();
+                data.printTime = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes();
+                $('#printTmpl').tmpl(data).appendTo($('body'));
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        });
+    })
+
+
+</script>
+</body>
+</html>

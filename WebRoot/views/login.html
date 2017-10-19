@@ -1,0 +1,26 @@
+<!--<div class="login-wrapper">-->
+    <div class="login-bg">
+        <!--<img src="images/login_bg.jpg">-->
+    </div>
+    <div class="login">
+        <div class="login-logo">
+            <img src="img/login-logo2.png" alt="">
+        </div>
+        <!--<p class="login-text">欢迎登录</p>-->
+        <form name="login" ng-submit="btnLogin()" autocomplete="off">
+            <div class="form-group login-icon-position" style="margin-bottom: 10px;">
+                <!--<label for="userName">用户名：</label>-->
+                <i class="font-userName"></i>
+                <input type="text" class="form-control login-input" id="userName" placeholder="请输入登录名" ng-model="user.j_username" required autocomplete="off" >
+                <input type="text" class="form-control login-input"  ng-model="user.j_username"  ng-hide="true"  autocomplete="off" >
+            </div>
+            <div class="form-group login-icon-position" style="margin-bottom: 8px;">
+                <i class="font-password"></i>
+                <input type="password" style="display: none">
+                <input type="text" autocomplete="off"  onfocus="this.type='password'" class="form-control login-input" id="pwd" placeholder="请输入密码" ng-model="user.j_password" required >
+            </div>
+            <p class="login-error" ng-show="loginError">{{btnLogin.loginError}}</p>
+            <button type="submit" style="height: 40px;margin-top:24px;" ng-disabled="login.$invalid" class="btn btn-primary btn-lg btn-block" style=" margin:32px 0" >{{loginTitle}}</button>
+        </form>
+    </div>
+<!--</div>-->

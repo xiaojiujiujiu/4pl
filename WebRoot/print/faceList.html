@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="base.css"/>
+    <link rel="stylesheet" href="print2.css"/>
+</head>
+<body>
+
+<script src="../lib/jquery-1.11.3.min.js"></script>
+<script src="../lib/jquery.tmpl.min.js"></script>
+<script src="js/common.js"></script>
+<script type="text/javascript" src="js/LodopFuncs.js"></script>
+<script type="text/html" id="printTmpl">
+	<div id="container">
+		{{each(i,v) grid}}
+		<div class="main">
+			
+			<table class="table1 table-header border-bottom2">
+				<tr>
+		        	<td class="width33">
+		        		<img src="../img/logo-gary.png"/>
+		        	</td>
+		        	<td class="width33 text-center">${v.boxNo}</td>
+		        	<td class="width33">
+		        		<img src="${v.taskIDURL}" height="53" width="140" >
+		        	</td>
+		        </tr>
+		        <tr>
+		        	<td style="width: 75%">打印日期：${v.printDate}</td>
+		        </tr>
+			</table>
+		    <table class="table1 main-table" border="0" cellspacing="0">
+		        <tr>
+		            <td class="tr-td1" style="width: 55%">
+		                <p>发货人：${v.chuHuoName}</p>
+		            </td>
+		            <td class="tr-td2">
+		                <p>发货人电话：${v.bossTel}</p>
+		            </td>
+		        </tr>
+		        <tr class="height2">
+		        	<td></td>
+		        	<td></td>
+		        </tr>
+		        <tr>
+		            <td class="tr-td1" style="width: 55%">
+		                <p>收货人：${v.receiverName}</p>
+		            </td>
+		            <td class="tr-td2">
+		                <p>收货人电话：${v.receTel}</p>
+		            </td>
+		        </tr>
+		        <tr>
+		            <td class="tr-td1" style="width: 55%">
+		                <p>收货人地址：${v.receAdd}</p>
+		            </td>
+		        </tr>
+		        <tr>
+		            <td class="tr-td1" style="width: 55%">
+		                <p>结算方式：${v.payType}</p>
+		            </td>
+		            <td class="tr-td2">
+		                <p>应付金额：${v.orderPrice}</p>
+		            </td>
+		        </tr>
+		        <tr>
+		            <td class="tr-td1" style="width: 55%">
+		                <p>箱号： <img src="${v.boxNoURL}" height="53" width="140"  /></p>
+		            </td>
+		            <td class="tr-td2">
+		                <p>收货人签字：${v.remark}</p>
+		            </td>
+		        </tr>
+		        <tr class="height1">
+		        	<td></td>
+		        	<td></td>
+		        </tr>
+		        <tr>
+		            <td class="tr-td1" style="width: 55%">
+		                <p>收货人：${v.receiverName}</p>
+		            </td>
+		            <td class="tr-td2">
+		                <p>收货人电话：${v.receTel}</p>
+		            </td>
+		        </tr>
+		        <tr>
+		            <td class="tr-td1" style="width: 55%">
+		                <p>收货人地址：${v.receAdd}</p>
+		            </td>
+		        </tr>
+		        <tr>
+		            <td class="tr-td1" style="width: 55%">
+		                <p>结算方式：${v.payType}</p>
+		            </td>
+		            <td class="tr-td2">
+		                <p>应付金额：${v.orderPrice}</p>
+		            </td>
+		        </tr>
+		        <tr>
+		        	<td>
+		        		<h2 style="font-weight: bold;">内附商品清单</h2>
+		        	</td>
+		        </tr>
+		    </table>
+		    
+		</div>
+		{{/each}}
+	    <div class="buttons" id="printBtns">
+	        <input type="button" value="打印" onclick="printdiv()"/>
+	        <input type="button" value="关闭" onclick="common.closeWindow()" style="margin-left: 100px" />
+	    </div>
+	</div>
+</script>
+<script language="javascript">
+    function printdiv() {
+        var printBtns = document.getElementById('printBtns');
+        printBtns.style.display='none';
+        //window.print();
+		lodopWebPrint('',0,120,15,15);
+        printBtns.style.display='block';
+        return false;
+    }
+    $(function(){
+        var urlStr = common.parseQueryString(window.location.href);
+        var data = {
+            param:{
+                query: urlStr
+            }
+        }
+        data.param = JSON.stringify(data.param);
+       
+        $.ajax({
+            type: "POST",
+            url: common.host+'/orderBoxDetail/printBoxNo?'+common.tokenInfo,
+            
+            data: data,
+            dataType: "json",
+            success: function(data){
+            	/*console.log(data)*/
+                $('#printTmpl').tmpl(data).appendTo($('body'));
+            },
+            error: function(err){
+                console.log(err)
+            }
+        });
+    })
+</script>
+</body>
+</html>

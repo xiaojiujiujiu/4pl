@@ -1,0 +1,30 @@
+<div class="right-main">
+    <div>入库列表：</div>
+    <pl4-grid grid-table="result" th-header="thHeader"></pl4-grid>
+    <div>
+        <button class="btn btn-primary btn-sm"  ng-click="print()">
+            打印入库交接单
+        </button>
+    </div>
+     <div class="modal fade" data-backdrop="static"  id="enterPrint" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	    <div class="modal-dialog" role="document" style="height: auto">
+	        <div class="modal-content">
+	            <div class="allocation-head">
+	                <p class="allocation-title">请确认是否打印成功</p>
+	
+	                <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+	                </p>
+	            </div>
+	            <div class="allocation-container">
+	                <div class="allocation-addGoods-content">
+	
+	                    <div class="addStation-btns">
+	                        <button class="btn btn-primary btn-sm" type="button" ng-click="printConfirm()">打印成功</button>
+	                        <button class="btn btn-default btn-sm" data-dismiss="modal" type="button">打印失败</button>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+</div>

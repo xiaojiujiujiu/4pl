@@ -1,0 +1,144 @@
+#container .main{
+    width: 422px;
+    margin: 0 auto;
+    font-family: 'Arial Normal', 'Arial';
+    color: #333333;
+    border: 1px solid black;
+    margin-bottom: 20px;
+}
+#container{
+	width: 422px;
+    margin: 0 auto;
+}
+table{
+	border-collapse:inherit;
+}
+table th, table td {
+    padding: 3px 5px;
+    /*border: 1px solid black;*/
+}
+.table1,.table2,.table3 {
+    width: 100%;
+}
+.table1 .top{
+    text-align: center;
+}
+.table1 .top-cod{
+    font-size: 25px;
+    font-weight: 500;
+}
+.table1 .tr-td1 p{
+    font-size: 10px;
+}
+.table1 .td-address{
+    margin-left: 20px;;
+}
+.table1 .tr-td2 .td-address-num{
+    font-size: 16px;
+    margin-left: 30%;
+}
+.table1 .tr3-td1{
+    text-align: center;
+    position: relative;
+}
+.table1 .tr3-td1 p{
+    width: 17px;
+    position: absolute;
+    top: 24px;
+}
+.table1 .tr3-td2{
+    padding: 0;
+}
+.table1 .tr3-td2 p{
+    border-bottom: 1px solid black;
+}
+.table1 .tr3-td2 .td-p1{
+    font-size: 20px;
+    font-weight: 500;
+    text-align: center;
+}
+.table1 .tr3-td2 .td-p2{
+    font-size: 10px;
+}
+
+.table2{
+
+    text-align: center;
+}
+.table2 .tr2-td1{
+    text-align: left;
+    height: 50px;
+}
+.table2 .tr2-td1 p{
+    font-size: 10px;
+    margin-top: 5px;
+    margin-left: 70%;
+    font-style:italic;
+}
+.table3{
+	margin-bottom: 30px;
+    font-size: 10px;
+}
+.table3 .tr1-td1{
+    text-align: center;
+}
+.table3 .tr2-td2-p2{
+    margin-left: 15px;
+}
+.table3 .tr3-td1 p,.table3 .tr4-td1 p{
+    height: 10px;
+    line-height: 10px;
+    width: 22%;
+    float: left;
+    text-align: center;
+}
+.buttons{
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 30px;
+}
+.buttons input{
+    padding: 3px 10px;
+    border-radius: 3px;
+}
+.width33{
+	width: 33.333333333333%
+}
+.text-center{
+	text-align: center;
+}
+.table-header tr:first-child{
+	height: 50px;
+}
+.border-bottom2{
+	border-bottom: 2px solid #000;
+}
+table .height2{
+	margin:0;
+	padding: 0;
+	height: 2px;
+	background: #000;
+}
+table .height2 td{
+	padding: 0;
+}
+.main-table tr{
+	line-height: 30px;
+}
+table .height1 td{
+	border-bottom: 1px dashed #000;
+}
+.trImg{
+    transform: rotate(90deg);
+    width: 260px;
+    position: absolute;
+    height: 63px;
+    left: -99px;
+    top: 62px;
+}
+.trDiv{
+    width: 60px;
+    height: 220px;
+    display: inline-block;
+    position: relative;
+}

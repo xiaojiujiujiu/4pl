@@ -1,0 +1,21 @@
+<div class="home-wrapper">
+	<div class="home-main">
+		<div class="home-content" ng-repeat="item in homeData">
+			<h5>{{item.typeName}}</h5>
+			<div class="home-content-items">
+				<a href="{{ckItems.url}}" ng-if="ckItems.isShow" ng-repeat="ckItems in item.menu">
+					<dl>
+						<dt>
+							<i class="menu_icons {{ckItems.iconName}}"></i>
+						</dt>
+						<dd>
+							<p class="home-content-items-num">{{ckItems.waitQuantity}}</p>
+							<p>{{ckItems.text}}</p>
+						</dd>
+					</dl>
+				</a>
+			</div>
+		</div>
+
+	</div>
+</div>

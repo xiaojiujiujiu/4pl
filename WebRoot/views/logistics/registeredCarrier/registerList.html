@@ -1,0 +1,16 @@
+<div class="right-main">
+    <pl4-query></pl4-query>
+
+    <div>
+        <a class="btn btn-primary btn-sm" href="#/newRegister">
+            新建赔偿登记
+        </a>
+       <pl4-excel grid-table="result" action="/compensateMonitor/impToExcel" ex-params="exParams"></pl4-excel>
+    </div>
+    <br/>
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    <!--
+    	select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+
+</div>

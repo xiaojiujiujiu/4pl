@@ -1,0 +1,73 @@
+<!-- 
+  - Created by hui.sun on 15/12/9.
+ -->
+<div class="right-main">
+    <pl4-query></pl4-query>
+    <div ng-if="isSearchClick">
+      <div>
+        <form class="form-inline" ng-submit="receiptConfirm()">
+          <div class="form-group">
+            <label for="">回执类型：</label>
+            <select class="form-control" ng-model="autoForm.receipt" ng-change="falert()" ng-options="obj.id as obj.name for obj in receiptType">
+              <!--<option ng-repeat="obj in receiptType">{{obj.name}}</option>-->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="">回款类型：</label>
+            <select name=""  class="form-control" ng-model="autoForm.clear" ng-options="obj.id as obj.name for obj in clearType">
+              <!--<option value="">请选择</option>-->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="">业务单号</label>
+            <input type="text" ng-model="autoForm.taskIdModel" class="form-control" id="" placeholder="">
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-sm">确认</button>
+          </div>
+        </form>
+      </div>
+      <div>
+        <p>待回执列表</p>
+        <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+        <!--
+            select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+        <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+      </div>
+      <div class="marginTop60">
+        <p>已回执列表</p>
+        <pl4-grid grid-table="alreadyResult" th-header="alreadyThHeader" paging="alreadyPaging"></pl4-grid>
+        <!--
+            select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+        <pl4-paging select-option="alreadyPagingSelect" paging-num="5" to-page="alreadyGoToPage()" paging="alreadyPaging"></pl4-paging>
+      </div>
+
+      <div>
+          
+          <button type="button" class="btn btn-primary btn-sm" ng-click="receiptComplete()">
+            	回执完成
+          </button>
+      </div>
+    </div>
+    <div class="modal fade" data-backdrop="static"  id="enterPrint" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	    <div class="modal-dialog" role="document" style="height: auto">
+	        <div class="modal-content">
+	            <div class="allocation-head">
+	                <p class="allocation-title">请确认是否打印成功</p>
+	
+	                <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+	                </p>
+	            </div>
+	            <div class="allocation-container">
+	                <div class="allocation-addGoods-content">
+	
+	                    <div class="addStation-btns">
+	                        <button class="btn btn-primary btn-sm" type="button" ng-click="printConfirm()">打印成功</button>
+	                        <button class="btn btn-default btn-sm" data-dismiss="modal" type="button">打印失败</button>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+</div>

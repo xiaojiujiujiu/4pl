@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="base.css"/>
+    <link rel="stylesheet" href="print.css"/>
+    <style>
+
+
+        .head_info li {
+            float: left;
+            width: 33%;
+        }
+
+        .head_info span {
+            font-size: 12px;
+        }
+.footer p{
+    float: left;
+}
+    </style>
+</head>
+<body>
+<div id="container">
+    <div class="header">
+        <h1 class="header-logo">logo</h1>
+
+        <h1 class="header-center">拣货清单</h1>
+
+        <h1 class="header-right">编码</h1>
+
+        <p class="clear"></p>
+    </div>
+    <div class="header-title1">
+        订单信息
+    </div>
+    <div class="head_info">
+        <ul>
+            <li>客户名称：<span>XXX修理厂</span></li>
+            <li>收货人：<span>xxx</span></li>
+            <li>联系电话：<span>12348575642</span></li>
+            <li style="width: 66%">收货地址：<span>北京市海淀区用友软件园XXXXXXXXXXX</span></li>
+            <li>打印时间：<span>2015-01-12  13:11</span></li>
+        </ul>
+        <p class="clear"></p>
+    </div>
+    <div class="header-title2">
+        <span>商品信息</span>
+        <span class="h-s2">打包区：DB-A-01-1</span>
+    </div>
+
+    <div class="table">
+        <table>
+            <thead>
+                <th width="5%">#</th>
+                <th width="11%">商品编码</th>
+                <th width="9%">规格型号</th>
+                <th width="9">出厂编码</th>
+                <th width="10%">品牌</th>
+                <th width="10%">订购数量</th>
+                <th width="9%">货位信息</th>
+                <th width="8%">单价</th>
+                <th width="9%">小计</th>
+                <th width="9%">优惠后金额</th>
+                <th width="13%">备注</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>123123</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>10</td>
+                    <td>9</td>
+                    <td>-1</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>123123</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>10</td>
+                    <td>9</td>
+                    <td>-1</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>123123</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>10</td>
+                    <td>9</td>
+                    <td>-1</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>123123</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>10</td>
+                    <td>9</td>
+                    <td>-1</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="footer">
+        <p style="width: 400px;">支付方式：货到付款/已支付/月结客户</p>
+        <p style="width: 140px">商品种类：4</p>
+        <p style="width: 130px">商品数量：40</p>
+        <p style="width: 124px">商品金额：400</p>
+        <p style="margin-top: 50px;width: 540px">拣货员：</p>
+        <p style="margin-top: 50px;">客户签字：</p>
+
+    </div>
+    <div class="clear"></div>
+    <div class="buttons" id="printBtns">
+        <input type="button" value="打印" onclick="printdiv()"/>
+        <input type="button" value="关闭" style="margin-left: 189px" />
+    </div>
+</div>
+<script language="javascript">
+    function printdiv() {
+        var printBtns = document.getElementById('printBtns');
+        printBtns.style.display='none';
+        window.print();
+        printBtns.style.display='block';
+        return false;
+    }
+</script>
+</body>
+</html>

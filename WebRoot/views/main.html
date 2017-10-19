@@ -1,0 +1,116 @@
+<div class="main">
+    <div class="left-wrapper" ng-show="leftShow">
+        <div class="col-xs-2 ct-left">
+            <div class="logo">
+                <img src="img/logo.png" alt="logo">
+                <a href="" class="menu_icon menu_icon_1"></a>
+            </div>
+
+            <!--左侧菜单-->
+            <menu>
+                <menu-list menu-item="item" ng-repeat="item in menuList"></menu-list>
+            </menu>
+        </div>
+
+    </div>
+    <!-- 展开关闭按钮  -->
+    <div  ng-click="treeToggle()" ng-class="{true: 'tree-btn', false: 'tree-btn2'}[isActive]">
+        <i ng-class="{true: 'tree-left-btn', false: 'tree-right-btn'}[isActive]"></i>
+    </div>
+
+    <div class="col-xs-10" ng-class="{true: 'ct-right', false: 'ct-right2'}[isActive]">
+        <div class="row ct-top">
+            <div class="col-xs-12 header">
+                <div class="top-right">
+                    <nav>
+                        <top-menu class="header-item header-home" ng-class="isHomeHover?'hover':''" ng-click="getMenu(-1)">
+                            <a href="">
+                                <span class="iconBackground"></span>
+                                首页
+                            </a>
+                        </top-menu>
+                        <!-- {{headerIcons[$index]}}-->
+                        <top-menu class="header-item {{item.iconName}}" ng-class="item.change?'hover':''"
+                                  ng-repeat="item in menuRootNode" ng-click="getMenu($index)">
+                            <a href="">
+                                <span class="iconBackground"></span>
+                                {{item.typeName}}
+                            </a>
+                        </top-menu>
+                    </nav>
+                </div>
+                <div class="userMsg">
+                   <p style="padding-top: 3px;">
+                       <span data-toggle="modal" data-target="#updatePwd">修改密码</span>
+                   </p>
+                    <p>
+                        <i class="header-icons header-user"></i>
+                        <span>{{userInfo.userMsg}}</span>
+                    </p>
+                    <!--<p>-->
+                    <!--<i class="header-icons header-msg"></i>-->
+                    <!--<span>消息</span>-->
+                    <!--</p>-->
+                    <p ng-click="logOut()">
+                        <i class="header-icons header-logOut"></i>
+                        <span>注销</span>
+                    </p>
+
+                </div>
+            </div>
+        </div>
+        <!--内容视图-->
+        <div class="ui-view-loading" style="height: 100%;display: none;"><img src="images/loading.gif" alt=""></div>
+        <div class="ui-view-container">
+            <div id="ui-view" class="row" ui-view></div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" data-backdrop="static"  id="updatePwd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 35%;height: auto">
+        <div class="modal-content" style="padding: 0">
+            <div class="allocation-head">
+                <p class="allocation-title" style="color: #333;">修改密码</p>
+
+                <p class="allocation-close" ng-hide="isHide"><a href="#" style="color: white;" data-dismiss="modal"></a>
+                </p>
+            </div>
+            <div style="padding: 10px 5px">
+                <form role="form" name="updatePwdForm" class="form-horizontal">
+                    <div class="addStation">
+                        <div class="addStation-input" style="width: 90%">
+                            <div class="form-inline">
+                                <label>账号：</label>
+                                <input type="text" class="form-control" disabled ng-model="userPwd.account">
+                            </div>
+                            <div class="form-inline">
+                                <label>原始密码：</label>
+                                <input type="password" style="display: none">
+                                <input type="password" class="form-control" ng-model="userPwd.pwd" required>
+                            </div>
+                            <div class="form-inline">
+                                <label>新密码：</label>
+                                <input type="password" class="form-control" ng-model="userPwd.newPwd" required ng-minlength="6" ng-maxlength="12" placeholder="">
+                                <span style="font-size: 12px;color: red;">*新密码必须大于五位小于十三位的数字或字母</span>
+                            </div>
+                            <div class="form-inline">
+                                <label>确认密码：</label>
+                                <input type="password" class="form-control" ng-model="userPwd.enterPwd" required ng-minlength="6" ng-maxlength="12" placeholder="">
+                            </div>
+                        </div>
+                        <div class="addStation-btns" >
+                            <button class="btn btn-primary btn-sm" ng-disabled="updatePwdForm.$invalid" ng-click="enterUpdate()">
+                                确认修改
+                            </button>
+                            <button ng-hide="isHide" class="btn btn-default btn-sm" data-dismiss="modal" ng-click="deleteGrid()">
+                                取消
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="popover fade right in" role="tooltip" id="pl4GridPopover"><div class="arrow" style="top: 50%;"></div><h3 class="popover-title">Popover title</h3><div class="popover-content">And here's some amazing content. It's very engaging. Right?</div></div>

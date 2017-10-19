@@ -1,0 +1,55 @@
+<div class="right-main">
+      <div style="display: inline-block;"> <pl4-storage-select></pl4-storage-select></div>
+      <div class="form-inline" style="display: inline-block;">
+          <div class="form-group has-feedback">
+              <label>配送点：</label>
+              <div class="dropdown">
+                  <input ng-model="selectedRDCVal"  ng-focus="selectedToggUl()" ng-keyup="selectedRDCKeyup()" ng-blur="selectedRDCBlur()" class="form-control text-select" id="rdcDropdownMenu11" aria-haspopup="true" aria-expanded="false" type="text">
+                  <span class="glyphicon glyphicon-triangle-bottom form-control-feedback"></span>
+                  <ul class="dropdown-menu dropdown-menu-select" aria-labelledby="rdcDropdownMenu11" ng-hide="selectHide">
+                      <li ng-repeat="item in storageRDCVi"><a href="javascript:;" ng-click="selectedRDCOptionClick(item.id,item.name)">{{item.name}}</a></li>
+                  </ul>
+              </div>
+          </div>
+          <div class="form-group has-feedback" ng-if="selectStorageCDCVi.length>0">
+              <div class="dropdown"><input ng-model="selectedCDCVal" ng-keyup="selectedCDCKeyup(selectedCDCVal)" ng-blur="selectedCDCBlur()" class="form-control text-select" id="rdcDropdownMenu22" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" type="text">
+                  <span class="glyphicon glyphicon-triangle-bottom form-control-feedback"></span>
+                  <ul class="dropdown-menu" aria-labelledby="rdcDropdownMenu22">
+                      <li ng-repeat="item in selectStorageCDCVi"><a href="javascript:;" ng-click="selectedCDCOptionClick(item.id,item.name)">{{item.name}}</a></li>
+                  </ul>
+              </div>
+          </div>
+      </div>
+
+    <pl4-query></pl4-query>
+
+    <div class="margin-bottom15">
+        <pl4-excel grid-table="result" action="/personalMonitor/impToExcel" ex-params="exParams" btn-title="导出列表信息"></pl4-excel>
+    </div>
+    <div>
+        <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    </div>
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+    <div class="modal fade" data-backdrop="static"  id="workLogModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 80%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">日志</p>
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div style="padding: 10px 5px">
+                    <div class="new-version-border">
+                        <p>业务单号:{{banner.taskId}}</p>
+                        <p>发件方:{{banner.chuHuoName}}</p>
+                        <p>收件方:{{banner.receiverName}}</p>
+                    </div>
+                    <div class="new-version-table">
+                        <pl4-grid grid-table="logResult" th-header="getLogThead"></pl4-grid>
+                    </div>
+                    <div class="clear" style="margin-bottom: 10px"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

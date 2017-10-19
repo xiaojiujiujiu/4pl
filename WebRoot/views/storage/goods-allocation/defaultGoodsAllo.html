@@ -1,0 +1,14 @@
+<div class="right-main">
+    <pl4-query></pl4-query>
+    <div class="default-goodsAllo-ex">
+        <pl4-excel grid-table="result" btn-title="导出货位信息" alert-title="确定导出货位信息吗?" action="/ckGoodsDefLocation/exportDefLocationList" ex-params="exGoodsAlloParam"></pl4-excel>
+        <!--<button class="btn btn-primary btn-sm" ng-click="exGoodsAllo()">导出货位信息</button>-->
+        <!--<button class="btn btn-primary btn-sm" ngf-select="impGoodsAlloUploadFiles($files)" multiple="multiple" >导入货位信息</button>{{impGoodsAlloUploadProgress}}-->
+    </div>
+    <!--<p>调整列表</p>-->
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+
+
+    <pl4-goodsallocation ng-hide="goodsAlloSelectSet.ngHide"></pl4-goodsallocation>
+</div>

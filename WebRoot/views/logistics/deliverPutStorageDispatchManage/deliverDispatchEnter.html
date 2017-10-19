@@ -1,0 +1,35 @@
+<div class="right-main">
+    <div class="banner-container">
+        <p>分拨单号：<span ng-bind="banner.fbTaskId">新乡RDC</span></p>
+        <p>分拨地址：<span ng-bind="banner.address">BH201510120001</span></p>
+        <p>分拨人：<span ng-bind="banner.fbUser"></span></p>
+    </div>
+    <pl4-grid grid-table="result" th-header="thHeader"></pl4-grid>
+    <div class="addStation-btns" style="text-align: left!important;">
+         <button class="btn btn-primary btn-sm" ng-click="print()" style="margin-top: 0;">
+             打印分拨单
+         </button>
+    </div>
+
+     <div class="modal fade" data-backdrop="static"  id="enterPrint" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">请确认是否打印成功</p>
+
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div class="allocation-container">
+                    <div class="allocation-addGoods-content">
+
+                        <div class="addStation-btns">
+                            <button class="btn btn-primary btn-sm" type="button" ng-click="printConfirm()">打印成功</button>
+                            <button class="btn btn-default btn-sm" data-dismiss="modal" type="button">打印失败</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

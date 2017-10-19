@@ -1,0 +1,63 @@
+<div class="right-main">
+    <div class="margin-bottom15">
+        <button class="btn btn-primary btn-sm"  ng-click="addGift()">
+            添加商品
+        </button>
+    </div>
+
+    <!--<pl4-query></pl4-query>-->
+
+
+    <pl4-grid grid-table="result2" th-header="thHeader" paging="paging"></pl4-grid>
+    <!--
+    	select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+    <!--<pl4-paging  paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>-->
+    <div class="addStation-btns-color">
+        <a class="btn btn-primary btn-sm" style="margin-right: 10px" ng-click="confirmImpor()">
+            确认
+        </a>
+        <button class="btn btn-primary btn-sm " ng-click="backHref()">
+            返回
+        </button>
+    </div>
+    <div class="modal fade" data-backdrop="static"  id="createGift" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+        <div class="modal-dialog" role="document" style="height: auto">
+            <div class="modal-content" style="width: 1066px;">
+                <div class="allocation-head">
+                    <p class="allocation-title">新建报损报溢</p>
+                    <p class="allocation-close"><a href="javascript:;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div>
+                    <div class="addStation">
+                        <div class="form-inline search-container padding-15">
+                            <div class="form-group">
+                                <label>商品名称：</label><input type="text" class="form-control" ng-model="searchModel.goodsName">
+                            </div>
+                            <div class="form-group">
+                                <label>规格型号：</label><input type="text" class="form-control" ng-model="searchModel.modelName">
+                            </div>
+                            <div class="form-group">
+                                <label>商品品牌：</label><input type="text" class="form-control" ng-model="searchModel.goodsBrandName">
+                            </div>
+                            <div class="form-group">
+                                <label>出厂编码：</label><input type="text" class="form-control" ng-model="searchModel.factoryCode">
+                            </div>
+                            <div class="form-group">
+                                <label>商品编码：</label><input type="text" class="form-control" ng-model="searchModel.sku">
+                            </div>
+                            <button class="btn btn-query btn-primary" ng-click="searchClick()" >查询</button>
+                        </div>
+                        <pl4-grid grid-table="result" th-header="newHeader" paging="paging"></pl4-grid>
+                        <pl4-paging  paging-num="5" to-page="addGoToPage()" paging="addPaging"></pl4-paging>
+                            <div class="addStation-btns" style="text-align: left!important;">
+                                <button class="btn btn-primary btn-sm" ng-click="enterAdd()">
+                                    添加选中项
+                                </button>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+<div class="takegoods">
+    <div class="banner-container">
+        <p>业务单号：<span ng-bind="banner.taskId">BH201510120001</span></p>
+        <p>业务类型：<span ng-bind="banner.orderType"></span></p>
+        <p>收货方：<span ng-bind="banner.receiverName"></span></p>
+    </div>
+    <pl4-query style="border-top: 0; "></pl4-query>
+
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+
+
+    <!--select-option:显示条数数据  paging-num:显示分页个数 to-page:点击页数方法 paging:分页配置数据-->
+<!--   <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>-->   
+    <div class="addStation-btns" style="float: left;margin-top: -10px;">
+        <button class="btn btn-primary btn-sm" ng-click="receipt()">
+            确认回执
+        </button>
+        <button ng-click="back()" class="btn btn-primary btn-sm" >
+            返回
+        </button>
+    </div>
+    <div class="modal fade" data-backdrop="static"  id="confirmReceipt" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="height: auto;width: 300px;">
+            <div class="modal-content">
+                        <p style="font-size: 16px; text-align: center;padding: 10px 10px 0;">确认登记完成并进行回执？</p>
+                        <div class="addStation-btns">
+                            <button class="btn btn-primary btn-sm" type="button"  ng-click="confirmReceipt()">确认</button>
+                            <button class="btn btn-default btn-sm" data-dismiss="modal" type="button">取消</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

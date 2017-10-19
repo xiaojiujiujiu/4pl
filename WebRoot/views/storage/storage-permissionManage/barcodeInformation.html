@@ -1,0 +1,194 @@
+<style>
+    .modal-backdrop{
+        z-index: 0;
+    }
+</style>
+<div class="right-main">
+    <div>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="active" ng-click="navClick(0)"><a href="#nav1" aria-controls="nav1" role="tab"
+                                                         data-toggle="tab">商品码</a></li>
+            <!--<li ng-click="navClick(1)"><a href="#nav2" aria-controls="nav2" role="tab"-->
+                                          <!--data-toggle="tab">商品码</a></li>-->
+        </ul>
+    </div>
+    <div role="tabpanel" class="tab-pane active" id="nav1" ng-if="navShow">
+        <div class="form-inline search-container padding-15">
+            <div class="form-group">
+                <label>商品编码：</label>
+                <input type="text" style="min-width: 100px" class="form-control ng-pristine ng-valid ng-scope ng-touched" ng-model="pageModel.sku">
+
+            </div>
+            <div class="form-group">
+                <label>出厂编码：</label>
+                <input type="text" style="min-width: 100px" class="form-control ng-pristine ng-valid ng-scope ng-touched" ng-model="pageModel.serialNumber">
+
+            </div>
+            <div class="form-group">
+                <label>规格型号：</label>
+                <input type="text" style="min-width: 100px" class="form-control ng-pristine ng-valid ng-scope ng-touched" ng-model="pageModel.goodsStyle">
+
+            </div>
+            <button type="submit" class="btn btn-primary btn-query " ng-click="btnClick(0)">查询</button>
+        </div>
+        <div class="margin15" style="margin-bottom: 15px;">
+            <button type="button" class="btn btn-primary btn-sm" ng-click="rePrintBarCode()">补打条码</button>
+        </div>
+        <pl4-grid grid-table="gridResult1" th-header="gridThHeader1" paging="paging1"></pl4-grid>
+        <p ng-hide="isData" style="text-align: center;overflow:hidden;padding: 10px;">暂无数据</p>
+        <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage(0)"
+                    paging="paging1"></pl4-paging>
+        <div class="modal fade" data-backdrop="static"  id="editDate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="z-index: 1">
+            <div class="modal-dialog" role="document" style="height: auto;width: 400px;z-index: 2">
+                <div class="modal-content">
+                    <div class="allocation-head">
+                        <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                        </p>
+                    </div>
+                    <div style="padding: 10px 5px">
+                        <div class="addStation">
+                            <form role="form" name="verifyForm1">
+                                <div class="addStation-input" style="width:100%;">
+                                    <div class="form-inline" ng-hide="isHi">
+                                        <label><span class="verify">*</span>生产日期：</label>
+                                        <input type="text" pl4-datepicker readonly="readonly" format="yyyy-mm-dd" class="form-control" ng-model="dateModel.manufactureDate"  name="productionDate" verify-message="请输入生产日期" maxlength="32">
+                                    </div>
+                                    <div class="form-inline" ng-hide="isHide">
+                                        <label><span class="verify">*</span>失效日期：</label>
+                                        <input type="text"pl4-datepicker readonly="readonly" format="yyyy-mm-dd" class="form-control"  ng-model="dateModel.expiryDate"  name="invalidDate"  verify-message="请输入失效日期" maxlength="32">
+                                    </div>
+                                </div>
+                                <!--<div class="addStation-border-b" style="margin:30px 0 5px 0"></div>-->
+                                <div class="addStation-btns">
+                                    <button class="btn btn-primary btn-sm"  ng-click="enterAdd()">
+                                        确认
+                                    </button>
+                                    <button class="btn btn-default btn-sm" data-dismiss="modal">
+                                        取消
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" data-backdrop="static"  id="editGoodsCode" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="z-index: 1">
+            <div class="modal-dialog" role="document" style="height: auto;width: 400px;z-index: 2">
+                <div class="modal-content">
+                    <div class="allocation-head">
+                        <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                        </p>
+                    </div>
+                    <div style="padding: 10px 5px">
+                        <div class="addStation">
+                            <form role="form" name="verifyForm1">
+                                <div class="addStation-input" style="width:100%;">
+                                    <div class="form-inline">
+                                        <label><span class="verify">*</span>商品条码：</label>
+                                        <input type="text"  class="form-control" ng-model="dateModel.realCode"  name="realCode" verify-message="请输入商品条码" maxlength="32">
+                                    </div>
+                                </div>
+                                <!--<div class="addStation-border-b" style="margin:30px 0 5px 0"></div>-->
+                                <div class="addStation-btns">
+                                    <button class="btn btn-primary btn-sm"  ng-click="codeAdd()">
+                                        确认
+                                    </button>
+                                    <button class="btn btn-default btn-sm" data-dismiss="modal">
+                                        取消
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" data-backdrop="static"  id="rePrintBarCode" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="z-index: 1">
+            <div class="modal-dialog" role="document" style="height: auto;width: 400px;z-index: 2">
+                <div class="modal-content">
+                    <div class="allocation-head">
+                        <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                        </p>
+                    </div>
+                    <div style="padding: 10px 5px">
+                        <div class="addStation">
+                            <form role="form" name="verifyForm1">
+                                <div class="addStation-input" style="width:100%;">
+                                    <label><span class="verify">*</span>请输入当时的条码进行补打：</label>
+                                    <div class="">
+                                        <input type="text"  class="form-control" ng-model="dateModel.barRealCode"  name="realCode" verify-message="请输入条码" maxlength="32">
+                                    </div>
+                                </div>
+                                <!--<div class="addStation-border-b" style="margin:30px 0 5px 0"></div>-->
+                                <div class="addStation-btns">
+                                    <button class="btn btn-primary btn-sm"  ng-click="barCodeAdd()">
+                                        确认
+                                    </button>
+                                    <button class="btn btn-default btn-sm" data-dismiss="modal">
+                                        取消
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--<div role="tabpanel" class="tab-pane" id="nav2" ng-if="!navShow">-->
+        <!--<div class="form-inline search-container padding-15">-->
+            <!--<div class="form-group ">-->
+                <!--<label>状态：</label>-->
+                <!--<select class="form-control" style="min-width: 100px" ng-options="o.id as o.name for o in pageModel.vmiSelect.select2.data"-->
+                        <!--ng-model="pageModel.vmiSelect.select2.id"></select>-->
+            <!--</div>-->
+            <!--&lt;!&ndash;<button type="submit" class="btn btn-primary btn-sm btn-query" ng-click="btnClick(1)">查询</button>&ndash;&gt;-->
+        <!--</div>-->
+        <!--<div class="form-inline " style="padding-bottom: 15px">-->
+            <!--<a type="submit" class="btn btn-primary btn-sm" ng-href="" ng-click="addContainer()">添加容器码</a>-->
+            <!--<a type="submit" class="btn btn-primary btn-sm" ng-href="">打印容器码</a>-->
+        <!--</div>-->
+        <!--<pl4-grid grid-table="gridResult2" th-header="gridThHeader2" paging="paging2"></pl4-grid>-->
+        <!--&lt;!&ndash;-->
+            <!--select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据&ndash;&gt;-->
+        <!--&lt;!&ndash;<pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage(1)"&ndash;&gt;-->
+                    <!--&lt;!&ndash;paging="paging2"></pl4-paging>&ndash;&gt;-->
+
+        <!--<div class="modal fade" data-backdrop="static"  id="addContainer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">-->
+            <!--<div class="modal-dialog" role="document" style="height: auto;width: 400px;">-->
+                <!--<div class="modal-content">-->
+                    <!--<div class="allocation-head">-->
+                        <!--<p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>-->
+                        <!--</p>-->
+                    <!--</div>-->
+                    <!--<div style="padding: 10px 5px">-->
+                        <!--<div class="addStation">-->
+                            <!--<form role="form" name="verifyForm1">-->
+                                <!--<pl4-verify-message form-name="verifyForm1"></pl4-verify-message>-->
+                                <!--<div class="addStation-input" style="width:100%;">-->
+                                    <!--<div class="form-inline">-->
+                                        <!--<input type="text" class="form-control" ng-model="dateModel.productionDate"  required name="productionDate" verify-message="请输入生产日期" maxlength="32">-->
+                                    <!--&#45;&#45;-->
+                                        <!--<input type="text" class="form-control" ng-model="dateModel.invalidDate" required name="invalidDate"  verify-message="请输入失效日期" maxlength="32">-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                               <!--<p style="text-align: center"> 共{{0}}个</p>-->
+                                <!--&lt;!&ndash;<div class="addStation-border-b" style="margin:30px 0 5px 0"></div>&ndash;&gt;-->
+                                <!--<div class="addStation-btns">-->
+                                    <!--<button class="btn btn-primary btn-sm" ng-disabled="verifyForm1.$invalid" ng-click="enterAdd()">-->
+                                        <!--确认-->
+                                    <!--</button>-->
+                                    <!--<button class="btn btn-default btn-sm" data-dismiss="modal">-->
+                                        <!--取消-->
+                                    <!--</button>-->
+                                <!--</div>-->
+                            <!--</form>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+</div>

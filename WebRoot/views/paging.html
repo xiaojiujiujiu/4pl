@@ -1,0 +1,19 @@
+<div class="paging">
+    <!--显示条数&nbsp;<select class="form-control paging-goto-select" ng-change="selectChange()" ng-model="selected" ng-options="o.value as o.text for o in selectOpt">-->
+
+<!--</select>-->
+    <!--<a href="javascript:;" class="btn btn-default btn-sm" ng-click="pagingClick('first')">首页</a>-->
+    <a href="javascript:;" class="btn-distinction" ng-click="pagingClick('prev')"><span class="glyphicon glyphicon-menu-left"></span> 上一页</a>
+    <ul>
+        <li ng-repeat="p in setingPaging"   ng-click="pagingClick(p.num)" ng-class="p.selected?'btn-primary':''">
+            {{p.num}}
+        </li>
+    </ul>
+    <!--<a href="javascript:;" ng-repeat="p in setingPaging"  class="btn btn-default btn-sm" ng-click="pagingClick(p.num)" ng-class="p.selected?'btn-primary':''">{{p.num}}</a>-->
+
+    <a href="javascript:;" class="btn-distinction btn-distinctionNext" ng-click="pagingClick('next')">下一页 <span class="glyphicon glyphicon-menu-right"></span></a>
+    <!--<a href="javascript:;" class="btn btn-default btn-sm" ng-click="pagingClick('last')">尾页</a>-->
+    <span>共{{pLens}}页，到第<input type="text" class="form-control paging-goto-input" ng-model="goToInput">&nbsp;页</span>
+
+    <a href="javascript:;" class="btn-determine" ng-click="pagingClick('goTo');">确定</a>
+</div>

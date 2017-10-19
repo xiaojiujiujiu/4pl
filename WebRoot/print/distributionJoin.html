@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>配送交接单</title>
+    <link rel="stylesheet" href="base.css"/>
+    <link rel="stylesheet" href="print.css"/>
+
+    <script src="../lib/jquery-1.11.3.min.js"></script>
+    <script src="../lib/jquery.tmpl.min.js"></script>
+    <script src="js/common.js"></script>
+    <script type="text/javascript" src="js/LodopFuncs.js"></script>
+</head>
+<body>
+<script type="text/html" id="printTmpl">
+<div id="container">
+    <style>
+
+
+        .head_info li {
+            float: left;
+            width: 33%;
+        }
+
+        .head_info span {
+            font-size: 12px;
+        }
+
+        .footer p{
+            width: 33%;
+            float: left;
+            text-align: center;
+        }
+    </style>
+    {{each(i,v) grid}}
+    <div class="header">
+        <h1 class="header-logo"><img src="../img/logo-gary.png"></h1>
+
+        <h1 class="header-center">配送交接单</h1>
+
+        <h1 class="header-right"><img src="${v.barCodeUrl}" alt=""></h1>
+
+        <p class="clear"></p>
+    </div>
+    <div class="head_info">
+        <ul>
+            <li>配送单号：<span>${sendBillId}</span></li>
+           <!-- <li>&nbsp;</li>
+            <li>&nbsp;</li>
+            <li>仓库：<span>${v.ckName}</span></li>
+             <li>发货时间：<span>${v.startTime}</span></li>--!>
+            <li>操作员：<span>${v.sendMan}</span></li>
+            <li>配送员：<span>${v.driverName}</span></li>
+             <li>配送车辆：<span>${v.licenseNumber}</span></li>
+            <li>操作时间：<span>${v.printTime}</span></li>
+        </ul>
+        <p class="clear"></p>
+    </div>
+    <div class="clear hr1">&nbsp;</div>
+    <div class="table">
+        <table>
+            <thead>
+            <th width="5%">序号</th>
+            <th width="20%">业务单号</th>
+           <th width="20%">业务类型</th>
+            <th width="20%">联系电话</th>
+            <th width="20">配送地址</th>
+            <th width="5%">箱数</th>
+            <th width="10%">备注</th>
+            </thead>
+            <tbody>
+            {{each(i,k) v.list}}
+            <tr>
+                <td>${i+1}</td>
+                <td>${k.taskId}</td>
+                <td>${k.orderTypeId}</td>
+                <td>${k.recPhone}</td>
+                <td>${k.recAddress}</td>
+                <td>${k.boxCount}</td>
+                <td>${k.remarks}</td>
+            </tr>
+            {{/each}}
+            </tbody>
+        </table>
+    </div>
+<div class="footer-title">
+	       <p style="float: right">  结算方式：<span>${v.payType}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;订单金额：${v.orderFee}元</p>
+	    </div>
+    <div class="clear hr1" style="margin-top: 40px"></div>
+    <div class="footer">
+        <p style="width: 200px">操作员：</p>
+        <p style="float: right">配送员：</p>
+
+    </div>
+    <div class="clear"></div>
+    {{/each}}
+    <div class="buttons" id="printBtns">
+        <input type="button" value="打印" onclick="printdiv()"/>
+        <input type="button" value="关闭" onclick="common.closeWindow()" style="margin-left: 189px" />
+    </div>
+</div>
+</script>
+<script language="javascript">
+    function printdiv() {
+        var printBtns = document.getElementById('printBtns');
+        printBtns.style.display='none';
+        //window.print();
+        lodopWebPrint('配送交接单',0,120,15,15);
+        printBtns.style.display='block';
+        return false;
+    }
+    $(function(){
+    	//alert(111)
+    	console.log(common.parseQueryString(window.location.href))
+        var urlStr = common.parseQueryString(window.location.href);
+        //console.log(urlStr)
+        var data = {
+            param:{
+                query: urlStr
+            }
+        }
+        data.param = JSON.stringify(data.param);
+
+        $.ajax({
+            type: "POST",
+            url: common.host+'/orderDelivery/makeInvoice?'+common.tokenInfo,
+
+            data: data,
+            dataType: "json",
+            success: function(data){
+                var date=new Date();
+                data.printTime=date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()+' '+date.getHours()+':'+date.getMinutes();
+                $('#printTmpl').tmpl(data).appendTo($('body'));
+            },
+            error: function(err){
+                console.log(err)
+            }
+        });
+    })
+</script>
+</body>
+</html>

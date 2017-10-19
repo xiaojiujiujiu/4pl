@@ -1,0 +1,146 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>特殊出入库结算</title>
+    <link rel="stylesheet" href="base.css"/>
+    <link rel="stylesheet" href="print.css"/>
+
+</head>
+<body>
+
+
+<script src="../lib/jquery-1.11.3.min.js"></script>
+<script src="../lib/jquery.tmpl.min.js"></script>
+<script src="js/common.js"></script>
+<script type="text/javascript" src="js/LodopFuncs.js"></script>
+<script type="text/html" id="printTmpl">
+    <div id="container">
+        <style>
+            .head_info li {
+                float: left;
+                width: 33%;
+            }
+
+            .head_info span {
+                font-size: 12px;
+            }
+            .footer p{
+                float: left;
+            }
+            .fontSize14{
+                font-size: 14px;
+                font-weight: normal;
+            }
+        </style>
+        <div class="header">
+            <div class="header-logo">
+                <img src="../img/logo-gary.png" alt="logo">
+            </div>
+            <h1 class="header-center" style="width: 210px;margin-left:95px;">特殊出入库结算</h1>
+            <div class="header-right">
+                <img src="${banner.imgUrl}"   height="53" width="140">
+            </div>
+            <p class="clear"></p>
+        </div>
+        <div class="header-title1">
+            订单信息
+        </div>
+        <div class="head_info">
+            <ul>
+                <li>申请编号：<span>${banner.taskId}</span></li>
+                <li>操作人：<span>${banner.createUserName}</span></li>
+                <li>结算时间：<span>${banner.blaTime}</span></li>
+                <li>特殊出入库类型：<span>${banner.type}</span></li>
+                <li>结算总金额：<span>${banner.totalMoney}</span></li>
+            </ul>
+            <p class="clear"></p>
+        </div>
+        <div class="header-title2">
+            <span>商品信息</span>
+
+        </div>
+        <div class="clear hr1" style="margin-top: 14px">&nbsp;</div>
+        <div class="table">
+            <table>
+                <thead>
+                <th width="6.5%">序号</th>
+                <th width="8.5%">供应商</th>
+                <th width="8.5%">客户</th>
+                <th width="8.5%">商品编码</th>
+                <th width="8.5%">商品品牌</th>
+                <th width="8.5%">规格型号</th>
+                <th width="8.5%">商品名称</th>
+                <th width="8.5%">计量单位</th>
+                <th width="8.5%">商品单价</th>
+                <th width="8.5%">申请数量</th>
+                <th width="8.5%">小计</th>
+                </thead>
+                <tbody>
+                {{each(j,y) grid}}
+                <tr>
+                    <td>${j+1}</td>
+                    <td>${y.supliersName}</td>
+                    <td>${y.customerName}</td>
+                    <td>${y.sku}</td>
+                    <td>${y.brandName}</td>
+                    <td>${y.modelName}</td>
+                    <td>${y.goodsName}</td>
+                    <td>${y.meaUnit}</td>
+                    <td>${y.price}</td>
+                    <td>${y.reportcount}</td>
+                    <td>${y.xiaojiMoney}</td>
+                </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+        <div class="clear hr1" style="margin-top: 40px"></div>
+        <div class="footer">
+            <p>审核人：${banner.examineUser}</p>
+            <p>操作人：${banner.createUserName}</p>
+        </div>
+        <div class="clear"></div>
+
+    </div>
+    <div class="buttons" id="printBtns">
+        <input type="button" value="打印" onclick="printdiv()"/>
+        <input type="button" value="关闭" onclick="common.closeWindow()" style="margin-left: 189px" />
+    </div>
+</script>
+<script language="javascript">
+    function printdiv() {
+        var printBtns = document.getElementById('printBtns');
+        printBtns.style.display='none';
+       // window.print();
+        lodopWebPrint('特殊出入库结算',0,120,15,15);
+        printBtns.style.display='block';
+        return false;
+    }
+    $(function(){
+        var urlStr = common.parseQueryString(window.location.href);
+        var data = {
+            param:{
+                query: urlStr
+            }
+        }
+        data.param = JSON.stringify(data.param)
+        $.ajax({
+            type: "POST",
+            url: common.host+'/examine/print?'+common.tokenInfo,
+            data: data,
+            dataType: "json",
+            success: function(data){
+                $('#printTmpl').tmpl(data).appendTo($('body'));
+            },
+            error: function(err){
+                console.log(err)
+            }
+        });
+    })
+
+
+</script>
+</body>
+</html>

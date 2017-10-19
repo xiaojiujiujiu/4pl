@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>条码打印</title>
+    <link rel="stylesheet" href="base.css"/>
+    <link rel="stylesheet" href="print.css"/>
+    <style>
+    #container {
+    width: 100%;
+    margin: 8px 0;
+}
+       .img{
+           width: 320px;
+       height: 200px;
+       margin-left:45px;
+       }
+        .img-left{
+            float: left;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 0 10px 0 15px;
+            line-height: 38px;
+        }
+        .img-righr{
+            float:left;
+            font-size:14px;
+            line-height: 20px;
+            font-family: "微软雅黑";
+   			 font-weight: bold;
+        }
+        .buttons {
+    width: 100%;
+    margin: 0 auto;
+  
+}
+    </style>
+</head>
+<body>
+
+
+<script src="../lib/jquery-1.11.3.min.js"></script>
+<script src="../lib/jquery.tmpl.min.js"></script>
+<script src="js/common.js"></script>
+<script type="text/html" id="printTmpl">
+    <div id="container">
+        <div class="header">
+
+
+            <div class="img">
+                <p class="img-left">百库物流</p>
+                <p class="img-righr">
+                    <span>商品名称：${banner.goodsName}</span><br>
+                    <span>规格型号：${banner.goodsStyle}</span>
+                </p>
+                <img src="${banner.picUrl}"   height="100" width="300">
+            </div>
+
+        </div>
+
+       </div>
+
+
+    <div class="buttons" id="printBtns">
+        <input type="button" value="打印" onclick="printdiv()" style="margin-left: 120px"/>
+        <input type="button" value="关闭" onclick="common.closeWindow()" style="margin-left: 50px" />
+    </div>
+</script>
+<script language="javascript">
+    function printdiv() {
+        var printBtns = document.getElementById('printBtns');
+        printBtns.style.display='none';
+        window.print();
+        printBtns.style.display='block';
+        return false;
+    }
+    $(function(){
+        var urlStr = common.parseQueryString(window.location.href);
+        var data = {
+            param:{
+                query: urlStr
+            }
+        }
+        data.param = JSON.stringify(data.param)
+        $.ajax({
+            type: "POST",
+            url: common.host+'/ckBaseMessage/printGoodsMessageCode?'+common.tokenInfo+"&id="+urlStr.id+"&manufactureDate="+urlStr.manufactureDate+"&expiryDate="+urlStr.expiryDate+"&suppliers="+urlStr.suppliers,
+            data: data,
+            dataType: "json",
+            success: function(data){
+                if(data.status.code=='0000'){
+                	$('#printTmpl').tmpl(data).appendTo($('body'));
+                }else{
+                	alert(data.status.msg);
+                }
+            },
+            error: function(err){
+                console.log(err)
+            }
+        });
+    })
+
+
+</script>
+</body>
+</html>

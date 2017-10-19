@@ -1,0 +1,36 @@
+/* author:wangxu time: */
+html,body,div,span,h1,h2,h3,h4,h5,h6,p,a,dfn,em,img,strong,sub,sup,b,u,i,dl,dt,dd,ol,ul,li,form,label,legend,table,caption,tr,th,td,article{margin:0;padding:0;}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}
+body{font:12px Microsoft YaHei,Arial,simsun,Helvetica,sans-serif;color:#4f4f4f;}
+a{color:#4e4f4f;text-decoration:none;outline:none;}
+a:hover{color:#fb6f00;text-decoration:none;}
+input:focus{outline:none;}
+.fix{zoom:1;}
+.fix:after{clear:both;content:" ";display:block;font-size:0;height:0;visibility:hidden;}
+ol,ul{list-style:none;}
+img{border:0;outline:none;}
+table{border-collapse:collapse;}
+input,button,select,textarea{vertical-align:middle;font:12px Microsoft YaHei,Arial,simsun,Helvetica,sans-serif;}
+input[type='submit'],input[type='button'],input[type='reset'],button{border:none;cursor:pointer;}
+button{padding:0;}
+b,strong{font-weight:normal;}
+em,i,dfn{font-style:normal;}
+.cb{clear:both;}
+.cl{clear:left;}
+.cr{clear:right;}
+.tl{text-align:left;}
+.tc{text-align:center;}
+.tr{text-align:right;}
+.ac{margin-left:auto;margin-right:auto;}
+.fl{float:left;}
+.fr{float:right;}
+.vm{vertical-align:middle;}
+.pr{position:relative;}
+.pa{position:absolute;}
+.dib{display:inline-block;}
+.db{display:block;}
+.hid{display:none;}
+
+td,th,div,p{word-wrap:break-word;word-break:break-all;}
+textarea{outline:none;resize:none;}
+

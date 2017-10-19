@@ -1,0 +1,30 @@
+<div class="form-inline search-container">
+    <form name="queryForm" ng-submit="submit(querySeting.btns)">
+        <div>
+            <div class="form-group" ng-repeat="item in dataList" style="position: relative" ng-hide="item.isNavShow">
+                <label>{{item.title}}：</label>
+                <span ng-if="item.type=='title'">{{searchModel[item.model]}}</span>
+                <input type="text" ng-if="item.type=='text'" maxlength="{{item.maxlength}}"  class="form-control" ng-model="searchModel[item.model]" autofocus="{{item.autofocus}}" pl4-autocomplete="{{item.autocomplete}}" autoCallback="{{item.autoCallback}}">
+                <pl4-drop-down ng-if="item.autocomplete" ngmodel="{{item.automodel}}" ngmodelname="{{item.model}}"></pl4-drop-down>
+                <address-linkage address-model="addressModel" ng-if="item.type=='address'"></address-linkage>
+                <select class="form-control" ng-if="item.type=='select'" ng-options="o.id as o.name for o in searchModel[item.model]" ng-model="searchModel[item.selectedModel]"
+                    ng-change="selectChange(item.changeCallBack)">
+                </select>
+                <span class="query-date" ng-if="item.type=='date'" ng-repeat="item2 in item.model track by $index">
+	            <input type="text" readonly="readonly" class="form-control form-control2"  id="dt_{{$index}}" format="yyyy-mm-dd" vdate="{{searchModel[item2]}}" ng-model="searchModel[item2]" pl4-datepicker >
+	            <i ng-if="$index==0&&item.model.length>1" style="color: #ccc;">-</i>
+                </span>
+            </div>
+            <button type="submit" ng-class="{'btn-search-7':btnSearch7,'btn-search-5':btnSearch5,'btn-search-3':btnSearch3}" ng-repeat="item in querySeting.btns"
+                class="btn btn-primary btn-sm btn-query btn-search" ng-click="btnClick(item)" ng-bind-html="item.text"></button>
+        </div>
+        <!--ng-class="{true: 'locationR', false: 'locationL'}[isLocation]"-->
+        <!--<div class="search-btns" >-->
+        <!--<button type="submit" ng-repeat="item in querySeting.btns" class="btn btn-primary btn-sm btn-query"  ng-click="btnClick(item)" ng-bind-html="item.text"></button>-->
+        <!--</div>-->
+        <div class="clickSwitch" ng-click="loadMove()" ng-if="isShowMove">
+            <span id="move"> 展开更多</span>
+            <span class="glyphicon glyphicon-menu-down"></span>
+        </div>
+    </form>
+</div>

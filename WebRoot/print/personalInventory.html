@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>个人业务入库单</title>
+    <link rel="stylesheet" href="base.css"/>
+    <link rel="stylesheet" href="print.css"/>
+
+</head>
+<body>
+<script src="../lib/jquery-1.11.3.min.js"></script>
+<script src="../lib/jquery.tmpl.min.js"></script>
+<script src="js/common.js"></script>
+<script type="text/javascript" src="js/LodopFuncs.js"></script>
+<script type="text/html" id="printTmpl">
+	<div id="container">
+		<style>
+
+
+			.head_info li {
+				float: left;
+				width: 33%;
+			}
+
+			.head_info span {
+				font-size: 12px;
+			}
+
+			.footer p{
+				width: 33%;
+				float: left;
+				text-align: center;
+			}
+		</style>
+	    <div class="header">
+	        <h1 class="header-logo"><img src="../img/logo-gary.png"></h1>
+	        <h1 class="header-center" style="width: 210px; margin-left: 140px">个人业务入库单</h1>
+	        <h1 class="header-right">
+	        	<img src="${query.rkBarPicUrl}">
+	        </h1>
+
+	        <p class="clear"></p>
+	    </div>
+	    <div class="clear hr1">&nbsp;</div>
+	    
+	    <div class="table">
+	        <table>
+	            <thead>
+	                <th width="10%">序号</th>
+	                <th width="10%">业务单号</th>
+	                <th width="20%">地址</th>
+	                <th width="10">商品种类</th>
+	                
+	                <th width="20%">创建时间</th>
+	                <th width="10%">备注</th>
+	                <th width="10%">配送费</th>
+	            </thead>
+	            <tbody>
+	           		{{each(i,v) grid}}
+	                <tr>
+	                    <td>${i+1}</td>
+	                    <td>${v.taskId}</td>
+	                    <td>${v.chuHAdd}</td>
+	                    <td>${v.chuhTypeCount}</td>
+	                 
+	                    <td>${v.createTime}</td>
+	                    <td>${v.remarks}</td>
+	                    <td>${v.pay}</td>
+	                </tr>
+	                {{/each}}
+	            </tbody>
+	        </table>
+	    </div>
+	    <div class="clear hr1" style="margin-top: 40px"></div>
+	    <div class="footer">
+	        <p style="width: 50%">发货人：</p>
+	        <p>入库人：</p>
+
+	    </div>
+	    <div class="clear"></div>
+	    <div class="buttons" id="printBtns">
+	        <input type="button" value="打印" onclick="printdiv()"/>
+	        <input type="button" value="关闭" onclick="common.closeWindow()" style="margin-left: 189px" />
+	    </div>
+	</div>
+</script>
+<script language="javascript">
+    function printdiv() {
+        var printBtns = document.getElementById('printBtns');
+        printBtns.style.display='none';
+        //window.print();
+		lodopWebPrint('个人业务入库单',0,120,15,15);
+        printBtns.style.display='block';
+        return false;
+    }
+    $(function(){
+        var urlStr = common.parseQueryString(window.location.href);
+        var data = {
+            param:{
+                query: urlStr
+            }
+        }
+        data.param = JSON.stringify(data.param);
+        // common.host
+        $.ajax({
+            type: "POST",
+            url: common.host+'/personalOrder/printPersonalOrder?'+common.tokenInfo,
+            data: data,
+            dataType: "json",
+            success: function(data){
+            	console.log(data)
+                $('#printTmpl').tmpl(data).appendTo($('body'));
+            },
+            error: function(err){
+                console.log(err)
+            }
+        });
+    })
+</script>
+</body>
+</html>

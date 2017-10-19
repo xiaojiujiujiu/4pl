@@ -1,0 +1,33 @@
+<div class="right-main">
+    <pl4-query></pl4-query>
+
+    <div class="margin-bottom15">
+        <pl4-excel grid-table="result" action="/personalMonitor/impToExcel" ex-params="exParams" btn-title="导出列表信息"></pl4-excel>
+    </div>
+    <div>
+        <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    </div>
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+    <div class="modal fade" data-backdrop="static"  id="workLogModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 40%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">日志</p>
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div style="padding: 10px 5px">
+                    <div class="new-version-border">
+                        <p>业务单号:{{banner.taskId}}</p>
+                        <p>发件方:{{banner.chuHuoName}}</p>
+                        <p>收件方:{{banner.receiverName}}</p>
+                    </div>
+                    <div class="new-version-table">
+                        <pl4-grid grid-table="logResult" th-header="getLogThead"></pl4-grid>
+                    </div>
+                    <div class="clear" style="margin-bottom: 10px"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

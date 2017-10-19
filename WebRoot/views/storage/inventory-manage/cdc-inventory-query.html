@@ -1,0 +1,43 @@
+<!-- 
+  - Created by hui.sun on 15/12/10.
+ -->
+<div class="right-main">
+    <pl4-query></pl4-query>
+    <div class="margin-bottom15">
+        <pl4-excel grid-table="result" action="/cdcStockMonitor/exportToExcel" ex-params="exParams" grid-null="false"></pl4-excel>
+    </div>
+    <div >
+        <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    </div>
+    <p ng-hide="isData" style="text-align: center;overflow:hidden;padding: 10px;">暂无数据</p>
+    <!--
+    	select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+
+
+    
+    <div class="modal fade" data-backdrop="static"  id="logModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 80%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">日志</p>
+
+                    <p class="allocation-close"><a href="javascript:;"  data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div class="new-version-border">
+                            <p>商品编号：<span>{{logModalBanner.goodsCode}}</span></p>
+                            <p>品牌：<span>{{logModalBanner.brand}}</span></p>
+                            <p>商品名称：<span>{{logModalBanner.name}}</span></p>
+                            <p>规格型号：<span>{{logModalBanner.goodsStyle}}</span></p>
+                            <p>出厂编码：<span>{{logModalBanner.serialNumber}}</span></p>
+                </div>
+                <div style="width: 100%;" class="new-version-table">
+                    <pl4-grid grid-table="logModalResult" th-header="logModalThHeader"></pl4-grid>
+                    <!--<pl4-paging select-option="logPagingSelect" paging-num="5" to-page="LogDataPage()" paging="logPaging"></pl4-paging>-->
+                    <div class="clear" style="margin-bottom: 10px"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

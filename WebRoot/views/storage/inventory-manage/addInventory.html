@@ -1,0 +1,17 @@
+<div class="right-main">
+    <pl4-query></pl4-query>
+
+
+    <div class="margin-bottom15">
+        <!--<div class="form-group">-->
+            <!--<label class="" >任务分派给：</label>-->
+            <!--<select  class="form-control" ng-options="o.id as o.name for o in inventoryAssignedTasks.personList.select" ng-model="inventoryAssignedTasks.personList.id"></select>-->
+        <!--</div>-->
+        <button class="btn btn-primary btn-sm"  ng-click="print(0)">明盘</button>
+        <button class="btn btn-primary btn-sm"   ng-click="print(1)">暗盘</button>
+    </div>
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    <div class="addStation-btns" style="float: left">
+        <button class="btn btn-primary btn-sm" ng-click="update()" data-dismiss="modal" type="button">返回</button>
+    </div>
+</div>

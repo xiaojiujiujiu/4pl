@@ -1,0 +1,53 @@
+<!-- 
+  - Created by hui.sun on 15/12/9.
+ -->
+<div class="right-main">
+    <pl4-query></pl4-query>
+    <div>
+        <button type="button" class="btn btn-primary btn-sm margin-bottom20">补打发货单</button>
+    </div>
+    <div>
+      <form class="form-inline">
+        <div class="form-group">
+          <label for="">订单号</label>
+          <input type="text" class="form-control" id="" placeholder="">
+        </div>
+        <div class="form-group">
+          <label for="">第三方面单号</label>
+          <input type="text" class="form-control" id="" placeholder="">
+        </div>
+        <div class="form-group">
+          <label for="">计费方式</label>
+          <select name="" id="" class="form-control">
+            <option value="">计件</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="">运费</label>
+          <input type="text" class="form-control" id="" placeholder="">
+        </div>
+        <div class="form-group">
+          <label for="">结算方式</label>
+          <select name="" id="" class="form-control">
+            <option value="">月结</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary btn-sm">确认</button>
+        </div>
+        
+      </form>
+    </div>
+    
+    <p>绑定列表</p>
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    <!--
+    	select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+    <div>
+        
+        <button type="button" class="btn btn-primary btn-sm">
+          完成绑定
+        </button>
+    </div>
+</div>

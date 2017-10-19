@@ -1,0 +1,77 @@
+<div class="right-main">
+
+    <pl4-query></pl4-query>
+
+    <div class="margin-bottom15">
+        <button class="btn btn-primary btn-sm"  ng-click="addParty()">添加收货点</button>
+    </div>
+    <div>
+        <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    </div>
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+    <div class="modal fade" data-backdrop="static"  id="workLogModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 40%;height: auto">
+            <div class="modal-content">
+                <div class="modal-content">
+                    <div class="allocation-head">
+                        <p class="allocation-title">{{giftTtle}}</p>
+                        <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                        </p>
+                    </div>
+                    <div style="padding: 10px 5px">
+                        <div class="addStation">
+                            <form role="form" name="verifyForm1">
+                                <pl4-verify-message form-name="verifyForm1"></pl4-verify-message>
+                                <div class="addStation-input" style="width:100%;">
+                                    <div class="form-inline">
+                                        <label><span class="verify">*</span>收货点名称：</label>
+                                        <input type="text" class="form-control" ng-model="addModel.receivingPointName"  required name="receivingPointName" verify-message="请输入收货点名称" maxlength="32"/>
+                                    </div>
+                                    <div class="form-inline">
+                                        <label><span class="verify">*</span>手机号码：</label>
+                                        <input type="text" class="form-control" ng-model="addModel.tel" required name="tel" pl4-verify="phone" verify-message="请输入正确手机号码" maxlength="11" >
+                                    </div>
+                                    <div class="form-inline">
+                                        <label><span class="verify">*</span>收货点负责人：</label>
+                                        <input type="text" class="form-control" ng-model="addModel.receivingPointUserName"  required name="receivingPointUserName" verify-message="请输入收货点负责人" maxlength="32"/>
+                                    </div>
+                                    <div class="form-inline">
+                                        <label><span class="verify">*</span>收货点账号：</label>
+                                        <input type="text" class="form-control" ng-disabled="disabled" ng-model="addModel.receivingPointAccount" required name="receivingPointAccount"  verify-message="请输入收货点账号" maxlength="32"/>
+                                    </div>
+                                    <div class="form-inline">
+                                        <label><span class="verify">*</span>关联分拨中心：</label>
+                                        <select name="wlDeptId" class="form-control" ng-options="o.id as o.name for o in addModel.wlDeptId.select" ng-model="addModel.wlDeptId.id"/>
+                                        </select>
+                                    </div>
+                                    <div class="form-inline">
+                                        <label><span class="verify">*</span>收货点地址：</label>
+                                        <select class="form-control" style="width: 100px" ng-model="addModel.provinceSelected"
+                                                ng-options="o.id as o.name for o in addModel.province"
+                                                ng-change="addModel.provinceChange()"></select>
+                                        <select class="form-control" style="width: 100px" ng-model="addModel.citySelected"
+                                                ng-options="o.id as o.name for o in addModel.city"
+                                                ng-change="addModel.cityChange()"></select>
+                                        <select class="form-control" style="width: 100px" ng-model="addModel.countySelected"
+                                                ng-options="o.id as o.name for o in addModel.county"
+                                                ng-change="addModel.countyChange()"></select><br>
+                                        <input type="text" class="form-control" ng-model="addModel.address" required name="address" placeholder="请输入详细地址" maxlength="64"
+                                               verify-message="请输入详细地址" style="margin:10px 0 0 144px"/>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="addStation-btns">
+                                <button class="btn btn-primary btn-sm" ng-disabled="verifyForm1.$invalid" ng-click="enterAdd()">
+                                    确认
+                                </button>
+                                <button class="btn btn-default btn-sm" data-dismiss="modal">
+                                    取消
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+<div class="right-main">
+
+    <div class="banner-container">
+        <p>发货方：<span ng-bind="banner.chuHuoName"></span></p>
+        <p>发货方电话：<span ng-bind="banner.chuHTel"></span></p>
+        <p>发货方地址：<span ng-bind="banner.chuHAdd"></span></p>
+        <p>收货方：<span ng-bind="banner.receiverName"></span></p>
+        <p>收货方电话：<span ng-bind="banner.receTel"></span></p>
+        <p>收货方地址：<span ng-bind="banner.receAdd"></span></p>
+        <p>中转目的地：<span ng-bind="banner.transitName"></span></p>
+        <p>备注：<span ng-bind="banner.remarks"></span></p>
+    </div>
+    <pl4-grid grid-table="result" th-header="thHeader"></pl4-grid>
+
+    <div>
+        <div class="addStation-btns" style="float: left;margin-top: -10px;">
+            <button class="btn btn-primary btn-sm" ng-click="goBack()">
+                返回
+            </button>
+        </div>
+        <p style="float: right; padding-right: 50px" ng-show="isAmountShow">明细运费合计：{{amountModel.amountTo}}</p>
+    </div>
+</div>

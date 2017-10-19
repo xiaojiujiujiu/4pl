@@ -1,0 +1,70 @@
+<!-- 
+  - Created by hui.sun on 15/12/10.
+ -->
+<div class="right-main">
+   <!-- <div class="form-inline margin-bottom20">
+        <div class="form-group">
+            <label class="ng-binding">机构名称：</label>
+            <select class="form-control" ng-model="wlDept.id" ng-options="o.id as o.name for o in wlDept.select"></select>
+        </div>
+    </div>
+     <pl4-select china-cities="chinaCities"></pl4-select> -->
+    <pl4-query></pl4-query>
+    <div class="margin-bottom15">
+        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"  ng-click="btnAddCar()">
+            收款
+        </button>
+    </div>
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    <div>
+        <p>
+            <span style="padding-right: 20px;">收款金额合计：{{banner.moneyCounts}}</span>
+            <span style="padding-right: 20px;">运费合计：{{banner.pays}}</span>
+            <span style="padding-right: 20px;">实收运费合计：{{banner.realpays}}</span>
+            <span style="padding-right: 20px;">代收款合计：{{banner.collectMoneys}}</span>
+            <span style="padding-right: 20px;">实收代收款合计：{{banner.realcollectMoneys}}</span>
+        </p>
+    </div>
+    <!--
+    	select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+    
+    <!-- Modal -->
+       <div class="modal fade" data-backdrop="static"  id="addCar" tabindex="-1" role="dialog" aria-labelledby="confirmPrint-title" >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header allocation-head ">
+                <p type="button" class=" allocation-close" ><a href="javascript:;"  data-dismiss="modal"></a></p>
+            <p class="allocation-title" id="">收款</p>
+          </div>
+          <div class="modal-body modal-bodys">
+              <form role="form" name="verifyForm1">
+                  <pl4-verify-message form-name="verifyForm1"></pl4-verify-message>
+                      <div class="form-inline" style="margin-bottom: 10px;">
+                          <label><span class="verify">*</span>支付方式：</label>
+                          <select name="clearType" class="form-control" ng-options="o.id as o.name for o in addModel.clearType.select" ng-model="addModel.clearType.id"/>
+                          </select>
+                      </div>
+                      <div class="form-inline">
+                          <label><span class="verify">*</span>金额：</label>
+                          <input type="text" class="form-control"
+                                 ng-pattern=/^(0|\d+(.\d{1,2})?)$/
+                                               onkeyup="value=value.replace(/[^\d.]/g,'')"
+                                 ng-model="addModel.collectMoney" required name="collectMoney"  verify-message="请输入应付金额" maxlength="32"/>
+                      </div>
+              </form>
+              <div class="addStation-btns">
+                  <button class="btn btn-primary btn-sm" ng-disabled="verifyForm1.$invalid" ng-click="enterAdd()">
+                      确认
+                  </button>
+                  <button class="btn btn-default btn-sm" data-dismiss="modal">
+                      取消
+                  </button>
+              </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+</div>

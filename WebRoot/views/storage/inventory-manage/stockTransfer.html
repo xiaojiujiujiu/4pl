@@ -1,0 +1,34 @@
+<div class="right-main">
+    <pl4-query></pl4-query>
+    <div class="margin-bottom15">
+        <a class="btn btn-primary btn-sm" href="#/main/stockTransferApply" >
+            申请库存转移
+        </a>
+    </div>
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    <p ng-hide="isData" style="text-align: center;overflow:hidden;padding: 10px;">暂无数据</p>
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+
+    <div class="modal fade" data-backdrop="static"  id="modifyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 60%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">修改</p>
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div class="addStation margin-top15">
+                    <pl4-grid grid-table="alloResult" th-header="allTHeader" ng-keyup="clearNoNum()"></pl4-grid>
+                </div>
+                <div class="addStation-btns" >
+                    <button class="btn btn-primary btn-sm" ng-click="confirmModify()">
+                        确认
+                    </button>
+                    <button class="btn btn-default btn-sm" data-dismiss="modal">
+                        取消
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

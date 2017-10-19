@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>百库物流</title>
+		<link rel="stylesheet" href="css/bootstrap.css" />
+		<link rel="stylesheet" href="css/datepicker.css"/>
+		<link rel="stylesheet" href="css/index.css" />
+		<!--<link rel="stylesheet" href="css/jquery-plugin.css">-->
+	</head>
+	<body>
+	<!--container-fluid-->
+		<div ui-view style="height: 100%;"></div>
+
+	<!--alert-->
+	<div class="modal fade" data-backdrop="static"  id="alert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document" style="width: 20%;height: auto">
+			<div class="modal-content">
+				<div class="allocation-head">
+					<p class="allocation-title">提示</p>
+					<p class="allocation-close"><a href="javascript:;" style="color: red;" data-dismiss="modal"></a>
+					</p>
+				</div>
+				<div>
+					<div class="addStation">
+						<h5>出现错误请稍后再试！</h5>
+					</div>
+					<div class="alert-btn addStation-btns">
+
+						<button type="button" class="btn btn-primary btn-sm alert-enter">
+							确定
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+		<script src="lib/require.js" data-main="js/config.js?v=1.0.1"></script>
+
+	</body>
+</html>

@@ -1,0 +1,20 @@
+<div class="right-main">
+
+    <div class="banner-container">
+        <p>收货仓库：<span ng-bind="banner.ckName">新乡RDC</span></p>
+        <p>业务单号：<span ng-bind="banner.taskId">BH201510120001</span></p>
+        <p>业务类型：<span ng-bind="banner.taskType"></span></p>
+        <p>发货方：<span ng-bind="banner.chuHuoName"></span></p>
+        <p>商品单数：<span ng-bind="banner.typeCount"></span></p>
+        <p>应收数量：<span ng-bind="banner.goodsCount"></span></p>
+    </div>
+    <pl4-grid grid-table="result" th-header="thHeader"></pl4-grid>
+    <div class="addStation-btns" style="float: left;margin-top: -10px;">
+        <button class="btn btn-primary btn-sm" ng-click="goBack()">
+            返回
+        </button>
+        <pl4-excel grid-table="result" btn-title="导出excel" alert-title="确定导出吗?" action="/differentMonitor/impDetailToExcel" ex-params="exGoodsAlloParam"></pl4-excel>
+
+        <span style="float: right;width: 150px;line-height: 50px;">差异合计：{{banner.moneyCount}}</span>
+    </div>
+</div>

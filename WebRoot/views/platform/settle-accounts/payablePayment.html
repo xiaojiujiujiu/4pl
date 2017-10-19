@@ -1,0 +1,74 @@
+<div class="right-main">
+<pl4-storage-select></pl4-storage-select>
+
+    <pl4-query></pl4-query>
+
+    <!-- <div>
+        <span>查询结果</span>
+         <pl4-excel action="../../shipBanlance/impToExcels" ex-params="exParams"></pl4-excel>
+    </div> -->
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    <!--
+    	select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+    <div class="modal fade" data-backdrop="static"  id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 30%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">确认已付</p>
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div  style="padding: 10px 5px;text-align:center">
+                    <p >确认收到{{deptName}}配送中心的应付账款 <span class="color-orange">{{money}}元</span></p>
+                </div>
+                <div class="clearfix"></div>
+                <div class="modal-footer" style="padding: 5px 0;">
+                    <button type="button" class="btn btn-primary" ng-click="confirmSend()">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" data-backdrop="static"  id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 30%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">驳回</p>
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div style="padding: 10px 5px;text-align:center">
+                    <p >确认将此结算单驳回到配送中心？</p>
+                </div>
+                <div class="clearfix"></div>
+                <div class="modal-footer" style="text-align: right;padding: 5px 0;margin-right:20px;">
+                    <button type="button" class="btn btn-primary " ng-click="cancelSend()">确认</button>
+                    <button type="button" class="btn btn-default btn-query" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" data-backdrop="static"  id="logModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 60%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">明细</p>
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div style="padding: 10px 5px">
+                        <div class="new-version-border">
+                                <p>结算单号：<span>{{logBanner.receiptId}}</span></p>
+                                <p>配送中心名称：<span>{{logBanner.wlDeptName}}</span></p>
+                                <p>应付代收货款：<span>{{logBanner.money}}</span></p>
+                        </div>
+                        <!--<div class="clear hr1" style="margin-top: 14px">&nbsp;</div>-->
+                        <div class="new-version-table">
+                            <pl4-grid grid-table="detailresult" th-header="getDetailThead"></pl4-grid>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+<div class="right-main">
+
+    <pl4-query></pl4-query>
+    <br/>
+    <div class="form-inline" ng-if="isShow">
+        <form>
+            <div class="form-group">
+                <label class="ng-binding">业务单号/箱号：</label>
+                <input type="text" class="form-control" style="width: 210px;" ng-model="model.take">
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm" ng-click="taskSerach()">确定
+            </button>
+        </form>
+    </div>
+    <div ng-if="isGrid">
+
+        <p>分拨列表</p>
+        <pl4-grid grid-table="result" th-header="thHeader"></pl4-grid>
+        <div class="form-inline addStation-btns">
+            <button class="btn btn-primary btn-sm" ng-click="enterDispatch()">
+                确认分拨
+            </button>
+        </div>
+    </div>
+</div>

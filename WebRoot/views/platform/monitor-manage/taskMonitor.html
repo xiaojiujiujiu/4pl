@@ -1,0 +1,69 @@
+<div class="right-main">
+    <pl4-storage-select></pl4-storage-select>
+
+    <pl4-query></pl4-query>
+
+    <div class="margin-bottom15">
+      <!--  <span>查询结果</span>-->
+      <pl4-excel grid-table="result" action="/workMonitor/impToExcels" ex-params="exParams"></pl4-excel>
+    </div>
+	<div>
+    	<pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+	</div>
+    <!--
+    	select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+    <div class="modal fade" data-backdrop="static"  id="logModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 60%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">日志</p>
+
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div style="padding: 10px 5px">
+                	<div class="header-title1">
+					    <!--<h4>订单信息</h4>
+					    </div>
+					    <div class="head_info">
+					        <ul>
+					            <li>业务单号：<span>{{detailBanner.taskId}}</span></li>
+					            <li>收货人：<span>{{detailBanner.receMan}}</span></li>
+					            <li>联系电话：<span>{{detailBanner.receTel}}</span></li>
+					            <li>客户名称：<span>{{detailBanner.customer}}</span></li>
+					            <li>收货地址：<span>{{detailBanner.receAdd}}</span></li>
+					        </ul>
+					        <p class="clear"></p>
+					    </div>
+					    <div class="header-title2">
+					        <h4>订单信息</h4>
+					    </div>
+					    <div class="clear hr1" style="margin-top: 14px">&nbsp;</div>
+						<div class="grid-overflow">
+					    	<pl4-grid grid-table="detailresult" th-header="getDetailThead"></pl4-grid>
+						</div>
+					    &lt;!&ndash;
+					    	select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据&ndash;&gt;
+					    &lt;!&ndash;<pl4-paging select-option="detailPagingSelect" paging-num="5" to-page="detailGoToPage()" paging="detailPaging"></pl4-paging>&ndash;&gt;
+					    <div class="clear hr1" style="margin-top: 20px"></div>
+					    <div class="footer" style="margin: 10px 0;">
+					        <p style="width: 200px">&nbsp;</p>
+					        <p style="width: 140px">商品种类：{{detailBanner.typeCount}}</p>
+					        <p style="width: 130px">商品数量：{{detailBanner.goodCount}}</p>
+					        <p style="width: 124px">订单金额：{{detailBanner.moneyCount}}</p>
+					
+					    </div>
+					    <div class="clear"></div>-->
+					<!--<h4>订单日志</h4>-->
+					<div class="new-version-table">
+                    	<pl4-grid grid-table="logResult" th-header="getLogThead"></pl4-grid>
+					</div>
+                    <!--<pl4-paging select-option="logPagingSelect" paging-num="5" to-page="logGoToPage()" paging="logPaging"></pl4-paging>-->
+                    <div class="clear" style="margin-bottom: 10px"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

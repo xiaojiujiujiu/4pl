@@ -1,0 +1,35 @@
+<div class="right-main">
+    <pl4-query></pl4-query>
+
+    <div>
+        <!--<span>查询结果</span>-->
+        <button class="btn btn-primary btn-sm" style="margin-left: 20px">
+            导出EXCEL
+        </button>
+    </div>
+    <br/>
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    <!--
+    	select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+	<div class="modal fade" data-backdrop="static"  id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 30%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">确认收到{{deptName}}配送中心的应付账款</p>
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div class="m-text" style="padding: 10px 5px">
+                	<p style="float: left">现金：{{amount.cashCount}}元</p>
+                	<p>POS：{{amount.posCount}}元</p>
+                </div>
+                <div class="clearfix"></div>
+                <div class="modal-footer">
+		            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+		            <button type="button" class="btn btn-primary" ng-click="confirmSend()">确认</button>
+		        </div>
+            </div>
+        </div>
+    </div>
+</div>

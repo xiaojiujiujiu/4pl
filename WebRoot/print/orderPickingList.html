@@ -1,0 +1,214 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>拣货清单</title>
+    <link rel="stylesheet" href="base.css"/>
+    <link rel="stylesheet" href="print.css"/>
+
+</head>
+<body>
+
+
+<script src="../lib/jquery-1.11.3.min.js"></script>
+<script src="../lib/jquery.tmpl.min.js"></script>
+<script src="js/common.js"></script>
+<script type="text/javascript" src="js/LodopFuncs.js"></script>
+<script type="text/html" id="printTmpl">
+    <div id="container">
+        <style>
+            .head_info li {
+                float: left;
+                width: 33%;
+            }
+
+            .head_info span {
+                font-size: 12px;
+            }
+
+            .footer p {
+                float: left;
+            }
+
+            .fontSize14 {
+                font-size: 14px;
+                font-weight: normal;
+            }
+        </style>
+        {{each(i,v) grid}}
+        <div class="header">
+            <div class="header-logo">
+                <img src="../img/logo-gary.png" alt="logo">
+            </div>
+            <h1 class="header-center">拣货清单</h1>
+            <div class="header-right">
+                <img src=${v.barCodeUrl} alt="logo" height="53" width="140">
+
+            </div>
+            <p class="clear"></p>
+        </div>
+        <div class="header-title1">
+            订单信息
+        </div>
+        <div class="head_info">
+            <ul>
+                <li>业务单号：<span>${v.taskId}</span></li>
+                <li>业务类型：<span>${v.orderType}</span></li>
+                <!--<li>商品单数：<span>${v.goodsTypeCount}</span></li>-->
+                <li>打印时间：<span>${v.printTime}</span></li>
+            </ul>
+            <p class="clear"></p>
+        </div>
+        <div class="header-title2">
+            <span>商品信息</span>
+        </div>
+        <div class="clear hr1" style="margin-top: 14px">&nbsp;</div>
+        <div class="table">
+            <table>
+                <thead>
+                <th width="5%">序号</th>
+                <th width="9%">供应商</th>
+                <th width="9%">商品名称</th>
+                <th width="9%">规格型号</th>
+                <th width="9%">出厂编码</th>
+                <th width="9%">品牌</th>
+                <th width="8%">计量单位</th>
+                <th width="8%">商品数量</th>
+                <th width="9%">货位信息</th>
+                <th width="8%">拣货数量</th>
+                <th width="10%">备注</th>
+                </thead>
+                <tbody>
+                {{each(j,y) v.printList}}
+                <tr>
+                    {{if y.goodsName||y.goodsName==''}}
+                    <td rowspan="${y.goodsName!==undefined?y.pl4Rowspan.rows:-1}">${y.pl4GridIndex!=undefined?(y.pl4GridIndex+1):''}</td>
+                    {{/if}}
+                    {{if y.supliersName||y.supliersName==''}}
+                    <td rowspan="${y.supliersName!==undefined?y.pl4Rowspan.rows:-1}">${y.supliersName}</td>
+                    {{/if}}
+                    {{if y.goodsName||y.goodsName==''}}
+                    <td rowspan="${y.goodsName!==undefined?y.pl4Rowspan.rows:-1}">${y.goodsName}</td>
+                    {{/if}}
+                    {{if y.modelName||y.modelName==''}}
+                    <td rowspan="${y.modelName!==undefined?y.pl4Rowspan.rows:-1}">${y.modelName}</td>
+                    {{/if}}
+                    {{if y.factoryCode||y.factoryCode==''}}
+                    <td rowspan="${y.factoryCode!==undefined?y.pl4Rowspan.rows:-1}">${y.factoryCode}</td>
+                    {{/if}}
+                    {{if y.brandName||y.brandName==''}}
+                    <td rowspan="${y.brandName!==undefined?y.pl4Rowspan.rows:-1}">${y.brandName}</td>
+                    {{/if}}
+                    {{if y.unitName||y.unitName==''}}
+                    <td rowspan="${y.unitName!==undefined?y.pl4Rowspan.rows:-1}">${y.unitName}</td>
+                    {{/if}}
+                    {{if y.count||y.count==''}}
+                    <td rowspan="${y.count!==undefined?y.pl4Rowspan.rows:-1}">${y.count}</td>
+                    {{/if}}
+                    <td>${y.huoWeiNo}</td>
+                    <td>${y.chCount}</td>
+                    {{if y.remark||y.remark==''}}
+                    <td rowspan="${y.remark!==undefined?y.pl4Rowspan.rows:-1}">${y.remark}</td>
+                    {{/if}}
+                </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+        <div class="clear hr1" style="margin-top: 40px"></div>
+        <div class="footer">
+            <!--<p style="width: 400px;">支付方式：货到付款/已支付/月结客户</p>
+            <p style="width: 140px">商品种类：4</p>
+            <p style="width: 130px">商品数量：40</p>
+            <p style="width: 124px">商品金额：400</p>-->
+            <p style="margin-top: 50px;width: 540px">拣货员：${v.jhUser}</p>
+            <p style="margin-top: 50px;">审核人：</p>
+
+        </div>
+        <div class="clear"></div>
+
+        {{/each}}
+    </div>
+    <div class="buttons" id="printBtns">
+        <input type="button" value="打印" onclick="printdiv()"/>
+        <input type="button" value="关闭" onclick="common.closeWindow()" style="margin-left: 189px"/>
+    </div>
+</script>
+<script language="javascript">
+    function printdiv() {
+        var printBtns = document.getElementById('printBtns');
+        printBtns.style.display = 'none';
+       // window.print();
+        lodopWebPrint('拣货清单',0,120,15,15);
+        printBtns.style.display = 'block';
+        return false;
+    }
+    $(function () {
+        var urlStr = common.parseQueryString(window.location.href);
+        var data = {
+            param: {
+                query: urlStr
+            }
+        }
+        data.param = JSON.stringify(data.param);
+        $.ajax({
+            type: "POST",
+            url: common.host + '/pickGoodsTaskZdDetail/printGoodsZdDetail?' + common.tokenInfo,
+            data: data,
+            dataType: "json",
+            success: function (data) {
+                if(data.status.code=="1000"){
+                    alert(data.status.msg);
+                    return false;
+                }
+                var itemListArrays = [], itemListArraysIndex = 0;//列内list数组
+                for (var i = 0; i < data.grid.length; i++) {
+                    for (var j = 0; j < data.grid[i].printList.length; j++) {
+                        if (data.grid[i].printList[j]['list']) {
+                            var rowspan = 1, fields = '';
+                            itemListArrays[itemListArraysIndex] = new Array();
+                            for (var k = 0; k < data.grid[i].printList[j]['list'].length; k++) {
+                                data.grid[i].printList[j]['list'][k]['pl4RowspanCols'] = true;
+                                itemListArrays[itemListArraysIndex].push({
+                                    index: j + (k + 1),
+                                    list: data.grid[i].printList[j]['list'][k]
+                                });
+                                //scope.result.splice(i+(k+1),0,list);
+                                rowspan++;
+                            }
+                            //取出需要显示的列名
+                            for (var key in data.grid[i].printList[j]['list'][0]) {
+                                fields += key + ',';
+                            }
+
+                            data.grid[i].printList[j]['pl4Rowspan'] = {rows: rowspan, field: fields};
+                            itemListArraysIndex++;
+                        }
+                        //设置index
+                        data.grid[i].printList[j]['pl4GridIndex'] = j;
+                    }
+                    var nextIndex=0;
+                    for (var v = 0; v < itemListArrays.length; v++) {
+                        nextIndex+=v - 1 >= 0?itemListArrays[v - 1].length:0;
+                        for (var k = 0; k < itemListArrays[v].length; k++) {
+                            data.grid[i].printList.splice(itemListArrays[v][k].index + (v - 1 >= 0 ? nextIndex : 0), 0, itemListArrays[v][k].list);
+                        }
+                    }
+                }
+
+                console.log(data)
+                data.commonHost = common.host + "/pl4";
+                $('#printTmpl').tmpl(data).appendTo($('body'));
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        })
+        ;
+    })
+
+
+</script>
+</body>
+</html>

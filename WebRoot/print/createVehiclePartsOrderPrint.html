@@ -1,0 +1,140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>条码打印</title>
+    <link rel="stylesheet" href="base.css"/>
+    <link rel="stylesheet" href="print.css"/>
+  
+</head>
+<body>
+
+<script src="../lib/jquery-1.11.3.min.js"></script>
+<script src="../lib/jquery.tmpl.min.js"></script>
+<script src="js/common.js"></script>
+<script type="text/javascript" src="js/LodopFuncs.js"></script>
+<script type="text/html" id="printTmpl">
+    <div id="container"  class="container">
+  <style>
+body{width:380px;}
+        #container {
+            width: 380px;
+            margin: 8px 0;
+			 font-family: '微软雅黑';
+            font-weight: bold;
+            font-size: 12px;
+            color:#000;
+
+        }
+        
+        .tab-box .table{margin-left:2px;border-top:1px solid #000;border-bottom:1px solid #000; width: 360px;padding: 0 5px;height:auto;overflow: hidden;}
+        .tab-box .table ul li{float:left; width:45%;}
+        .tab-box .table ul li.li{border-left: 1px solid #000;padding-left:5px;}
+        .tab-box .table ul li h4{float:left;padding-right:5px;}
+        .tab-box .table ul li p{float:left;    width: 145px;}
+		.tab-box .table ul li p span{line-height:15px;}
+
+       .listUl{margin-left:2px;overflow: hidden;width: 365px;padding-left: 5px;position: relative;}
+        .listUl li{ float: left;width: 25%;line-height: 15px;}
+        .listUl li.listLi_2{width:30%;}
+        .listUl li.listLi_3{width:45%;}
+        .listUl li.remarks{width:100%;}
+        .listUl li.about{position: absolute;bottom:0;left:260px;text-align: center;width: 24%;line-height: 36px;}
+        .buttons {
+            width: 100%;
+            margin: 0 auto;
+
+        }
+    </style>
+<input type="hidden" id="waybillId" value="${query.waybillId}"/>
+        <div class="tab-box">
+           <div style="height:35px; position: relative;">
+               <img src="../img/logo-gary.png" alt="" width="120" height="60" style="position: absolute;left: 200px;top:-5px;">
+           </div>
+			<div class="table">
+                <ul>
+                    <li >
+                        <h4>发<br>方</h4>
+                            <p><span>${query.chuHuoName}</span>
+                        <span>${query.chuHTel}</span>
+                        </p>
+                        </li>
+                        <li class="li">
+                            <h4>收<br>方</h4>
+                            <p>
+                                <span>${query.receiverName}</span>
+                                <span>${query.receTel}</span><br>
+                                <span>${query.receAdd}</span>
+                            </p>
+                        </li>
+                </ul>
+            </div>
+
+                <ul class="listUl">
+                    <li>件数:${query.acceGoodCount}件</li>
+                    <li class="listLi_2">保价费:${query.insuranceMoney}元</li>
+                    <li class="listLi_3">保价金额:${query.offerMoney}元</li>
+                    <li>运费:${query.pay}元</li>
+                    <li class="listLi_2">代收:${query.collectMoney}元</li>
+                    <li class="listLi_3">合计:${query.totalMoney}元</li>
+                    <li>现付:${query.nowPay}元</li>
+                    <li class="listLi_2">到付:${query.toPay}元</li>
+                    <li class="remarks">备注:${query.remarks}</li>
+                    <li class="about">有/无代收</li>
+                </ul>
+        </div>
+ 
+    
+</div>
+
+
+    <div class="buttons" id="printBtns">
+        <input type="button" value="打印" onclick="printdiv()" style="margin-left: 120px"/>
+        <input type="button" value="关闭" onclick="common.closeWindow()" style="margin-left: 50px" />
+    </div>
+</script>
+<script language="javascript">
+var offset=new Array(5,10,180,30)
+var textOffset=new Array(35, 10, 180, 40)
+
+    function printdiv() {
+        var printBtns = document.getElementById('printBtns');
+        var waybillId=$("#waybillId").val();
+        printBtns.style.display='none';
+        //window.print();
+        lodopOffsetWebPrint('条码打印',0,50,15,15,waybillId,offset,textOffset);
+        printBtns.style.display='block';
+        return false;
+    }
+    $(function(){
+        var urlStr = common.parseQueryString(window.location.href);
+        console.log(urlStr);
+        var data = {
+            param:{
+                query: urlStr
+            }
+        }
+        data.param = JSON.stringify(data.param)
+        $.ajax({
+            type: "POST",
+            url: common.host+'/vehicleParts/printedInvoice?'+common.tokenInfo+"&taskId="+urlStr.taskId,
+            data: data,
+            dataType: "json",
+            success: function(data){
+                if(data.status.code=='0000'){
+                    $('#printTmpl').tmpl(data).appendTo($('body'));
+                }else{
+                    alert(data.status.msg);
+                }
+            },
+            error: function(err){
+                console.log(err)
+            }
+        });
+    })
+
+
+</script>
+</body>
+</html>

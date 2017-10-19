@@ -1,0 +1,83 @@
+<div class="right-main">
+    <pl4-query></pl4-query>
+    <div class="margin-bottom15">
+        <button type="button" class="btn btn-primary btn-sm" ng-click="addCarriersBtn()" data-toggle="modal" data-target="#orderLogModal">
+                                添加配送服务商
+        </button>
+    </div>
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+	<div class="modal fade" data-backdrop="static"  id="orderLogModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 40%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">{{addCarrierTitle}}</p>
+
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div style="padding: 10px 5px">
+                <form role="form" name="verifyForm1">
+                <pl4-verify-message form-name="verifyForm1"></pl4-verify-message>
+                    <div class="addStation-input addStation-input2">
+			            <div class="form-inline">
+			                <label><span class="verify">*</span>配送服务商名称：</label>
+			                <input type="text" class="form-control" ng-model="addCarrier.carrierName" required name="carrierName" verify-message="请输入配送服务商名称" maxlength="32">
+			            </div>
+			            <div class="form-inline">
+			                <label><span class="verify">*</span>配送服务商编号：</label>
+			                <input type="text" class="form-control" ng-model="addCarrier.carrierId" required name="carrierId" verify-message="请输入配送服务商编号" maxlength="11">
+			            </div>
+			            <div class="form-inline">
+			                <label><span class="verify">*</span>配送服务商联系人：</label>
+			                <input type="text" class="form-control" ng-model="addCarrier.carrierMan" required name="carrierMan" verify-message="请输入配送服务商联系人" maxlength="32">
+			            </div>
+			            <div class="form-inline">
+			                <label><span class="verify">*</span>联系人手机：</label>
+			                <input type="text" class="form-control" ng-model="addCarrier.mobilephone" name="mobilephone" required pl4-verify="phone" ng-pattern="/^1[3|5|8|7][0-9]\d{4,8}$/"  verify-message="请输入手机号码"  maxlength="11" ng-minlength="11">
+			            </div>
+			            <div class="form-inline">
+			                <label><span class="verify">*</span>配送服务商所在地：</label>
+			                <select class="form-control" ng-model="addCarrier.carrierAddress.provinceSelected"
+                                        ng-options="o.id as o.name for o in addCarrier.carrierAddress.province"
+                                        ng-change="addCarrier.carrierAddress.provinceChange()"></select>
+                                <select class="form-control" ng-model="addCarrier.carrierAddress.citySelected"
+                                        ng-options="o.id as o.name for o in addCarrier.carrierAddress.city"
+                                        ng-change="addCarrier.carrierAddress.cityChange()"></select>
+                                <select class="form-control" ng-model="addCarrier.carrierAddress.countySelected"
+                                        ng-options="o.id as o.name for o in addCarrier.carrierAddress.county"
+                                        ng-change="addCarrier.carrierAddress.countyChange()"></select>
+			            </div>
+			            <div class="form-inline">
+			                <label><span class="verify">*</span>配送范围：</label>
+			                 <span> <input name="carrierAddress" ng-model="addCarrier.carrierRange" type="radio" id="inlineCheckbox1" value="2">本市</span>
+							 <span><input name="carrierAddress" ng-model="addCarrier.carrierRange" type="radio" id="inlineCheckbox2" value="1">本省</span>
+			                 <span> <input name="carrierAddress" ng-model="addCarrier.carrierRange" type="radio" id="inlineCheckbox3" value="3">全国</span>
+			            </div>
+			            <!-- 
+			            <div class="form-inline">
+			                <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;平台账号：</label>
+			                <input type="text" class="form-control" ng-model="addCarrier.mobilephone">
+			               	<small>默认为手机号</small>
+			            </div>
+			            <div class="form-inline">
+			                <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;系统密码：</label>
+			                <input type="password" class="form-control" ng-model="addCarrier.sysPassword">
+			            </div>
+			             -->
+			            <div class="addStation-btns" >
+			                <button class="btn btn-primary btn-sm" ng-disabled="verifyForm1.$invalid" ng-click="enterAddCarrier()">
+			                    	确认
+			                </button>
+			                <button class="btn btn-default btn-sm" data-dismiss="modal">
+			                    	取消
+			                </button>
+			            </div>
+			        </div> 
+			        </form>  	 
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>

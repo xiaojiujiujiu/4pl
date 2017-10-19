@@ -1,0 +1,43 @@
+<!-- 
+  - Created by hui.sun on 15/12/10.
+ -->
+<div class="right-main">
+    <div class="banner-container">
+        <p>收货仓库：<span>{{banner.ckName}}</span></p>
+        <p>业务单号：<span>{{banner.taskId}}</span></p>
+        <p>业务类型：<span>{{banner.taskType}}</span></p>
+        <p>发货方：<span>{{banner.chuHuoName}}</span></p>
+       <!--  <p>商品单数：<span>{{banner.typeCount}}</span></p> -->
+        <p>应发数量：<span>{{banner.goodsCount}}</span></p>
+    </div>
+    <pl4-grid grid-table="result" th-header="thHeader"></pl4-grid>
+    <div class="addStation-btns" style="float: left;margin-top: -10px;">
+        <button class="btn btn-primary btn-sm" ng-click="goBack()">
+          	 返回
+        </button>
+        <button class="btn btn-primary btn-sm" ng-click="showRemarks()">
+          	 确认差异
+        </button>
+    </div>
+    <div class="modal fade" data-backdrop="static"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" id="remarks" style="width: 300px;">
+        <div class="modal-dialog" role="document" style="height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">发货差异备注</p>
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal" ng-click="deleteRemarks()"></a>
+                    </p>
+                </div>
+                <div class="allocation-container">
+                    <div class="allocation-addGoods-content" style="padding-top: 5px;">
+                        <textarea rows="3" cols="50" ng-model="remarksModel.remarks" maxlength="40" style="border: solid 1px #ccc;"></textarea>
+                        <div class="addStation-btns" style="margin:10px 0;">
+                            <button class="btn btn-primary btn-sm" type="button" ng-click="diffConfirm()">确认</button>
+                            <button class="btn btn-default btn-sm" data-dismiss="modal" type="button" ng-click="deleteRemarks()">取消</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+</div>

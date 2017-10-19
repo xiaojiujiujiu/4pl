@@ -1,0 +1,32 @@
+<div class="right-main">
+    <pl4-query></pl4-query>
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+    <div class="addStation-btns" style="float: left">
+        <!--<button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#confirmApplication">-->
+            <!--确认申请-->
+        <!--</button>-->
+            <button class="btn btn-primary btn-sm" ng-click="update()" data-dismiss="modal" type="button">返回</button>
+    </div>
+    <div class="modal fade" data-backdrop="static"  id="confirmApplication" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 25%;height: auto">
+            <div class="modal-content">
+                <div class="modal-header allocation-head ">
+                    <p type="button" class=" allocation-close" ><a href="javascript:;"  data-dismiss="modal"></a></p>
+                    <p class="allocation-title" id="">确认申请</p>
+                </div>
+                <div style="padding: 10px 5px">
+                    <p style="text-align: center; font-size: 16px; padding: 10px 10px 0">确认对该商品进行库存转移申请？</p>
+                    <div class="addStation-btns" >
+                        <button class="btn btn-primary btn-sm" ng-click="confirmApplication()">
+                            确认
+                        </button>
+                        <button class="btn btn-default btn-sm" data-dismiss="modal">
+                            取消
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

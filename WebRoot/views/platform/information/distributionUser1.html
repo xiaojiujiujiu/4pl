@@ -1,0 +1,215 @@
+<div class="right-main">
+    <pl4-storage-select></pl4-storage-select>
+    <pl4-query></pl4-query>
+    <div class="margin-bottom15">
+        <pl4-excel grid-table="result" action="/distributionUser/exportDistributionUser" ex-params="exParams" grid-null="false"  btn-title="导出模板"></pl4-excel>
+        <button class="btn btn-primary btn-sm"  ngf-select="impUploadFiles($files)" multiple="multiple" >
+            导入发件方信息
+        </button>
+        <button class="btn btn-primary btn-sm" ng-click="dataSetUp()">
+            设置回款时效
+        </button>
+    </div>
+    <div>
+        <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    </div>
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+    <div class="modal fade" data-backdrop="static"  id="workLogModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 40%;height: auto">
+            <div class="modal-content">
+                <div class="modal-content">
+                    <div class="allocation-head">
+                        <p class="allocation-title">{{giftTtle}}</p>
+                        <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                        </p>
+                    </div>
+                    <div style="padding: 10px 5px">
+                        <div class="addStation">
+                            <form role="form" name="verifyForm1">
+                                <div class="addStation-input" style="width:100%;">
+                                    <div class="form-inline">
+                                        <label><span class="verify">*</span>发件方编号：</label>
+                                        <input type="text" class="form-control" ng-model="addModel.senderNumber" disabled  name="senderNumber"  maxlength="32"/>
+                                    </div>
+                                    <div class="form-inline">
+                                        <label><span class="verify">*</span>发件方名称：</label>
+                                        <input type="text" class="form-control" ng-model="addModel.userName" disabled  name="userName"  maxlength="32"/>
+                                    </div>
+                                    <div class="form-inline">
+                                        <label><span class="verify">*</span>手机号码：</label>
+
+                                        <input type="text" class="form-control" ng-model="addModel.tel" disabled  name="bossTel"  maxlength="11" ng-minlength="11">
+                                    </div>
+
+                                    <div class="form-inline">
+                                        <label><span class="verify">*</span>发件方地址：</label>
+                                       {{addModel.shareAddress}}
+                                    </div>
+                                    <div class="form-inline" >
+                                        <label><span class="verify">*</span>共享发件方区域：</label>
+                                     {{addModel.shareAllAddress}}<button class="btn btn-primary btn-sm" ng-click="delectAddress()" style="margin-left: 20px;">删除共享区域</button>
+                                    </div>
+                                    <div class="form-inline" id="test">
+                                        <label><button class="btn btn-primary btn-sm" ng-click="addList()">新增共享区域</button></label>
+                                            <!--<address-linkage address-model="addressModel" ></address-linkage><br>-->
+                                            <!--<address-linkage address-model="address2Model" ng-show="listArr[1]" style="padding-left: 50px;"></address-linkage><br>-->
+                                            <!--<address-linkage address-model="address3Model" ng-show="listArr[2]"></address-linkage>-->
+                                    </div>
+                                    <div class="form-inline"  ng-show="listArr[1]" style="margin: -49px 0 0 143px;">
+                                        <div class="form-group">
+                                            <select class="form-control"
+                                                    ulti										ng-options="o.id as o.name for o in depProvince.select"
+                                                    ng-change="changeCity(0)"
+                                                    ng-model="cleanRuleModel.depProvince"></select>
+                                        </div>
+                                        <div class="form-group linkageMulti">
+                                            <input type="text" class="form-control des-province" ng-click="toggleCity(0)" ng-model="city" style="width: 196px;">
+                                            <p  ng-show='cityShow.show' class="addStation-btns">
+                                                <label ng-repeat="city in depCity.select"><input type="checkbox" value="{{city.id}}" class="des-province-check"
+                                                                                                 ng-click="changeArea(city,0)"
+                                                                                                 ng-model="city.depCity"
+                                                                                                 ng-checked="city.checked"/>{{city.name}}</label><br class="clear">
+                                                <button class="btn btn-primary btn-sm"  ng-click="multipleAddConfirm(0)">确定</button>
+                                            </p>
+
+                                        </div>
+                                        <div class="form-group linkageMulti">
+                                            <input type="text" class="form-control des-province2" ng-click="toggleArea(0)" ng-model="area" style="width: 196px;">
+                                            <p  ng-show='areaShow.show'class="addStation-btns">
+                                                <label ng-repeat="area in depArea.select"><input type="checkbox" value="{{area.id}}" class="des-province-check2"
+                                                                                                 ng-click="addArea(area,0)"ng-model="area.depArea"
+                                                                                                 ng-checked="area.checked"/>{{area.name}}</label><br class="clear">
+                                                <button class="btn btn-primary btn-sm"  ng-click="depAreaAddConfirm(0)">确定</button>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-inline"  ng-show="listArr[2]" style="margin: 0 0 0 143px;">
+                                        <div class="form-group">
+                                            <select class="form-control"
+                                                    ulti										ng-options="o.id as o.name for o in depProvince1.select"
+                                                    ng-change="changeCity(1)"
+                                                    ng-model="cleanRuleModel.depProvince1"></select>
+                                        </div>
+                                        <div class="form-group linkageMulti">
+                                            <input type="text" class="form-control des-province" ng-click="toggleCity(1)" ng-model="city1" style="width: 196px;">
+                                            <p  ng-show='cityShow1.show' class="addStation-btns">
+                                                <label ng-repeat="city1 in depCity1.select"><input type="checkbox" value="{{city1.id}}" class="des-province-check"
+                                                                                                 ng-click="changeArea(city1,1)"
+                                                                                                 ng-model="city1.depCity1"
+                                                                                                 ng-checked="city1.checked"/>{{city1.name}}</label><br class="clear">
+                                                <button class="btn btn-primary btn-sm"  ng-click="multipleAddConfirm(1)">确定</button>
+                                            </p>
+
+                                        </div>
+                                        <div class="form-group linkageMulti">
+                                            <input type="text" class="form-control des-province2" ng-click="toggleArea(1)" ng-model="area1" style="width: 196px;">
+                                            <p  ng-show='areaShow1.show'class="addStation-btns">
+                                                <label ng-repeat="area1 in depArea1.select"><input type="checkbox" value="{{area1.id}}" class="des-province-check2"
+                                                                                                 ng-click="addArea(area1,1)"ng-model="area1.depArea1"
+                                                                                                 ng-checked="area1.checked"/>{{area1.name}}</label><br class="clear">
+                                                <button class="btn btn-primary btn-sm"  ng-click="depAreaAddConfirm(1)">确定</button>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-inline"  ng-show="listArr[3]" style="margin: 0 0 0 143px;">
+                                        <div class="form-group">
+                                            <select class="form-control"
+                                                    ulti										ng-options="o.id as o.name for o in depProvince2.select"
+                                                    ng-change="changeCity(2)"
+                                                    ng-model="cleanRuleModel.depProvince2"></select>
+                                        </div>
+                                        <div class="form-group linkageMulti">
+                                            <input type="text" class="form-control des-province" ng-click="toggleCity(2)" ng-model="city2" style="width: 196px;">
+                                            <p  ng-show='cityShow2.show' class="addStation-btns">
+                                                <label ng-repeat="city2 in depCity2.select"><input type="checkbox" value="{{city2.id}}" class="des-province-check"
+                                                                                                 ng-click="changeArea(city2,2)"
+                                                                                                 ng-model="city2.depCity2"
+                                                                                                 ng-checked="city2.checked"/>{{city2.name}}</label><br class="clear">
+                                                <button class="btn btn-primary btn-sm"  ng-click="multipleAddConfirm(2)">确定</button>
+                                            </p>
+
+                                        </div>
+                                        <div class="form-group linkageMulti">
+                                            <input type="text" class="form-control des-province2" ng-click="toggleArea(2)" ng-model="area2" style="width: 196px;">
+                                            <p  ng-show='areaShow2.show'class="addStation-btns">
+                                                <label ng-repeat="area2 in depArea2.select"><input type="checkbox" value="{{area2.id}}" class="des-province-check2"
+                                                                                                 ng-click="addArea(area2,2)"ng-model="area2.depArea2"
+                                                                                                 ng-checked="area2.checked"/>{{area2.name}}</label><br class="clear">
+                                                <button class="btn btn-primary btn-sm"  ng-click="depAreaAddConfirm(2)">确定</button>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-inline">
+                                        <label>运费折扣：</label>
+                                        <input type="text" class="form-control" ng-model="addModel.freightdiscount"  disabled maxlength="32" />%
+                                    </div>
+                                    <div class="form-inline">
+                                        <label><span class="verify">*</span>代收货款费率：</label>
+                                        <input type="text" class="form-control" ng-model="addModel.collectionRate"  name="collectionRate"  maxlength="20"/>‰
+                                    </div>
+                                    <div class="form-inline">
+                                        <label><span class="verify">*</span>代收款回款时效：</label>
+                                        <input type="text" class="form-control" ng-model="addModel.collectTimeliness"  name="collectTimeliness"  maxlength="20"/>
+                                    </div>
+                                    <div class="form-inline">
+                                        <label><span class="verify">*</span>保价费率：</label>
+                                        <input type="text" class="form-control" ng-model="addModel.premiumRate" disabled name="premiumRate" maxlength="20"/>‰
+                                    </div>
+                                    <div class="form-inline">
+                                        <label><span class="verify">*</span>合作状态：</label>
+                                        <select name="cooperationState" class="form-control" disabled ng-options="o.id as o.name for o in addModel.cooperationState.select" ng-model="addModel.cooperationState.id"/>
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="addStation-btns">
+                                <button class="btn btn-primary btn-sm" ng-click="enterAdd()">
+                                    确认
+                                </button>
+                                <button class="btn btn-default btn-sm" data-dismiss="modal">
+                                    取消
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" data-backdrop="static"  id="dataSetUp" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 30%;height: auto">
+            <div class="modal-content">
+                <div class="modal-content">
+                    <div class="allocation-head">
+                        <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                        </p>
+                    </div>
+                    <div style="padding: 10px 5px">
+                        <div class="addStation">
+                            <form role="form" name="verifyForm">
+                                <div class="addStation-input" style="width:100%;">
+                                    <div class="form-inline">
+                                        <label>代收款回款时效：</label>
+                                        <input type="text" class="form-control" ng-model="addModel.receiptsCarriage"  name="receiptsCarriage"  maxlength="20"/>
+                                    </div>
+                                    <div class="form-inline">
+                                        <label>代收货款费率：</label>
+                                        <input type="text" class="form-control" ng-model="addModel.collectionRate"   name="collectionRate"  maxlength="7"/>‰
+                                    </div>
+                                   </div>
+                            </form>
+                            <div class="addStation-btns">
+                                <button class="btn btn-primary btn-sm" ng-click="dataSetUpConfirm()" >
+                                    确认
+                                </button>
+                                <button class="btn btn-default btn-sm" data-dismiss="modal" ng-click="deleteData()">
+                                    取消
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

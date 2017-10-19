@@ -1,0 +1,70 @@
+<!-- 
+  - Created by hui.sun on 15/12/10.
+ -->
+<div class="right-main">
+   <!--  <div class="right-title-nav">
+        <span class="fw-bold title-nav-items">
+            包装业务
+            <i class="triangle-right"></i>
+        </span>
+        <span class="title-nav-items bg-gray" ng-click="orderPackHref()">
+        	<i class="triangle-topright bt-gray"></i>
+        	<i class="triangle-bottomright bb-gray"></i>
+        	订单包装
+        	<i class="triangle-right bl-gray"></i>
+        </span>
+    </div> -->
+    <div>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="active" ng-click="tabChange(1)">
+                <a href="#storage" aria-controls="storage" role="tab" data-toggle="tab">未入库</a>
+            </li>
+            <li ng-click="tabChange(2)">
+                <a href="#logistic" aria-controls="logistic" role="tab" data-toggle="tab">已入库</a>
+            </li>
+        </ul>
+
+    </div>
+    <pl4-query style="border-top: 0"></pl4-query>
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    <!--
+    	select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+    <div class="modal fade" data-backdrop="static"  id="logModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 60%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">分拨单详情</p>
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                    <div class="new-version-table margin-top15">
+                        <pl4-grid grid-table="openModelResult" th-header="openModelThHeader"></pl4-grid>
+                    </div>
+                    <div class="clear" style="margin-bottom: 10px"></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" data-backdrop="static"  id="enterPrint" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">请确认是否打印成功</p>
+
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div class="allocation-container">
+                    <div class="allocation-addGoods-content">
+
+                        <div class="addStation-btns">
+                            <button class="btn btn-primary btn-sm" type="button" ng-click="printConfirm()">打印成功</button>
+                            <button class="btn btn-default btn-sm" data-dismiss="modal" type="button">打印失败</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

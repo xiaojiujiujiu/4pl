@@ -1,0 +1,85 @@
+<!-- 
+  - Created by hui.sun on 15/12/10.
+ -->
+<div class="right-main">
+    <div class="right-title-nav">
+        <span class="fw-bold title-nav-items">
+            订单拣货
+            <i class="triangle-right"></i>
+        </span>
+        <span class="title-nav-items bg-gray" ng-click="pickBillsLookHref()">
+        	<i class="triangle-topright bt-gray"></i>
+        	<i class="triangle-bottomright bb-gray"></i>
+        	拣货单查看
+        	<i class="triangle-right bl-gray"></i>
+        </span>
+    </div>
+    <div>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="active" ng-click="tabChange(1)">
+                <a href="#storage" aria-controls="storage" role="tab" data-toggle="tab">未拣货</a>
+            </li>
+            <li ng-click="tabChange(2)">
+                <a href="#logistic" aria-controls="logistic" role="tab" data-toggle="tab">已拣货</a>
+            </li>
+        </ul>
+    </div>
+    <pl4-query style="border-top: 0;"></pl4-query>
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    <!--
+    	select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+    <div class="addStation-btns" style="float: left;margin-top: -10px;">
+        <button type="button" class="btn btn-primary btn-sm" ng-click="printChoice()">打印选择</button>
+        <button type="button" class="btn btn-primary btn-sm" ng-click="printConfirm()"   ng-show="isConfirmBtnShow">确认拣货</button>
+    </div>
+    <!--<div class="modal fade" data-backdrop="static"  id="enterPrint" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">-->
+        <!--<div class="modal-dialog" role="document" style="height: auto">-->
+            <!--<div class="modal-content">-->
+                <!--<div class="allocation-head">-->
+                    <!--<p class="allocation-title">请确认是否打印成功</p>-->
+
+                    <!--<p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>-->
+                    <!--</p>-->
+                <!--</div>-->
+                <!--<div class="allocation-container">-->
+                    <!--<div class="allocation-addGoods-content">-->
+
+                        <!--<div class="addStation-btns">-->
+                            <!--<button class="btn btn-primary btn-sm" type="button" ng-click="printConfirm()">打印成功</button>-->
+                            <!--<button class="btn btn-default btn-sm" data-dismiss="modal" type="button">打印失败</button>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+    <div class="modal fade" data-backdrop="static"  id="register" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="height: auto;width: 60%;">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">拣货登记</p>
+
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div style="padding: 10px 5px;margin-bottom: 15px;">
+
+                    <div class="new-version-border">
+                        <p>业务单号：<span>{{modalBanner.taskId}}</span></p>
+                      <!--   <p>商品单数：<span>{{modalBanner.goodsTypeCount}}</span></p> -->
+                        <p>商品数量：<span>{{modalBanner.goodsCount}}</span></p>
+                    </div>
+                    <div class="new-version-table">
+                        <pl4-grid grid-table="openModelResult" th-header="openModelThHeader" verify="verify"></pl4-grid>
+                    </div>
+                    <!--<pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging" ></pl4-paging>-->
+                    <button class="btn btn-primary btn-sm btn-query" ng-click="addRegister()" style="margin-left: 20px;" >
+                        确认登记
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,59 @@
+<div class="right-main">
+    <div class="banner-container">
+        <p>申请单号：<span ng-bind="banner.taskId">BH201510120001</span></p>
+        <p>仓库名称：<span ng-bind="banner.name "></span></p>
+    </div>
+    <div class="margin-bottom15">
+        <button class="btn btn-primary btn-sm"   data-target="#adopt" ng-click="adopt(1)">
+            通过
+        </button>
+        <button class="btn btn-primary btn-sm"  data-target="#reject" ng-click="adopt(2)">
+            驳回
+        </button>
+    </div>
+    <pl4-grid grid-table="result" th-header="thHeader"></pl4-grid>
+    <div class="addStation-btns" style="text-align: left!important;">
+        <button class="btn btn-primary btn-sm" ng-click="update()">
+            返回
+        </button>
+    </div>
+    <div class="modal fade" data-backdrop="static"  id="adopt" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 25%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">通过</p>
+
+                    <p ><a href="javascript:;" style="color: white;" data-dismiss="modal">---</a>
+                    </p>
+                </div>
+                <p style="text-align: center;font-size: 16px;padding: 10px 0 0">确认通过库存转移并进行库存调整？
+                </p>
+                <div style="margin-right: 15px;" class="addStation-btns">
+                    <button class="btn btn-primary btn-sm"  ng-click="confirmAdopt(1)">确定</button>
+                    <button class="btn btn-primary btn-sm" data-dismiss="modal" ng-click="confirmAdopt(2)">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" data-backdrop="static"  id="reject" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 25%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">驳回</p>
+
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <p style="text-align: center;font-size: 16px;padding: 10px 0 0">确认驳回该审核信息？
+                </p>
+                <div style="padding: 10px 20px;">
+                    <textarea placeholder="请填写驳回原因" style="width: 100%; margin-top: 1px;" ng-model="rejectModel.refuseRemark" maxlength="50"></textarea>
+                </div>
+                <div style="margin-right: 15px;" class="addStation-btns">
+                    <button class="btn btn-primary btn-sm"  ng-click="confirmReject(1)">确定</button>
+                    <button class="btn btn-primary btn-sm" data-dismiss="modal" ng-click="confirmReject(2)">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

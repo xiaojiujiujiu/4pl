@@ -1,0 +1,131 @@
+<div class="right-main">
+    <div>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="active" ng-click="tabChange(0)">
+                <a href="#storage" aria-controls="storage" role="tab" data-toggle="tab">未入库</a>
+            </li>
+            <li ng-click="tabChange(1)">
+                <a href="#logistic" aria-controls="logistic" role="tab" data-toggle="tab">已入库</a>
+            </li>
+        </ul>
+    </div>
+    <pl4-query ng-show="queryState" style="border-top: 0;"></pl4-query>
+    <div class="form-inline margin-bottom15 margin-top15">
+        <button ng-hide="queryState" class="btn btn-primary btn-sm "  ng-click="btnAddCutom()" data-toggle="modal" data-target="#addCustomerModal">
+            添加个人业务单
+        </button>
+    </div>
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    <!--
+    	select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+    <div class="form-inline addStation-btns" ng-hide="queryState" style="float: left;margin-top: -10px;">
+       <button class="btn btn-primary btn-sm" style="margin-left: 20px" ng-click="confirmStorage()">
+            确认入库
+        </button>
+    </div>
+    <div class="modal fade" data-backdrop="static"  id="addCustomerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 60%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">{{addCustomTitle}}</p>
+
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div style="padding: 10px 5px">
+                    <div class="addStation">
+                        <form role="form" name="verifyForm1">
+                        <div>
+                            <div class="form-inline">
+                                <label>发货人：</label>
+                                <input type="text" class="form-control" ng-model="customerModel.chuHuoName" required>
+                                <label style="margin-left: 10px">发货人电话：</label>
+                                <input type="text" class="form-control" ng-model="customerModel.chuHTel" required>
+                            </div>
+                            <br />
+                            <div class="form-inline">
+                                <label></span>发货人地址：</label>
+                                <select class="form-control" style="width: 100px" ng-model="addressModelFirst.provinceSelected"
+                                        ng-options="o.id as o.name for o in addressModelFirst.province"
+                                        ng-change="addressModelFirst.provinceChange()"></select>
+                                <select class="form-control" style="width: 100px" ng-model="addressModelFirst.citySelected"
+                                        ng-options="o.id as o.name for o in addressModelFirst.city"
+                                        ng-change="addressModelFirst.cityChange()"></select>
+                                <select class="form-control" style="width: 100px" ng-model="addressModelFirst.countySelected"
+                                        ng-options="o.id as o.name for o in addressModelFirst.county"
+                                        ng-change="addressModelFirst.countyChange()"></select>
+                                <input type="text" class="form-control" ng-model="customerModel.chuHAdd" required style="margin-left: 10px"/>
+                            </div>
+                            <hr />
+
+                            <div class="form-inline">
+                                <label>收货人：</label>
+                                <input type="text" class="form-control" ng-model="customerModel.receiverName" required>
+                                <label style="margin-left: 10px">收货人电话：</label>
+                                <input type="text" class="form-control" ng-model="customerModel.receTel" required>
+                            </div>
+                            <br />
+                            <div class="form-inline">
+                                <label>收货人地址：</label>
+                                <select class="form-control" style="width: 100px" ng-model="addressModelSecond.provinceSelected"
+                                        ng-options="o.id as o.name for o in addressModelSecond.province"
+                                        ng-change="addressModelSecond.provinceChange()"></select>
+                                <select class="form-control" style="width: 100px" ng-model="addressModelSecond.citySelected"
+                                        ng-options="o.id as o.name for o in addressModelSecond.city"
+                                        ng-change="addressModelSecond.cityChange()"></select>
+                                <select class="form-control" style="width: 100px" ng-model="addressModelSecond.countySelected"
+                                        ng-options="o.id as o.name for o in addressModelSecond.county"
+                                        ng-change="addressModelSecond.countyChange()"></select>
+                                <input type="text" class="form-control" ng-model="customerModel.receAdd" required style="margin-left: 10px"/>
+                            </div>
+                            <hr />
+
+                            <div class="form-inline">
+                                <label>重量：</label>
+                                <input type="text" class="form-control smallInput" ng-model="customerModel.weight" pl4-data-type="float" required>
+                                <span>kg</span>
+                                <label style="margin-left: 10px">长：</label>
+                                <input type="text" class="form-control smallInput" ng-model="customerModel.length" pl4-data-type="float" required>
+                                <span>m</span>
+                                <label style="margin-left: 10px">宽：</label>
+                                <input type="text" class="form-control smallInput" ng-model="customerModel.width" pl4-data-type="float" required>
+                                <span>m</span>
+                                <label style="margin-left: 10px">高：</label>
+                                <input type="text" class="form-control smallInput" ng-model="customerModel.high" pl4-data-type="float" required>
+                                <span>m</span>
+                            </div>
+                            <br />
+                            <div class="form-inline">
+                                <label>商品种类：</label>
+                                <input type="text" class="form-control" ng-model="customerModel.acceTypeCount" pl4-data-type="number" required>
+                                <label>数量：</label>
+                                <input type="text" class="form-control" ng-model="customerModel.acceGoodCount" pl4-data-type="number" required>
+                                <!--  <label>箱数：</label>
+                                <input type="text" class="form-control" ng-model="customerModel.boxCount" pl4-data-type="number" required>-->
+                            </div>
+                            <br />
+                            <div class="form-inline">
+                                <label>配送费：</label>
+                                <input type="text" class="form-control" ng-model="customerModel.pay" pl4-data-type="float" required>
+                            </div>
+                            <br />
+                            <div class="form-inline">
+                                <label>备注：</label>
+                                <textarea ng-model="customerModel.remarks" class="form-control" rows="3" style="margin-top: 1px;"></textarea>
+                            </div>
+
+                        </div>
+                            <div >
+                                <button class="btn btn-primary btn-sm" ng-disabled="verifyForm1.$invalid" ng-click="enterAdd()">
+                                    {{BtnText}}
+                                </button>
+                            </div>
+                            </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

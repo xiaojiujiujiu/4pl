@@ -1,0 +1,116 @@
+<style>
+    .addStation .form-group{
+        width: 50%;
+    }
+    .modal.in .modal-dialog{
+        z-index: 0;
+    }
+    .dropdown-menu{
+        z-index: 100000000;
+    }
+</style>
+<div class="right-main">
+    <pl4-query></pl4-query>
+    <div>
+        <button class="btn btn-primary btn-sm" ng-click="addStationClick()" data-toggle="modal"
+                data-target="#addCustomer">
+            添加人员
+        </button>
+    </div>
+    <br/>
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    <p ng-hide="isData" style="text-align: center;overflow:hidden;padding: 10px;">暂无数据</p>
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+    <div class="modal fade" data-backdrop="static"  id="addCustomer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 35%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">{{addTitle}}</p>
+
+                    <p class="allocation-close"><a href="javascript:;"  data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div style="padding: 10px 5px;">
+                    <div  class="addStation">
+                        <form role="form" name="verifyForm" class="form-horizontal">
+                            <pl4-verify-message form-name="verifyForm"></pl4-verify-message>
+                            <!--<div class="form-inline" style="padding-left: 51px;">-->
+                            <!--<span class="verify">*</span>表示必填项-->
+                            <!--</div>-->
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <label><span class="verify">*</span>姓名：</label>
+                                    <input type="text" class="form-control" ng-model="addCustomerModel.driverName" required  name="driverName" verify-message="请输入姓名" maxlength="5">
+                                </div>
+                                <div class="form-group">
+                                    <label>性别：</label>
+                                    <select  class="form-control" ng-options="o.id as o.name for o in sexList.select" ng-model="sexList.id"></select>
+                                </div>
+                            </div>
+                            <div class="form-inline" >
+                                <div class="form-group">
+                                    <label><span class="verify">*</span>年龄：</label>
+                                    <input type="text" class="form-control" ng-model="addCustomerModel.age" required  name="age" verify-message="请输入年龄" maxlength="2" onkeyup="value=value.replace(/[^\d]/g,'')">
+                                </div>
+                                <div class="form-group">
+                                    <label><span class="verify">*</span>手机：</label>
+                                    <input type="text" class="form-control" ng-model="addCustomerModel.mobilephone" required    name="mobilephone"  onkeyup="value=value.replace(/[^\d]/g,'')"  maxlength="11"  verify-message="请输入手机号码" >
+                                </div>
+                            </div>
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <label><span class="verify">*</span>岗位：</label>
+                                    <select  class="form-control" ng-options="o.id as o.name for o in position.select" ng-model="position.id"></select>
+                                </div>
+                                <div class="form-group">
+                                    <label><span class="verify">*</span>账号：</label>
+                                    <input type="text" class="form-control" ng-disabled="!accountDisable" ng-model="addCustomerModel.account" name="account" required maxlength="15"  verify-message="请输入账号" >
+                                </div>
+                            </div>
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <label><span class="verify">*</span>人员类别：</label>
+                                    <select  class="form-control" ng-options="o.id as o.name for o in userCaetgory2.select" ng-model="userCaetgory2.id"></select>
+                                </div>
+                                <div class="form-group">
+                                    <label><span class="verify">*</span>合同起始日：</label>
+                                    <input type="text" class="form-control"  ng-model="addCustomerModel.contractStartTime" readonly="readonly" format="yyyy-mm-dd" name="contractStartTime" required verify-message="请输入合同起始日" pl4-datepicker >
+                                </div>
+                            </div>
+
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <label><span class="verify">*</span>合同期限：</label>
+                                    <select  class="form-control" ng-options="o.id as o.name for o in contractList.select" ng-model="contractList.id"></select>
+                                </div>
+                                <div class="form-group">
+                                    <label><span class="verify">*</span>合同结束日：</label>
+                                    <input type="text" class="form-control" ng-model="addCustomerModel.contractEndTime" readonly="readonly" format="yyyy-mm-dd" name="contractEndTime" required  verify-message="合同结束日"  pl4-datepicker >
+                                </div>
+                            </div>
+                            <div class="form-inline" >
+                                <div class="form-group">
+                                    <label><span class="verify">*</span>学历：</label>
+                                    <select  class="form-control" ng-options="o.id as o.name for o in educationList.select" ng-model="educationList.id"></select>
+                                </div>
+                                <div class="form-group" style="margin-top: 4px;">
+                                    <label>备注：</label>
+                                    <textarea maxlength="50" ng-model="addCustomerModel.remark" maxlength="50" style="margin-top: 1px;"></textarea>
+                                </div>
+                            </div>
+                            <div class="addStation-btns" >
+                                <button class="btn btn-primary btn-sm" ng-disabled="verifyForm.$invalid" ng-click="enterAddStation()">
+                                    确认
+                                </button>
+                                <button class="btn btn-default btn-sm" data-dismiss="modal" >
+                                    取消
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

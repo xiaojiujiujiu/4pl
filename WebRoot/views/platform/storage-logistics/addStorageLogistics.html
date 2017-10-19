@@ -1,0 +1,433 @@
+<style>
+    .addStation-input-new .form-group{
+        width: 40%;
+    }
+    .modal.in .modal-dialog{
+        z-index: 0;
+    }
+    .dropdown-menu{
+        z-index: 100000000;
+    }
+</style>
+<div class="right-main">
+    <div>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="active" ng-click="navClick(-1)"><a href="#operation" aria-controls="operation" role="tab"
+                                                         data-toggle="tab">子运营</a></li>
+            <li ng-click="navClick(0)"><a href="#storage" aria-controls="storage" role="tab"
+                                                         data-toggle="tab">仓储管理</a></li>
+            <li ng-click="navClick(1)"><a href="#logistic" aria-controls="logistic" role="tab"
+                                          data-toggle="tab">配送管理</a></li>
+        </ul>
+    </div>
+    <div role="tabpanel" class="tab-pane " id="operation" >
+        <div ng-if="isStorageOrLogistics==-1">
+            <pl4-query style="border-top:0 "></pl4-query>
+
+            <div class="margin-bottom15">
+                <!-- <span>查询结果</span>-->
+                <button class="btn btn-primary btn-sm" ng-show="showFlag"  data-toggle="modal"
+                        data-target="#addOperationModal" ng-click="btnAddOperation()">
+                    新增子运营
+                </button>
+            </div>
+            <pl4-grid grid-table="operationResult" th-header="operationThHeader" paging="operationPaging"></pl4-grid>
+            <!--
+                select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+            <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage(-1)"
+                        paging="operationPaging"></pl4-paging>
+        </div>
+    </div>
+    <div role="tabpanel" class="tab-pane active" id="storage">
+        <div ng-if="isStorageOrLogistics==true">
+            <pl4-query style="border-top:0 "></pl4-query>
+
+            <div>
+               <!-- <span>查询结果</span>-->
+                <button class="btn btn-primary btn-sm" style="margin-left: 20px" data-toggle="modal"
+                        data-target="#addStorageModal" ng-click="btnAddStorage()">
+                    新增仓库
+                </button>
+            </div>
+            <br/>
+            <pl4-grid grid-table="storageResult" th-header="storageThHeader" paging="storagePaging"></pl4-grid>
+            <!--
+                select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+            <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage(0)"
+                        paging="storagePaging"></pl4-paging>
+        </div>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="logistic">
+        <div ng-if="isStorageOrLogistics==false">
+            <pl4-query style="border-top:0 "></pl4-query>
+
+            <div>
+               <!-- <span>查询结果</span>-->
+                <button class="btn btn-primary btn-sm" style="margin-left: 20px" data-toggle="modal"
+                        data-target="#addLogisticModal" ng-click="btnAddLogistic()">
+                    新增配送中心
+                </button>
+            </div>
+            <br/>
+            <pl4-grid grid-table="logisticResult" th-header="logisticThHeader" paging="logisticPaging"></pl4-grid>
+            <!--
+                select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+            <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage(1)"
+                        paging="logisticPaging"></pl4-paging>
+        </div>
+    </div>
+    <div class="modal fade" data-backdrop="static"  id="addOperationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 40%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">{{operationTitle}}</p>
+
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div style="padding: 10px 5px">
+                    <div class="addStation">
+                        <div class="addStation-input" style="width: 90%">
+                            <form role="form" name="verifyForm3">
+                                <pl4-verify-message form-name="verifyForm3"></pl4-verify-message>
+                               <!-- <div class="pl4-verify" ng-show="verifyForm3.$invalid && verifyForm3.$dirty">
+                                    <p class="error ion-record" ng-show="verifyForm3.phone.$error.required">请输入手机号</p>
+                                    <p class="error ion-record" ng-show="!verifyForm3.phone.$error.required&&verifyForm3.phone.$error.isPhone">请输入正确手机号码</p>
+                                </div>-->
+                                <div class="form-inline">
+                                    <label><span class="verify">*</span>子运营编号：</label>
+                                    {{operationModel.code}}
+                                </div>
+                                <div class="form-inline">
+                                    <label><span class="verify">*</span>子运营名称：</label>
+                                    <input type="text" style="width: 100px" class="form-control" required name="name" verify-message="请输入子运营名称" maxlength="32"
+                                           ng-model="operationModel.name">
+                                </div>
+                                <div class="form-inline">
+                                    <label><span class="verify">*</span>管理区域：</label>
+                                    <input type="text"  class="form-control" required readonly ng-click="managerAreasClick($event)" name="managerAreasNames"
+                                           ng-model="operationModel.managerAreasNames">
+                                    <div class="operation-area-manage">
+                                        <label ng-repeat="item in operationManagerAreas.province" ng-if="item.id!=-1"><input type="checkbox"
+                                                                                                         ng-change="operationManagerAreas.checkedChange(item)"
+                                                                                                       ng-model="item.checked"
+                                                                                                         ng-checked="check.checked"
+                                                                                                       class="form-control">{{item.name}}</label>
+                                    <div style="text-align: center">
+
+                                       <div class="addStation-btns">
+                                           <button class="btn btn-primary btn-sm" ng-click="operationManagerAreasEnter()">
+                                               确认
+                                           </button>
+                                           <button class="btn btn-default btn-sm" style="margin-right: 20px;" ng-click="operationManagerAreasCancel()">
+                                               取消
+                                           </button>
+                                       </div>
+                                    </div>
+                                    </div>
+                                </div>
+                                <div class="form-inline">
+                                    <label><span class="verify">*</span>子运营区域：</label>
+                                    <address-linkage address-model="address3Model"></address-linkage>
+                                </div>
+                                <div class="form-inline">
+                                    <label><span class="verify">*</span>子运营地址：</label>
+                                    <input type="text" class="form-control" required name="address" verify-message="请输入子运营地址"
+                                           ng-model="operationModel.address" maxlength="64">
+                                </div>
+                                <div class="form-inline">
+                                    <label><span class="verify">*</span>子运营负责人：</label>
+                                    <input type="text" style="width: 80px" class="form-control" required name="connector" verify-message="请输入子运营负责人"
+                                           ng-model="operationModel.connector" maxlength="32">
+
+                                </div>
+                                <div class="form-inline">
+                                    <label><span class="verify">*</span>联系方式：</label>
+                                    <input type="text" style="width: 120px" name="phone" class="form-control" required pl4-verify="phone" verify-message="请输入正确的手机号"
+                                           ng-model="operationModel.phone" maxlength="32">
+                                    </div>
+                            </form>
+                        </div>
+                        <hr/>
+                        <div class="addStation-checked" ng-if="false">
+                            <label class="addStation-checked-title">系统授权</label>
+                            <div class="addStation-checkbox">
+                                <div ng-repeat="item in sysStationData">
+                                    <p><label><input type="checkbox" ng-change="checkedChangeAll(item)"
+                                                     ng-model="item.checked"
+                                                     ng-checked="item.checked"/>{{item.name}}</label></p>
+                                    <ul style="margin-left: 13px">
+                                        <li ng-repeat="check in item.child"><label><input type="checkbox"
+                                                                                          ng-change="checkedChange(item,check)"
+                                                                                          ng-model="check.checked"
+                                                                                          ng-checked="check.checked"/>{{check.name}}</label>
+                                        </li>
+                                    </ul>
+                                    <p class="clear"></p>
+                                    <hr/>
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="addStation-btns">
+                            <button class="btn btn-primary btn-sm" ng-disabled="verifyForm3.$invalid" ng-click="operationEnterAdd()">
+                                确认
+                            </button>
+                            <button class="btn btn-default btn-sm" data-dismiss="modal">
+                                取消
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" data-backdrop="static"  id="addStorageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 60%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">{{storageTitle}}</p>
+
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div style="padding: 10px 5px">
+                        <div class="addStation-input addStation-input-new" style="width: 100%">
+                            <div>
+                            <form role="form" name="verifyForm1">
+                                <pl4-verify-message form-name="verifyForm1"></pl4-verify-message>
+                                <div class="form-inline">
+                                    <div class="form-group">
+                                        <label><span class="verify">*</span>仓库名称：</label>
+                                        <input type="text"  class="form-control" required name="ckName" verify-message="请输入仓库名称"
+                                               ng-model="storateModel.ckName" maxlength="30">
+                                    </div>
+                                    <div class="form-group">
+                                        <label><span class="verify">*</span>绑定汽修厂数量：</label>
+                                        <input type="number"   class="form-control" required name="bindGarageAmount" verify-message="请输入绑定汽修厂数量"
+                                               ng-model="storateModel.bindGarageAmount"  onkeyup="value=value.replace(/[^\d]/g,'')" min="0">
+                                    </div>
+
+                                </div>
+                                <div class="form-inline">
+	                                <div class="form-group">
+                                        <label><span class="verify">*</span>所属运营：</label>
+                                        <select class="form-control" ng-model="partyId.id"
+                                                ng-options="o.id as o.name for o in partyId.select" ></select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label id="storageType"><span class="verify">*</span>仓库类型：</label>
+                                        <label ng-repeat="item in storageTypeModel" class="minLabel"><input type="radio" name="StorageType"
+                                                                                                            id="storageRDC"
+                                                                                                            value="{{item.id}}"
+                                                                                                            ng-change="storageTypeChange()"
+                                                                                                            ng-model="storateModel.ckType"
+                                                                                                            ng-disabled="!Modify"
+                                                                                                            class="form-control">{{item.name}}</label>
+                                        <!--<label><input type="radio" name="StorageType" id="storageCDC" value="2" ng-model="storateModel.ckType"
+                                                      class="form-control">CDC</label>-->
+                                        <label ng-if="isSelectCkCDC" style="max-width:300px;" class="minLabel">上级RDC：<select
+                                                ng-options="o.id as o.name for o in storageParentRDC.select" ng-disabled="!isCheckStorage"
+                                                ng-model="storageParentRDC.id" ng-change="storageParentRDC.change();getPartySelectListByCkIdStorage(storageParentRDC.id)"
+                                                class="form-inline form-control"></select>
+                                        </label>
+                                    </div>
+	                            </div>
+                                <div class="form-inline">
+                                    <div class="form-group">
+                                        <label><span class="verify">*</span>仓储服务商：</label>
+                                        <input type="text" class="form-control" required name="ckFacilitator" verify-message="请输入仓储服务商"
+                                               ng-model="storateModel.ckFacilitator" maxlength="30">
+                                    </div>
+                                    <div class="form-group">
+                                        <label><span class="verify">*</span>配送服务商：</label>
+                                        <input type="text" style="width: 150px" class="form-control" required name="deliveryFacilitator" verify-message="请输入配送服务商"
+                                               ng-model="storateModel.deliveryFacilitator" maxlength="30">
+                                    </div>
+                                </div>
+                                <div class="form-inline">
+                                    <div class="form-group">
+                                        <label><span class="verify">*</span>仓库面积：</label>
+                                        <input type="number" class="form-control" required name="acreage" verify-message="请输入仓库面积"
+                                               ng-model="storateModel.acreage" onkeyup="value=value.replace(/[^\d]/g,'')" min="0">平方米
+                                    </div>
+                                    <div class="form-group">
+                                        <label><span class="verify">*</span>仓库租金：</label>
+                                        <input type="number" style="width: 150px" class="form-control" required name="rent" verify-message="请输入仓库租金"
+                                               ng-model="storateModel.rent" min="0"  ng-keyup="watchRent(storateModel.rent)" >元/月
+                                    </div>
+                                </div>
+                                <div class="form-inline">
+                                    <div class="form-group">
+                                        <label><span class="verify">*</span>租期：</label>
+                                        <input type="text" class="form-control" required name="leaseTime" verify-message="请输入租期"
+                                               ng-model="storateModel.leaseTime" maxlength="6">
+                                    </div>
+                                    <div class="form-group">
+                                        <label><span class="verify">*</span>模式：</label>
+                                        <select class="form-control" ng-model="cooperationType.id"
+                                                ng-options="o.id as o.name for o in cooperationType.select" ></select>
+                                    </div>
+                                </div>
+                                <div class="form-inline">
+                                    <div class="form-group">
+                                        <label><span class="verify">*</span>签约日期：</label>
+                                        <input type="text" class="form-control"  name="signDate" verify-message="请输入签约日期"
+                                               ng-model="storateModel.signDate" maxlength="32" format="yyyy-mm-dd"  pl4-datepicker readonly="readonly">
+                                    </div>
+                                    <div class="form-group">
+                                        <label><span class="verify">*</span>合同期限：</label>
+                                        <input type="text" style="width: 150px" class="form-control" required name="contractPeriod" verify-message="请输入合同期限"
+                                               ng-model="storateModel.contractPeriod" maxlength="6" >
+                                    </div>
+                                </div>
+                                <div class="form-inline">
+                                    <div class="form-group">
+                                        <label><span class="verify">*</span>签约状态：</label>
+                                        <select class="form-control" ng-model="signState.id"
+                                                ng-options="o.id as o.name for o in signState.select" ></select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label><span class="verify">*</span>付款方式：</label>
+                                        <select class="form-control" ng-model="payType.id"
+                                                ng-options="o.id as o.name for o in payType.select" ></select>
+                                    </div>
+                                </div>
+                                <div class="form-inline">
+                                    <label><span class="verify">*</span>仓库地址：</label>
+                                    <address-linkage address-model="addressModel"></address-linkage>
+                                    <input type="text" class="form-control"  placeholder="详细地址..." ng-model="storateModel.ckAddress" required name="ckAddress" verify-message="请输入仓库地址" maxlength="30">
+                                </div>
+                                <div class="form-inline">
+                                    <label>备注：</label>
+                                    <input type="text" style="width: 200px" class="form-control"  name="remarks"
+                                           ng-model="storateModel.remarks" maxlength="30">
+                                </div>
+                                <div class="addStation-btns" >
+                                    <button class="btn btn-primary btn-sm" ng-disabled="verifyForm1.$invalid" ng-click="storageEnterAdd()">
+                                        确认
+                                    </button>
+                                    <button class="btn btn-default btn-sm" data-dismiss="modal">
+                                        取消
+                                    </button>
+                                </div>
+                            </form>
+                            </div>
+                        </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" data-backdrop="static"  id="addLogisticModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 60%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">{{logisticTitle}}</p>
+
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div style="padding: 10px 5px">
+                    <div class="addStation">
+                        <form role="form" name="verifyForm2">
+
+                        <div class="addStation-input" style="width: 90%">
+                            <pl4-verify-message form-name="verifyForm2"></pl4-verify-message>
+                            <div class="form-inline">
+                                <label><span class="verify">*</span>配送中心类型：</label>
+                                <select class="form-control" ng-model="wlType.id"
+                                        ng-options="o.id as o.name for o in wlType.select" ng-disabled="wlType.isDisable" ng-change="wlType.change()"></select>
+                            </div>
+                            <div class="form-inline">
+                                <label><span class="verify">*</span>负责仓储：</label>
+                                <select class="form-control" ng-model="RDCModel.id" ng-disabled="RDCModel.isDisable"
+                                        ng-options="o.id as o.name for o in RDCModel.select"
+                                        ng-change="RDCModel.change();getPartySelectListByCkId(RDCModel.id)"></select>
+                                <select ng-if="CDCModel.select.length>0" class="form-control" ng-model="CDCModel.id" ng-disabled="RDCModel.isDisable"
+                                        ng-options="o.id as o.name for o in CDCModel.select" ng-change="CDCModel.change();getPartySelectListByCkId(CDCModel.id)"></select>
+                            </div>
+                            <div class="form-inline">
+                                <label><span class="verify">*</span>所属运营：</label>
+                                <select class="form-control" ng-model="party.id" disabled
+                                        ng-options="o.id as o.name for o in party.select" ></select>
+                            </div>
+                            <div class="form-inline">
+                                <label><span class="verify">*</span>配送中心编号：</label>
+                                <input type="text" style="width: 100px" class="form-control" required disabled
+                                       ng-model="logisticModel.wlDeptId" maxlength="32">
+                            </div>
+                            <div class="form-inline">
+                                <label><span class="verify">*</span>配送中心名称：</label>
+                                <input type="text" style="width: 150px" class="form-control" required name="wlDeptName" verify-message="请输入配送中心名称"
+                                       ng-model="logisticModel.wlDeptName" maxlength="32">
+                            </div>
+                            <div class="form-inline">
+                                <label><span class="verify">*</span>所属区域：</label>
+                                <address-linkage address-model="addressModel"></address-linkage>
+                            </div>
+                            <div class="form-inline">
+                                <label><span class="verify">*</span>配送中心地址：</label>
+                                <input type="text" class="form-control" ng-model="logisticModel.address" required name="address" verify-message="请输入配送地址" maxlength="64">
+                            </div>
+                            <div class="form-inline">
+                                <label><span class="verify">*</span>配送中心负责人：</label>
+                                <input type="text" style="width: 130px" class="form-control" required name="bossMan" verify-message="请输入配送中心负责人"
+                                       ng-model="logisticModel.bossMan" maxlength="32">
+                                <label><span class="verify">*</span>联系方式：</label>
+                                <input type="text" style="width: 120px" class="form-control" required name="bossPhone" pl4-verify="phone" verify-message="请输入正确的手机号"
+                                       ng-model="logisticModel.bossPhone" maxlength="11">
+                            </div>
+                            <div class="form-inline">
+                                <label><span class="verify">*</span>合作形式：</label>
+                                <label ng-repeat="item in logisticCooperationTypeModel" class="minLabel"><input type="radio"
+                                                                                               name="StorageCooperate"
+                                                                                               value="{{item.id}}"
+                                                                                               ng-model="logisticModel.cooperationType"
+                                                                                               checked
+                                                                                               class="form-control">{{item.name}}</label>
+                            </div>
+                            <div class="form-inline">
+                                <label>管理公司：</label>
+                                <input type="text" class="form-control" ng-model="logisticModel.managCompany" maxlength="20">
+                            </div>
+
+                        </div>
+                        <hr/>
+                        <div class="addStation-checked" ng-if="false">
+                            <label class="addStation-checked-title">系统授权</label>
+                            <div class="addStation-checkbox">
+                                <div ng-repeat="item in sysStationData">
+                                    <p><label><input type="checkbox" ng-change="checkedChangeAll(item)"
+                                                     ng-model="item.checked"
+                                                     ng-checked="item.checked"/>{{item.name}}</label></p>
+                                    <ul style="margin-left: 13px;">
+                                        <li ng-repeat="check in item.child"><label><input type="checkbox"
+                                                                                          ng-change="checkedChange(item,check)"
+                                                                                          ng-model="check.checked"
+                                                                                          ng-checked="check.checked"/>{{check.name}}</label>
+                                        </li>
+                                    </ul>
+                                    <p class="clear"></p>
+                                    <hr/>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="addStation-btns" >
+                            <button class="btn btn-primary btn-sm" ng-disabled="verifyForm2.$invalid" ng-click="logisticEnterAdd()">
+                                确认
+                            </button>
+                            <button class="btn btn-default btn-sm" data-dismiss="modal">
+                                取消
+                            </button>
+                        </div>
+                            </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

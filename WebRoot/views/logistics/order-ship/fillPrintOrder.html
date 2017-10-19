@@ -1,0 +1,20 @@
+<div class="right-main">
+    <div class="form-inline">
+        <form>
+            <div class="form-group">
+                <label class="ng-binding">配送员：</label>
+                <select class="form-control" style="width: 200px" ng-options="o.id as o.name for o in distributionMan.select" ng-model="distributionMan.id"></select>
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm" ng-click="search1Click1()">确定
+            </button>
+        </form>
+    </div>
+    <br/>
+    <p>配送列表：</p>
+    <pl4-grid grid-table="result" th-header="ThHeader"></pl4-grid>
+
+    <div>
+        <button type="submit" class="btn btn-primary btn-sm" ng-click="print()">补打配送单
+        </button>
+    </div>
+</div>

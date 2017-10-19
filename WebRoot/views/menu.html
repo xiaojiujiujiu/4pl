@@ -1,0 +1,12 @@
+<li ng-class="menuChange?'hover':''">
+	<a href="javascript: void(0)" ng-click="menuToggle()" ng-class="menuItem.change?'hover':''">
+		<i class="menu_icons {{menuItem.iconName}}"></i> {{menuItem.text}}
+		<span class="menu-item-icon" ng-class="menuItem.change?'menu-item-down':'menu-item-right'"></span>
+		<!--<span class="glyphicon glyphicon-menu-right"></span>-->
+	</a>
+	<ul ng-show="menuChange">
+		<li ng-repeat="itemChild in menuItem.children">
+			<a class="subMenu" href="{{itemChild.url}}" ng-class="itemChild.change?'hover':''">{{itemChild.text}}</a>
+		</li>
+	</ul>
+</li>

@@ -1,0 +1,231 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>出库单</title>
+    <link rel="stylesheet" href="base.css"/>
+    <link rel="stylesheet" href="print.css"/>
+    <script src="../lib/jquery-1.11.3.min.js"></script>
+    <script src="../lib/jquery.tmpl.min.js"></script>
+    <script src="js/common.js"></script>
+    <script type="text/javascript" src="js/LodopFuncs.js"></script>
+</head>
+<body>
+<script type="text/html" id="printTmpl">
+    <div id="container">
+        <style>
+
+
+            .head_info li {
+                float: left;
+                width: 33%;
+            }
+
+            .head_info span {
+                font-size: 12px;
+            }
+
+            .footer p{
+                width: 33%;
+                float: left;
+                text-align: left;
+                line-height: 25px;
+            }
+        </style>
+        {{each(j,k) grid}}
+        <div class="header">
+            <h1 class="header-logo"><img src="../img/logo-gary.png"></h1>
+
+            <h1 class="header-center">出库单</h1>
+
+            <h1 class="header-right"><img src="${k.barCodeUrl}" alt=""></h1>
+
+            <p class="clear"></p>
+        </div>
+        <div class="header-title1">
+            订单信息
+        </div>
+        <div class="head_info">
+            <ul>
+                <li>业务单号：<span>${k.taskId}</span></li>
+                <li>收货方名称：<span>${k.receiverName}</span></li>
+                <li>联系电话：<span>${k.recPhone}</span></li>
+                <li>收货地址：<span>${k.recAddress}</span></li>
+                <li>打印时间：<span>${k.outTime}</span></li>
+            </ul>
+            <p class="clear"></p>
+        </div>
+        <div class="clear hr1">&nbsp;</div>
+        <div class="table">
+            <table>
+                <thead>
+                <th width="4%">#</th>
+                <th width="10%">商品名称</th>
+                <th width="10%">规格型号</th>
+                <th width="10%">出厂编码</th>
+                <th width="5%">品牌</th>
+                <th width="7%">订购数量</th>
+                <th width="8%">计量单位</th>
+                <th width="8%">实发数量</th>
+                <th width="12%">商品货位</th>
+                <th width="8%">单价</th>
+                <th width="8%">小计</th>
+                <th width="15%">备注</th>
+                </thead>
+                <tbody>
+                {{each(i,v) k.outList}}
+                <tr>
+                    {{if v.goodsName||v.goodsName==''}}
+                    <td rowspan="${v.goodsName!==undefined?v.pl4Rowspan.rows:-1}">${i+1}</td>
+                    {{/if}}
+                    {{if v.goodsName||v.goodsName==''}}
+                    <td rowspan="${v.goodsName!==undefined?v.pl4Rowspan.rows:-1}">${v.goodsName}</td>
+                    {{/if}}
+                    {{if v.model||v.model==''}}
+                    <td rowspan="${v.model!==undefined?v.pl4Rowspan.rows:-1}">${v.model}</td>
+                    {{/if}}
+                    {{if v.factoryCode||v.factoryCode==''}}
+                    <td rowspan="${v.factoryCode!==undefined?v.pl4Rowspan.rows:-1}">${v.factoryCode}</td>
+                    {{/if}}
+                    {{if v.brandName||v.brandName==''}}
+                    <td rowspan="${v.brandName!==undefined?v.pl4Rowspan.rows:-1}">${v.brandName}</td>
+                    {{/if}}
+                    {{if v.acceGoodCount||v.acceGoodCount==''}}
+                    <td rowspan="${v.acceGoodCount!==undefined?v.pl4Rowspan.rows:-1}">${v.acceGoodCount}</td>
+                    {{/if}}
+
+                    {{if v.meaUnit||v.meaUnit==''}}
+                    <td rowspan="${v.meaUnit!==undefined?v.pl4Rowspan.rows:-1}">${v.meaUnit}</td>
+                    {{/if}}
+                    <td >${v.chCount}</td>
+                    <td>${v.huoWeiNo}</td>
+
+                    {{if v.orderPrice||v.orderPrice==''}}
+                    <td rowspan="${v.orderPrice!==undefined?v.pl4Rowspan.rows:-1}">${v.orderPrice}</td>
+                    {{/if}}
+                    {{if v.total||v.total==''}}
+                    <td rowspan="${v.total!==undefined?v.pl4Rowspan.rows:-1}">${v.total}</td>
+                    {{/if}}
+                    {{if v.remarks||v.remarks==''}}
+                    <td rowspan="${v.remarks!==undefined?v.pl4Rowspan.rows:-1}">${v.remarks}</td>
+                    {{/if}}
+                </tr>
+                {{/each}}
+
+                </tbody>
+            </table>
+        </div>
+        <p style="text-align: right;padding-top: 15px;">结算方式：${k.payTypeName}</p>
+        <div class="clear hr1" style="margin-top: 25px"></div>
+        <div class="footer">
+            <!--<p style="width: 25%;">商品单数：${k.chuhTypeCount}</p>-->
+            <p style="width: 25%;">商品数量：${k.chuhGoodCount}</p>
+            <p style="width: 25%;">商品金额：${k.goodTotalPrice}</p>
+            <p style="width: 25%;">优惠金额：${k.totalFavourable}</p>
+            <p style="width: 25%;">订单金额：<span style="font-size: 18px;font-weight: 500;">${k.receGoodTotalPrice}</span></p>
+        </div>
+        <div class="clear footer" style="margin-top: 50px">
+
+            <p>操作人：${k.loginName}</p>
+            <p>审核人：</p>
+            <p>客户签字：</p>
+        </div>
+        <div class="clear"></div>
+        <div class="buttons" id="printBtns">
+            <input type="button" value="打印" onclick="printdiv()"/>
+            <input type="button" value="关闭" onclick="common.closeWindow()" style="margin-left: 189px" />
+        </div>
+        {{/each}}
+    </div>
+</script>
+<script language="javascript">
+    function printdiv() {
+        var printBtns = document.getElementById('printBtns');
+        printBtns.style.display='none';
+       // window.print();
+        lodopWebPrint('出库单',0,120,15,15);
+        printBtns.style.display='block';
+        return false;
+    }
+    // 截取URL参数; 参数：URL
+    function parseQueryString(url){
+        var pos;
+        var obj = {};
+        if ( ( pos = url.indexOf("?") ) != -1 ) {
+            var param = url.substring( pos + 1, url.length - 1 )
+            var paramArr = param.split('&');
+            var keyValue = [];
+            for ( var i = 0, l = paramArr.length; i < l; i++ ) {
+                keyValue = paramArr[i].split('=');
+                obj[keyValue[0]] = keyValue[1];
+            }
+        }
+        return obj;
+    };
+    $(function(){
+        var urlStr = common.parseQueryString(window.location.href);
+        console.log(urlStr);
+        var data = {
+            param:{
+                query: urlStr
+            }
+        }
+        data.param = JSON.stringify(data.param)
+        $.ajax({
+            type: "POST",
+            url: common.host+'/orderOutbound/printOutBoundOrder?'+common.tokenInfo,
+            data: data,
+            dataType: "json",
+            success: function(data){
+                console.log(data)
+                if(data.status.code!="0000"){
+                    alert(data.status.msg);
+                    return false;
+                }
+                var itemListArrays = [], itemListArraysIndex = 0;//列内list数组
+                for (var i = 0; i < data.grid.length; i++) {
+                    for (var j = 0; j < data.grid[i].outList.length; j++) {
+                        if (data.grid[i].outList[j]['list']) {
+                            var rowspan = 1, fields = '';
+                            itemListArrays[itemListArraysIndex] = new Array();
+                            for (var k = 0; k < data.grid[i].outList[j]['list'].length; k++) {
+                                data.grid[i].outList[j]['list'][k]['pl4RowspanCols'] = true;
+                                itemListArrays[itemListArraysIndex].push({
+                                    index: j + (k + 1),
+                                    list: data.grid[i].outList[j]['list'][k]
+                                });
+                                //scope.result.splice(i+(k+1),0,list);
+                                rowspan++;
+                            }
+                            //取出需要显示的列名
+                            for (var key in data.grid[i].outList[j]['list'][0]) {
+                                fields += key + ',';
+                            }
+
+                            data.grid[i].outList[j]['pl4Rowspan'] = {rows: rowspan, field: fields};
+                            itemListArraysIndex++;
+                        }
+                        //设置index
+                        data.grid[i].outList[j]['pl4GridIndex'] = j;
+                    }
+                    var nextIndex=0;
+                    for (var v = 0; v < itemListArrays.length; v++) {
+                        nextIndex+=v - 1 >= 0?itemListArrays[v - 1].length:0;
+                        for (var k = 0; k < itemListArrays[v].length; k++) {
+                            data.grid[i].outList.splice(itemListArrays[v][k].index + (v - 1 >= 0 ? nextIndex : 0), 0, itemListArrays[v][k].list);
+                        }
+                    }
+                }
+                var date=new Date();
+                data.dateTime=date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()+' '+date.getHours()+':'+date.getMinutes();
+                $('#printTmpl').tmpl(data).appendTo($('body'));
+            },
+            error: function(err){
+                console.log(err)
+            }
+        });
+    })
+</script>
+</body>
+</html>

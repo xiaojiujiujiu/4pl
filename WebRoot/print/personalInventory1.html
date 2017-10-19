@@ -1,0 +1,140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="base.css"/>
+    <link rel="stylesheet" href="print2.css"/>
+</head>
+<body>
+
+<script src="../lib/jquery-1.11.3.min.js"></script>
+<script src="../lib/jquery.tmpl.min.js"></script>
+<script src="js/common.js"></script>
+<script type="text/javascript" src="js/LodopFuncs.js"></script>
+<script type="text/html" id="printTmpl">
+	<div id="container">
+		{{each(i,v) grid}}
+		<div class="main" style="width: 340px">
+			<table class="table1 table-header border-bottom2">
+				<tr>
+		        	<td class="width33">
+		        		<img src="../img/logo-gary.png" style="width: 110px" />
+		        	</td>
+		        	<td class="width33 text-center">${i+1}/${grid.length}</td>
+		        	<td class="width33">
+		        		<img src="${v.taskIDURL}" height="53" width="100" >
+		        	</td>
+		        </tr>
+			</table>
+			<div class="trDiv">
+				<img class="trImg" src="${v.boxNoURL}">
+			</div>
+			<div style="width: 277px; display: inline-block;height: 256px;">
+				
+			    <table class="table1 main-table" border="0" cellspacing="0">
+			        <tr>
+			            <td class="tr-td1" style="width: 55%">
+			                <p>发货人：${v.chuHuoName}</p>
+			            </td>
+			            <td class="tr-td2">
+			                <p>发货人电话：${v.chuHTel}</p>
+			            </td>
+			        </tr>
+			    </table>
+			    <table>
+			    	<tr>
+			            <td class="tr-td1" style="width: 55%">
+			                <p>发货人地址：${v.chuHAdd}</p>
+			            </td>
+			        </tr>
+			    </table>
+			    <table style="border-top: 2px solid #000;border-bottom: 2px solid #000;width: 100%;">
+			        <tr>
+			            <td class="tr-td1" style="width: 55%">
+			                <p>收货人：${v.receiverName}</p>
+			            </td>
+			            <td class="tr-td2">
+			                <p>收货人电话：${v.receTel}</p>
+			            </td>
+			        </tr>
+			        <tr>
+			            <td class="tr-td1" style="width: 55%">
+			                <p>收货人地址：${v.receAdd}</p>
+			            </td>
+			        </tr>
+			    </table>
+			    <table width="100%">
+			    	<tr>
+			        	<td>
+			        		<h2 style="font-weight: bold;">内附商品清单</h2>
+			        	</td>
+			        </tr>
+			        <tr>
+			        	<td style="width: 33.3333%">长：${v.length}</td>
+			        	<td style="width: 33.3333%">宽：${v.width}</td>
+			        	<td style="width: 33.3333%">高：${v.high}</td>
+			        </tr>
+			        <tr>
+			        	<td style="width: 33.3333%">重量：${v.weight}</td>
+			        	<td style="width: 33.3333%">种类：${v.acceTypeCount}</td>
+			        	<td style="width: 33.3333%">数量：${v.acceGoodCount}</td>
+			        </tr>
+			    </table>
+			    <div style="height: 2px; background: #000;"></div>
+			    <table width="100%">
+			        <tr height="40px">
+			            <td class="tr-td1" style="width: 55%">
+			                <p>发货人签字：</p>
+			            </td>
+			            <td class="tr-td2">
+			                <p>收货人签字：</p>
+			            </td>
+			        </tr>
+			    </table>
+			</div>
+			
+		</div>
+		{{/each}}
+	    <div class="buttons" id="printBtns">
+	        <input type="button" value="打印" onclick="printdiv()"/>
+	        <input type="button" value="关闭" onclick="common.closeWindow()" style="margin-left: 100px" />
+	    </div>
+	</div>
+</script>
+<script language="javascript">
+    function printdiv() {
+        var printBtns = document.getElementById('printBtns');
+        printBtns.style.display='none';
+        //window.print();
+		lodopWebPrint('',0,120,15,15);
+        printBtns.style.display='block';
+        return false;
+    }
+    $(function(){
+        var urlStr = common.parseQueryString(window.location.href);
+        var data = {
+            param:{
+                query: urlStr
+            }
+        }
+        data.param = JSON.stringify(data.param);
+        // common.host
+        $.ajax({
+            type: "POST",
+            url: common.host+'/personalOrder/printPersonalOrderBox?'+common.tokenInfo,
+            data: data,
+            dataType: "json",
+            success: function(data){
+            	console.log(data)
+                $('#printTmpl').tmpl(data).appendTo($('body'));
+            },
+            error: function(err){
+                console.log(err)
+            }
+        });
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,284 @@
+<style>
+    .looklist .form-inline .form-group{
+        padding:10px  50px 10px 10px;
+    }
+</style>
+<div class="right-main">
+   <!--   <ul class="nav nav-tabs" role="tablist">
+        <li class="active" ng-click="tabChange(1)">
+            <a href="#storage" aria-controls="storage" role="tab" data-toggle="tab">未确认</a>
+        </li>
+        <li ng-click="tabChange(2)">
+            <a href="#logistic" aria-controls="logistic" role="tab" data-toggle="tab">已确认</a>
+        </li>
+    </ul>
+    -->
+    <pl4-query></pl4-query>
+
+    <div class="margin-bottom15" ng-hide="isShow3">
+        <pl4-excel grid-table="result" action="/personalOrder/orderToExcel" ex-params="exParams" btn-title="导出Excel"></pl4-excel>
+        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addCar" ng-click="AddOperation()"  >
+            新建订单
+        </button>
+    </div>
+    <div class="margin-bottom15" ng-hide="!isShow3">
+        <pl4-excel grid-table="result" action="/personalOrder/affirmOrderToExcel" ex-params="exParams" btn-title="导出Excel"></pl4-excel>
+    </div>
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+   <div style="overflow:hidden;">
+   <!--     <div class="margin-bottom15" ng-hide="isShow3" style="float: left;">
+           <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#confirmCar" >
+               确认收货
+           </button>
+       </div>
+       --> 
+       <div style="float: left;padding-left: 100px;">
+           <p>
+               <span style="padding-right: 20px;">件数总合计：{{banner.acceGoodCounts}}</span>
+               <span style="padding-right: 20px;">运费总合计：{{banner.pays}}</span>
+               <span style="padding-right: 20px;">代收货款总合计：{{banner.collectMoneys}}</span>
+               <span style="padding-right: 20px;">代收款手续费总合计：{{banner.fees}}</span>
+               <span style="padding-right: 20px;">保价金额总合计：{{banner.offerMoneys}}</span>
+               <span style="padding-right: 20px;">保价费总合计：{{banner.insuranceMoneys}}</span>
+           </p>
+       </div>
+   </div>
+    <!--
+    	select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+    
+    <!-- Modal -->
+    <div class="modal fade" data-backdrop="static"  id="addCar" tabindex="-1" role="dialog" aria-labelledby="confirmPrint-title">
+      <div class="modal-dialog" role="document" style="width: 60%;">
+        <div class="modal-content">
+            <div class="modal-header allocation-head ">
+                <p type="button" class=" allocation-close" ><a href="javascript:;"  data-dismiss="modal"></a></p>
+              <p class="allocation-title">{{operationTitle}}</p>
+          </div>
+          <div class="modal-body modal-bodys receipt-modal-body">
+              <form role="form" name="verifyForm1" class="form-inline" AutoComplete="off">
+                  <pl4-verify-message form-name="verifyForm1"></pl4-verify-message>
+                <h5>发件方信息</h5>
+                  <div class="form-group" style="position: relative">
+                      <label class="ng-binding">发件方编号：</label>
+                      <input type="text" ng-keyup="watchSenderNumber(newIndentModel.senderNumber)" class="form-control" name="senderNumber" ng-model="newIndentModel.senderNumber"   maxlength="20"  />
+                      <ul ng-show="senderNumberShow" class="autoplete-ul add-autoplete-ul"><li ng-click="tieModel2(o)" ng-repeat="o in userList3" >{{o.userId}}</li></ul>
+                  </div>
+                <div class="form-group" style="position: relative">
+                    <label class="ng-binding"><span class="verify">*</span>发件方：</label>
+                    <input type="text" ng-keyup="watchChuHuoName()" class="form-control" name="chuHuoName" ng-model="newIndentModel.chuHuoName" required  maxlength="15"   verify-message="请输入发件方信息"/>
+                    <ul ng-show="chuShow" class="autoplete-ul add-autoplete-ul"><li ng-click="tieModel(o,1)" ng-repeat="o in userList" >{{o.name}}</li></ul>
+                </div>
+                <div class="form-group">
+                    <label class="ng-binding"><span class="verify">*</span>发件方电话：</label>
+                    <input type="text" class="form-control" ng-model="newIndentModel.chuHTel" required name="chuHTel" ng-pattern="/^[\d-]*$/" verify-message="请输入正确电话" maxlength="11"/>
+                </div>
+                <div class="form-group">
+                    <label class="ng-binding"><span class="verify">*</span>发件方地址：</label>
+                    <address-linkage address-model="addressModel"></address-linkage>
+                </div>
+                <div class="form-group">
+                    <label class="ng-binding"><span class="verify">*</span>详细地址：</label>
+                    <input type="text" class="form-control" ng-model="newIndentModel.chuHAdd" required  maxlength="32"  name="chuHAdd" verify-message="请输入详细地址"/>
+                </div>
+                <h5>收件方信息</h5>
+                <div class="form-group" style="position: relative">
+                    <label class="ng-binding"><span class="verify">*</span>收件方：</label>
+                    <input type="text" ng-keyup="watchReceiverNamee()"  class="form-control" ng-model="newIndentModel.receiverName" required  maxlength="15" name="receiverName" verify-message="请输入收件方信息"/>
+                    <ul ng-show="receiverShow" class="autoplete-ul add-autoplete-ul2"><li ng-click="tieModel(o,2)" ng-repeat="o in userList2" >{{o.name}}</li></ul>
+                </div>
+                <div class="form-group">
+                    <label class="ng-binding"><span class="verify">*</span>收件方电话：</label>
+                    <input type="text" class="form-control" ng-model="newIndentModel.receTel" required   name="receTel" ng-pattern="/^[\d-]*$/" verify-message="请输入正确电话" maxlength="13"/>
+                </div>
+                <div class="form-group">
+                    <label class="ng-binding"><span class="verify">*</span>收件方地址：</label>
+                    <address-linkage address-model="address2Model"></address-linkage>
+                </div>
+                <div class="form-group">
+                    <label class="ng-binding"><span class="verify">*</span>详细地址：</label>
+                    <input type="text" class="form-control" ng-model="newIndentModel.receAdd" required  maxlength="32" name="receAdd"  verify-message="请输入详细地址"/>
+                </div>
+                <h5>货物信息</h5>
+                <div class="form-group">
+                    <label class="ng-binding"><span class="verify">*</span>件数：</label>
+                    <input type="text" class="form-control" ng-model="newIndentModel.acceGoodCount" required  maxlength="32" name="acceGoodCount" onkeyup="value=value.replace(/^[^\d]|([^\d\.])/g,'')"/>
+                </div>
+                <div class="form-group">
+                    <label class="ng-binding"><span class="verify">*</span>运费（元）：</label>
+                    <input type="text" class="form-control" ng-model="newIndentModel.pay" required  maxlength="32" name="pay" onkeyup="this.value=this.value.replace(/(\d*\.\d{2}).*/,'$1');" />
+                </div>
+                <div class="form-group">
+                    <label class="ng-binding"><span class="verify"></span>重量（kg）：</label>
+                    <input type="text" class="form-control" ng-model="newIndentModel.weight"   maxlength="32" name="weight" onkeyup="this.value=this.value.replace(/(\d*\.\d{2}).*/,'$1');"/>
+                </div>
+                <div class="form-group">
+                    <label class="ng-binding"><span class="verify"></span>体积（m³）：</label>
+                    <input type="text" class="form-control" ng-model="newIndentModel.size"   maxlength="32" name="size" onkeyup="this.value=this.value.replace(/(\d*\.\d{2}).*/,'$1');"/>
+                </div>
+                <div class="form-group">
+                    <label class="ng-binding"><span class="verify"></span>代收款金额（元）：</label>
+                    <input type="text" class="form-control" ng-model="newIndentModel.collectMoney"  maxlength="32" name="collectMoney" />
+                </div>
+                  <div class="form-group">
+                      <label class="ng-binding"><span class="verify"></span>代收款回款时效：</label>
+                      <input type="text" class="form-control" ng-model="newIndentModel.collectTimeliness"   maxlength="32" name="collectTimeliness" disabled/>
+                  </div>
+                <div class="form-group">
+                    <label class="ng-binding"><span class="verify"></span>代收款手续费（元）：</label>
+                    <input type="text" class="form-control" ng-model="newIndentModel.fee" ng-disabled="isDisabled"  maxlength="32" name="fee" onkeyup="this.value=this.value.replace(/(\d*\.\d{2}).*/,'$1');"/>
+                </div>
+                <div class="form-group">
+                    <label class="ng-binding"><span class="verify"></span>保价金额：</label>
+                    <input type="text" class="form-control" ng-model="newIndentModel.offerMoney"   maxlength="32" name="offerMoney" onkeyup="this.value=this.value.replace(/(\d*\.\d{2}).*/,'$1');"/>
+                </div>
+                <div class="form-group">
+                    <label class="ng-binding"><span class="verify"></span>保价费：</label>
+                    <input type="text" class="form-control" ng-model="newIndentModel.insuranceMoney"   maxlength="32" name="insuranceMoney" onkeyup="this.value=this.value.replace(/(\d*\.\d{2}).*/,'$1');"/>
+                </div>
+                <div class="form-group">
+                    <label class="ng-binding"><span class="verify">*</span>运费付款方：</label>
+                    <select name="" ng-model="newIndentModel.paySide" ng-change="tebSelect()" class="form-control" style="display: inline-block;width: 100px;">
+                        <option value="1">发货方付</option>
+                        <option value="2">收货方付</option>
+                    </select>
+                    <select name=""  ng-model="newIndentModel.payType" ng-if="isShow2" class="form-control" style="display: inline-block;width: 100px;">
+                        <option value="2">月付</option>
+                        <option value="1">现付</option>
+                    </select>
+                    <select name=""  ng-model="newIndentModel.payType" ng-if="isShow" class="form-control" style="display: inline-block;width: 100px;">
+                        <option value="1">现付</option>
+                    </select>
+                </div>
+                <h5>备注信息</h5>
+                <div style="padding-top: 5px;">
+                    <textarea rows="5" cols="100" ng-model="newIndentModel.remarks" maxlength="12" style="margin-top: 1px;"></textarea>
+                </div>
+            </form>
+              <div class=" addStation-btns" style="margin-bottom:15px;">
+                  <button type="button" class="btn btn-primary" ng-click="operationEnterAdd()" ng-disabled="verifyForm1.$invalid" >确认</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-right: 15px; ">取消</button>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" data-backdrop="static"  id="lookCar" tabindex="-1" role="dialog" aria-labelledby="confirmPrint-title">
+        <div class="modal-dialog" role="document" style="width: 60%;">
+            <div class="modal-content looklist">
+                <div class="modal-header allocation-head ">
+                    <p type="button" class=" allocation-close" ><a href="javascript:;"  data-dismiss="modal"></a></p>
+                    <p class="allocation-title">查看</p>
+                </div>
+                <div class="modal-body modal-bodys form-inline receipt-modal-body">
+                        <h5>发件方信息</h5>
+                        <div class="form-group">
+                            <label class="ng-binding">发件方名称：</label>
+                            <spqn>{{newIndentModel.chuHuoName2}}</spqn>
+                        </div>
+                       <!--  <div class="form-group">
+                            <label class="ng-binding">发件方联系人：</label>
+                            <spqn>{{newIndentModel.chuHuoName}}</spqn>
+                        </div> -->
+                        <div class="form-group">
+                            <label class="ng-binding">发件方电话：</label>
+                             <spqn>{{newIndentModel.chuHTel2}}</spqn>
+                        </div>
+                        <div class="form-group">
+                            <label class="ng-binding">发件方地址：</label>
+                            <span>{{newIndentModel.chuHAdd2}}</span>
+                        </div>
+                        <h5>收件方信息</h5>
+                        <div class="form-group">
+                            <label class="ng-binding">收件方名称：</label>
+                            <span>{{newIndentModel.receiverName2}}</span>
+                        </div>
+                       <!--  <div class="form-group">
+                            <label class="ng-binding">收件方联系人：</label>
+                            <span>{{newIndentModel.receiverName}}</span>
+                        </div> -->
+                        <div class="form-group">
+                            <label class="ng-binding">收件方电话：</label>
+                            <span>{{newIndentModel.receTel}}</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="ng-binding">收件方地址：</label>
+                            <span>{{newIndentModel.receAdd}}</span>
+                        </div>
+                        <h5>货物信息</h5>
+                        <div class="form-group">
+                            <label class="ng-binding">件数：</label>
+                            <span>{{newIndentModel.acceGoodCount}}</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="ng-binding">运费（元）：</label>
+                            <span>{{newIndentModel.pay}}</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="ng-binding">重量（kg）：</label>
+                            <span>{{newIndentModel.weight}}</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="ng-binding">体积（m³）：</label>
+                            <span>{{newIndentModel.size}}</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="ng-binding">代收款金额（元）：</label>
+                            <span>{{newIndentModel.collectMoney2}}</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="ng-binding">代收款手续费（元）：</label>
+                            <span>{{newIndentModel.fee}}</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="ng-binding">保价金额：</label>
+                            <span>{{newIndentModel.offerMoney2}}</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="ng-binding">保价费：</label>
+                            <span>{{newIndentModel.insuranceMoney}}</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="ng-binding">运费付款方：</label>
+                            <span>{{newIndentModel.payType}}</span>
+                        </div>
+                        <h5>备注信息</h5>
+                        <div style="padding: 5px 0 0 10px;margin-bottom: 20px;">
+                           <span>{{newIndentModel.remarks}}</span>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" data-backdrop="static"  id="confirmCar" tabindex="-1" role="dialog" aria-labelledby="confirmPrint-title">
+        <div class="modal-dialog" role="document" style="width: 20%;">
+            <div class="modal-content looklist">
+                <div style="padding: 20px;">
+                    请选择所选订单的班次：<br><br>
+                    <select ng-init="frequencyName = selectData[0]" ng-model="frequencyName" class="form-control"  ng-options="x for x in selectData">
+                    </select>
+                </div>
+                <div class=" addStation-btns" style="margin-bottom:15px;">
+                    <button type="button" class="btn btn-primary" ng-click="confirmGoodsReceipt()" >确认</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-right: 15px; ">取消</button>
+                </div>
+                </div>
+            </div>
+        </div>
+    <div class="modal fade" data-backdrop="static"  id="deleteCar" tabindex="-1" role="dialog" aria-labelledby="confirmPrint-title">
+        <div class="modal-dialog" role="document" style="width: 20%;">
+            <div class="modal-content looklist">
+                <div style="padding: 20px;">
+                    请输入作废备注：<br>
+                    <textarea  ng-model="remark" class="form-control" maxlength="50" style="margin-top: 1px;">
+                    </textarea>
+                </div>
+                <div class=" addStation-btns" style="margin-bottom:15px;">
+                    <button type="button" class="btn btn-primary" ng-click="deleteOrder()" >确认</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-right: 15px; ">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>

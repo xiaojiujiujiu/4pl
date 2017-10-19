@@ -1,0 +1,32 @@
+<div class="right-main" style="padding-bottom: 100px">
+    <pl4-query></pl4-query>
+
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    <p ng-hide="isData" style="text-align: center;overflow:hidden;padding: 10px;">暂无数据</p>
+    <!--
+    	select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+
+    <div class="modal fade" data-backdrop="static"  id="orderLogModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 70%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">补货明细</p>
+
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div class="new-version-border">
+                    <p>业务单号：<span>{{logModalBanner.taskId}}</span></p>
+                    <p>汽修厂名称：<span>{{logModalBanner.garageName}}</span></p>
+                    <p>汽修厂地址：<span>{{logModalBanner.garageAddress}}</span></p>
+                </div>
+                <div style="padding: 10px 20px;height: 500px;overflow: auto;">
+                    <pl4-grid grid-table="openModelResult" th-header="openModelThHeader"></pl4-grid>
+                    <!--<pl4-paging select-option="logPagingSelect" paging-num="5" to-page="logGoToPage()" paging="orderLogPaging"></pl4-paging>-->
+                    <div class="clear" style="margin-bottom: 10px"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

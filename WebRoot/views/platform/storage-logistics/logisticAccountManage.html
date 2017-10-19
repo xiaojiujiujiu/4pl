@@ -1,0 +1,74 @@
+<div class="right-main">
+    <div class="form-inline">
+        <label>配送：</label>
+        <span>{{wlName}}</span>
+
+        <button class="btn btn-primary btn-sm" style="margin-left: 20px"  data-toggle="modal" data-target="#addLogisticModal" ng-click="btnAddLogistic()">
+            添加配送管理账号
+        </button>
+    </div>
+    <br />
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    <!--
+    	select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+    <div class="modal fade" data-backdrop="static"  id="addLogisticModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 60%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">{{logisticAccountTitle}}</p>
+
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div style="padding: 10px 5px">
+                    <div class="addStation">
+                        <div class="addStation-input" style="width: 45%">
+                            <form role="form" name="verifyForm2">
+                                <!--<div class="form-inline">
+                                    <label>选择仓库：</label>
+                                    <select class="form-control" ng-model="RDCModel.id" ng-options="o.id as o.name for o in RDCModel.select" ng-change="RDCModel.change()"></select>
+                                    <select ng-if="CDCModel.select.length>0" class="form-control" ng-model="CDCModel.id" ng-options="o.id as o.name for o in CDCModel.select" ng-change="CDCModel.change()"></select>
+                                </div>-->
+                                <!--<div class="form-inline">
+                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;<span class="verify">*</span>配送中心：</label>
+                                    <select class="form-control" ng-disabled="wlDeptDisabled" ng-model="wlDept.id" ng-options="o.id as o.name for o in wlDept.select"></select>
+                                </div>-->
+
+                                <div class="form-inline">
+                                    <label><span class="verify">*</span>账号负责人：</label>
+                                    <input type="text" class="form-control" ng-model="logisticAccountModel.userName" required maxlength="32">
+                                </div>
+                                <div class="form-inline">
+                                    <label><span class="verify">*</span>负责人电话：</label>
+                                    <input type="text" class="form-control" ng-model="logisticAccountModel.userTel" required maxlength="11">
+                                </div>
+                                <div class="form-inline">
+                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;<span class="verify">*</span>公司职务：</label>
+                                    <input type="text" class="form-control" ng-model="logisticAccountModel.userPosition" required maxlength="32">
+                                </div>
+                                <div class="form-inline">
+                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;<span class="verify">*</span>平台账号：</label>
+                                    <input type="text" class="form-control" ng-model="logisticAccountModel.account" required maxlength="32">
+                                </div>
+                                <div class="form-inline" ng-show="logisticAccountTitle!='修改配送账号'">
+                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;<span class="verify">*</span>平台密码：</label>
+                                    <span style="color: #c0c0c0">初始密码123456</span>
+                                    <!--<input type="text" class="form-control" ng-model="logisticAccountModel.password" required>-->
+                                </div>
+                                <div class="addStation-btns" style="width: 90%;text-align: center">
+                                    <button class="btn btn-primary btn-sm" ng-disabled="verifyForm2.$invalid" ng-click="enterLogisticAdd()">
+                                        提交
+                                    </button>
+                                    <button class="btn btn-default btn-sm" data-dismiss="modal">
+                                        取消
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

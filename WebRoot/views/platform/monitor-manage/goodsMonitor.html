@@ -1,0 +1,45 @@
+<div class="right-main">
+   
+    <pl4-storage-select></pl4-storage-select>
+   <!--  <div>
+        <label>选择价格：</label>
+        <label style="font-weight: 300;"><input type="radio" name="inside" ng-change="radioInsideChange()" ng-model="radioInside" value="radio1"/>移动加权平均价</label>
+        <label style="font-weight: 300;"><input type="radio" name="inside" ng-change="radioInsideChange()" ng-model="radioInside" value="radio2"/>批次价格</label>
+    </div> -->
+    <pl4-query></pl4-query>
+
+    <div class="margin-bottom15">
+        <!-- <span>{{radioInsideText}}列表</span> -->
+        <pl4-excel grid-table="result" action="{{exAction}}" ex-params="exParams"></pl4-excel>
+    </div>
+    <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    <!--
+    	select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+    <div class="modal fade" data-backdrop="static"  id="lookModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 60%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">查看批次价格</p>
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div style="padding: 10px 5px">
+                    <div class="new-version-border">
+                            <p>仓库：<span>{{modalBanner.ckName}}</span></p>
+                            <p>商品编码：<span>{{modalBanner.sku}}</span></p>
+                            <p>出厂编码：<span>{{modalBanner.factoryCode}}</span></p>
+                            <p>商品品牌：<span>{{modalBanner.brand}}</span></p>
+                            <p>商品名称：<span>{{modalBanner.goodsName}}</span></p>
+                            <p>计量单位：<span>{{modalBanner.unit}}</span></p>
+                            <p>规格型号：<span>{{modalBanner.model}}</span></p>
+                    </div>
+                    <div class="new-version-table">
+                        <pl4-grid grid-table="openModelResult" th-header="openModelThHeader"></pl4-grid>
+                    </div>
+                    <div class="clear" style="margin-bottom: 10px"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

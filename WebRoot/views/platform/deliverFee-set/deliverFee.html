@@ -1,0 +1,194 @@
+<div class="right-main">
+<div style="margin-bottom: 20px;">
+<form role="form" name="verifyForm3">
+   <pl4-verify-message form-name="verifyForm3"></pl4-verify-message>
+      <p style="padding: 10px 5px;">  模式选择设置：<span style="font-size: 12px;color: #666;;">（小于等于输入值适用于标准模式，反之适用于精准模式）</span></p>
+      <div class="form-inline">
+                   <label>重量小于等于：</label>
+                   <input type="text" class="form-control"
+                          ng-pattern=/^(0|\d+(.\d{1,2})?)$/
+                            onkeyup="value=value.replace(/[^\d.]/g,'')"
+                          placeholder="" class="form-control"  class="form-control"  ng-model="deliverModel.heavy" required name="heavy" verify-message="请输入重量" maxlength="6" ng-show="inputHeavy"><span ng-bind="deliverModel.heavy" style="padding: 5px;" ng-if="textHeavy"></span><label>KG</label>
+                   <label style="margin-left: 20px"> 体积小于等于</label>
+                   <input  type="text" class="form-control"
+                           ng-pattern=/^(0|\d+(.\d{1,})?)$/
+                            onkeyup="value=value.replace(/[^\d.]/g,'')"
+                           placeholder="" class="form-control" class="form-control" ng-model="deliverModel.volume" required name="volume" verify-message="请输入体积" maxlength="6" ng-show="inputHeavy"><span ng-bind="deliverModel.volume" style="padding: 5px;" ng-if="textHeavy"></span><label style="margin-left: 10px">立方米</label>
+                   <button class="btn btn-primary btn-sm" ng-disabled="verifyForm3.$invalid" ng-click="enterMsAdd()"> {{enterMsAddText}}</button>
+       </div>
+
+</form>
+
+</div>
+    <div>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="active" ng-click="navClick(0)"><a href="#nav1" aria-controls="nav1" role="tab"
+                                                         data-toggle="tab">标准模式</a></li>
+            <li ng-click="navClick(1)"><a href="#nav2" aria-controls="nav2" role="tab"
+                                          data-toggle="tab">精准模式</a></li>
+        </ul>
+    </div>
+    <div role="tabpanel" class="tab-pane active" id="nav1" ng-if="navShow">
+        <div class="form-inline">
+            <div class="form-group margin-bottom15 margin-top15">
+                 <button class="btn btn-primary btn-sm"  ng-click="btnAddDeliverFee()" data-toggle="modal" data-target="#addDeliverFeeModal">
+                                            新建配送费标准
+                 </button>
+            </div>
+        </div>
+        <pl4-grid grid-table="gridResult1" th-header="gridThHeader1" paging="paging1"></pl4-grid>
+        <!--
+            select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+        <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage(0)"
+                    paging="paging1"></pl4-paging>
+
+    </div>
+    <div role="tabpanel" class="tab-pane" id="nav2" ng-if="!navShow">
+        <div class="form-inline" >
+            <div class="form-group margin-bottom15 margin-top15">
+               <button class="btn btn-primary btn-sm"  ng-click="btnAddJzDeliverFee()" data-toggle="modal" data-target="#addJzDeliverFeeModal">
+                                            新建配送费标准
+                 </button>
+            </div>
+        </div>
+        <pl4-grid grid-table="gridResult2" th-header="gridThHeader2" paging="paging2"></pl4-grid>
+        <!--
+            select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+        <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage(1)"
+                    paging="paging2"></pl4-paging>
+    </div>
+    
+        <div class="modal fade" data-backdrop="static"  id="addDeliverFeeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 50%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">{{addDeliverFeeTitle}}</p>
+
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div style="padding: 10px 5px">
+                    <div class="addStation">
+                        <form role="form" name="verifyForm1" ng-click="closeCityCheck($event)" >
+                        <div class="addStation-input"style="width: 90%">
+                            <pl4-verify-message form-name="verifyForm1"></pl4-verify-message>
+                            
+                             <div class="form-inline">
+                                 <div class="form-group">
+                                 <label><span class="verify">*</span>地域选择：</label>
+                                <select class="form-control" style="width: 100px" ng-model="searchModel.depProvinceSelected"
+                                            ng-options="o.id as o.name for o in searchModel.depProvince"></select>——目的地
+                                 </div>
+                                <div class="form-group linkageMulti">
+                                     <input type="text" ng-model="deliverFeeModel.desProvince"  class="form-control des-province" ng-focus="toggleCity()">
+                                     <p  ng-show='cityShow.show' class="city-multiple">
+                                     <label ng-repeat="desProvince in searchModel.desProvince" class="des-province-check"><input type="checkbox" class="des-province-check"
+                                                                                      ng-click="cityMultiple(desProvince)"
+                                                                                      ng-model="desProvince.$isChecked"
+                                                                                       />{{desProvince.name}}</label>
+                                     </p>
+                                    <!--<select class="form-control" style="width: 100px" ng-model="searchModel.desProvinceSelected"-->
+                                            <!--ng-options="o.id as o.name for o in searchModel.desProvince"></select>-->
+                                 </div>
+                             </div>
+                            <div class="form-inline">
+                                <div class="form-group">
+
+                                    <label><span class="verify">*</span>首重：</label>
+                                    <input type="text" class="form-control " ng-pattern=/^(0|\d+(.\d{1,2})?)$/
+															placeholder="只能输入小数少于两位的数字" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 220px" ng-model="deliverFeeModel.firstHeavy" required name="firstHeavy" verify-message="请输入首重" maxlength="5">
+                                </div>
+                                <div class="form-group">
+                                    <span> 公斤以下</span>
+                                    <input type="text" class="form-control " ng-pattern=/^(0|\d+(.\d{1,2})?)$/
+															placeholder="只能输入小数少于两位的数字" onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 220px" ng-model="deliverFeeModel.firstHeavyPrice" required name="firstHeavyPrice" verify-message="请输入首重价格" maxlength="5">
+                                    <span>元</span>
+                                </div>
+                                <div class="form-group">
+
+                                    <label><span class="verify">*</span>续重：每公斤</label>
+                                    <input type="text" class="form-control " ng-pattern=/^(0|\d+(.\d{1,2})?)$/
+															placeholder="只能输入小数少于两位的数字"onkeyup="value=value.replace(/[^\d.]/g,'')"  style="width: 220px" ng-model="deliverFeeModel.continuedHeavyPrice" required name="continuedHeavyPrice"  verify-message="请输入续重价格" maxlength="5">
+                                    <span>元</span>
+                                </div>
+                            </div>
+                       
+
+                        </div>
+                            <div class="addStation-btns" >
+                                <button class="btn btn-primary btn-sm" ng-disabled="verifyForm1.$invalid" ng-click="enterAdd()"> 确认</button>
+                                <button class="btn btn-default btn-sm" data-dismiss="modal" ng-click="emptyForm()"> 取消 </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+ 
+  <div class="modal fade" data-backdrop="static"  id="addJzDeliverFeeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 60%;height: auto">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">{{addDeliverFeeTitle}}</p>
+
+                    <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div style="padding: 10px 5px">
+                    <div class="addStation">
+                        <form role="form" name="verifyForm2">
+                        <div class="addStation-input" style="width: 80%">
+                            <pl4-verify-message form-name="verifyForm2"></pl4-verify-message>
+                            
+                             <div class="form-inline">
+                                <p class="font-weight">地域选择：</p>
+                               <div class="form-group">
+                                   <select class="form-control" style="width: 100px" ng-model="searchModel.depProvinceSelected"
+                                           ng-options="o.id as o.name for o in searchModel.depProvince"
+                                           ng-change="searchModel.depProvinceChange()"></select>
+
+                                   <select class="form-control" style="width: 100px" ng-model="searchModel.depCitySelected"
+                                           ng-options="o.id as o.name for o in searchModel.depCity" ></select>
+                                   ——目的地
+                                   <select class="form-control" style="width: 100px" ng-model="searchModelAccuratel.desProvinceSelected"
+                                           ng-options="o.id as o.name for o in searchModelAccuratel.depProvince"
+                                           ng-change="searchModelAccuratel.desProvinceChange()"></select>
+                                   <select class="form-control" style="width: 100px" ng-model="searchModel.desCitySelected"
+                                           ng-options="o.id as o.name for o in searchModel.desCity"></select>
+                               </div>
+                                
+                             </div>
+                            
+                            <div class="form-inline">
+                                <p class="font-weight">精准模式：</p>
+                                <div class="form-group">
+                                    <label style="margin-left:0">重货：每公斤</label>
+                                    <input type="text" ng-pattern=/^(0|\d+(.\d{1,2})?)$/
+															placeholder="只能输入小数少于两位的数字"onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 220px" class="form-control " ng-model="deliverFeeModel.heavyPrice" required name="heavyPrice" verify-message="请输入重货价格" maxlength="5">
+                                    <span>元</span>
+                                </div>
+                                <div class="form-group">
+                                    <label>轻货：每立方米</label>
+                                    <input type="text" ng-pattern=/^(0|\d+(.\d{1,2})?)$/
+															placeholder="只能输入小数少于两位的数字"onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 220px" class="form-control " ng-model="deliverFeeModel.lightPrice" required name="lightPrice" verify-message="请输入轻货价格" maxlength="5">
+                                    <span>元</span>
+                                </div>
+                            </div>
+                       
+                            <div class="addStation-btns" style="width: 90%;text-align: center">
+                                <button class="btn btn-primary btn-sm" ng-disabled="verifyForm2.$invalid" ng-click="enterJzAdd()"> 确认</button>
+                                <button class="btn btn-default btn-sm" data-dismiss="modal"> 取消 </button>
+                            </div>
+                        </div>
+                            </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>   
+    
+    
+</div>

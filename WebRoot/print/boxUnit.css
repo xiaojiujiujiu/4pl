@@ -1,0 +1,55 @@
+.clear{
+    clear: both;
+}
+#container {
+    width: 567px;
+    /*height: 385px;*/
+    margin: 30px auto;
+    font-size: 14px;
+    border: 1px solid #000;
+
+}
+#printBtns{
+    width: 300px;
+    margin: 50px auto;
+}
+label{
+    font-weight: 500;
+}
+.header{
+    width: 540px;
+    margin: 0 auto;
+    padding: 10px 0;
+}
+.header-top-ul li{
+    float: left;
+}
+.header-top-ul-center{
+    width: 66px;
+    line-height: 50px;
+    font-size: 20px;
+    text-align: center;
+}
+.center1,.center2,.footer{
+    padding: 10px 15px;
+    border-top: 1px solid #000
+}
+.li-left{
+    float: left;
+}
+.li-right{
+    float: right;
+}
+.center2 li,.footer li{
+    padding: 5px 0;
+}
+.center2 .li-right,.footer .li-right{
+    width: 30%;
+}
+.boxNum label{
+    position: relative;
+    top: -38px;
+}
+.footer{
+    border-top: 1px dotted #000;
+}

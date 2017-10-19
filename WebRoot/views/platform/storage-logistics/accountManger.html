@@ -1,0 +1,159 @@
+<div class="right-main">
+    <div>
+        <button class="btn btn-primary btn-sm" style="margin-bottom: 15px" ng-click="addAccountNum('新建账号')">
+            新增账号
+        </button>
+    </div>
+    <div>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="active" ng-click="navChange(0)">
+                <a href="javascript: void(0)">仓储和配送账号</a>
+            </li>
+            <li ng-click="navChange(1)" ng-show="showFlag">
+                <a href="javascript: void(0)">子运营账号</a>
+            </li>
+            <li ng-click="navChange(2)">
+                <a href="javascript: void(0)" role="tab">仓储账号</a>
+            </li>
+            <li ng-click="navChange(3)">
+                <a href="javascript: void(0)">配送帐号</a>
+            </li>
+        </ul>
+    </div>
+    <div  class="form-inline search-container padding-15">
+        <div ng-show="storageAndLogisticsState" >
+            <label> 仓库名称：</label>
+            <input class="form-control" type="text" ng-model="queryForm.SLckName">
+            <button class="btn btn-primary btn-sm btn-query margin-l-20"  ng-click="queryMethod(0)">
+                查询
+            </button>
+        </div>
+        <div ng-show="childOperateState">
+            <label> 子运营名称：</label>
+            <input class="form-control" type="text" ng-model="queryForm.COcName">
+            <button class="btn btn-primary btn-sm btn-query margin-l-20" ng-click="queryMethod(1)">
+                查询
+            </button>
+        </div>
+        <div ng-show="storageState" >
+            <label> 仓库名称：</label>
+            <input class="form-control" type="text" ng-model="queryForm.SckName">
+            <button class="btn btn-primary btn-sm btn-query margin-l-20" ng-click="queryMethod(2)">
+                查询
+            </button>
+        </div>
+        <div ng-show="distridbutionState" >
+            <label> 配送名称中心：</label>
+            <input class="form-control" type="text" ng-model="queryForm.DwlName">
+            <button class="btn btn-primary btn-sm btn-query margin-l-20" ng-click="queryMethod(3)">
+                查询
+            </button>
+        </div>
+    </div>
+    <pl4-grid grid-table="gridResult" th-header="gridThHeader" paging="paging"></pl4-grid>
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage(0)" paging="paging" ng-show="storageAndLogisticsState"></pl4-paging>
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage1(0)" paging="paging1" ng-show="childOperateState"></pl4-paging>
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage2(0)" paging="paging2" ng-show="storageState"></pl4-paging>
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage3(0)" paging="paging3" ng-show="distridbutionState"></pl4-paging>
+    <div class="modal fade" data-backdrop="static"  id="createAccountNum" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="height: auto; width: 40%;">
+            <div class="modal-content">
+                <div class="allocation-head">
+                    <p class="allocation-title">{{addAccountNum.title}}</p>
+                    <p class="allocation-close"><a href="javascript:;"  data-dismiss="modal"></a>
+                    </p>
+                </div>
+                <div style="padding: 10px 5px">
+                    <div class="addStation">
+                        <form role="form" name="verifyForm1">
+                        <pl4-verify-message form-name="verifyForm1"></pl4-verify-message>
+                            <div class="addStation-input" style="width:100%;">
+                                <div class="form-inline">
+                                    <label><span class="verify">*</span>表示必填项</label>
+                                </div>
+                                <div class="form-inline">
+                                    <label><span class="verify">*</span>账号负责人：</label>
+                                    <input type="text" class="form-control" ng-model="forms.userName" required name="userName" verify-message="请输入账号负责人" maxlength="32">
+                                </div>
+                                <div class="form-inline">
+                                    <label><span class="verify">*</span>负责人电话：</label>
+                                    <input type="text" class="form-control" ng-model="forms.tel" required name="tel" pl4-verify="phone" verify-message="请输入正确电话" maxlength="11">
+                                </div>
+                                <div class="form-inline">
+                                    <label><span class="verify">*</span>公司职位：</label>
+                                    <input type="text" class="form-control" ng-model="forms.userPosition" required  name="userPosition" verify-message="请输入公司职位" maxlength="32">
+                                </div>
+                                <div class="form-inline">
+                                    <label><span class="verify">*</span>平台账号：</label>
+                                    <input type="text" class="form-control" ng-model="forms.account" required name="account" verify-message="请输入平台账号" maxlength="32">
+                                </div>
+                                <div class="form-inline">
+                                    <label>账号用于：</label>
+                                </div>
+                                <div class="form-inline radio" style="margin-left: 50px;">
+                                    <label class="minLabel">
+                                        <input ng-model="radioModel" value="7" type="radio" name="optionsRadios" ng-click="changeState(0)">仓储和配送
+                                    </label>
+                                    <label ng-show="showFlag" class="minLabel">
+                                        <input ng-model="radioModel" value="3" type="radio" name="optionsRadios"  ng-click="changeState(1)">子运营
+                                    </label>
+                                    <label class="minLabel">
+                                        <input ng-model="radioModel" value="1" type="radio" name="optionsRadios" ng-click="changeState(2)">仓储
+                                    </label >
+                                    <label class="minLabel">
+                                        <input ng-model="radioModel" value="2" type="radio" name="optionsRadios" ng-click="changeState(3)">配送
+                                    </label>
+                                </div>
+                                <div class="form-inline" ng-show="CWState">
+                                    <div class="form-group" style="display: block;">
+                                        <label for="">选择仓储：</label>
+                                        <select class="form-control" ng-change="getSubSelectData(ckSelectModel)" ng-model="ckSelectModel" ng-options="a.id as a.name for a in ckSelectVal"></select>
+                                        <select class="form-control" ng-change="getWlSelectData(ckSubSelectModel)" ng-model="ckSubSelectModel" ng-options="a.id as a.name for a in ckSubSelectVal"></select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">选择配送：</label>
+                                        <select class="form-control" ng-model="wlSelectModel" ng-options="a.id as a.name for a in wlSelectVal"></select>
+                                        <select class="form-control" ng-model="wlSubSelectModel" ng-options="a.id as a.name for a in wlSubSelectVal"></select>
+                                    </div>
+                                </div>
+                                <div class="form-inline"  ng-show="ZState" ng-show="showFlag">
+                                    <div class="form-group">
+                                        <label for="">选择子运营：</label>
+                                        <select class="form-control"  ng-model="childOperateModel" ng-options="a.id as a.name for a in childOperateVal"></select>
+                                    </div>
+                                </div>
+                                <div class="form-inline"  ng-show="CState">
+                                    <div class="form-group">
+                                        <label for="">选择仓储：</label>
+                                        <select class="form-control"  ng-change="getSubSelectData(ckSelectModel)" ng-model="ckSelectModel" ng-options="a.id as a.name for a in ckSelectVal"></select>
+                                        <select class="form-control" ng-model="ckSubSelectModel" ng-options="a.id as a.name for a in ckSubSelectVal"></select>
+                                    </div>
+                                </div>
+                                <div class="form-inline"  ng-show="WState">
+                                    <div class="form-group">
+                                        <label for="">选择配送：</label>
+                                        <select class="form-control" ng-change="getWlSecondSubData(wlSecondSelectModel)" ng-model="wlSecondSelectModel" ng-options="a.id as a.name for a in wlSecondSelectVal"></select>
+                                        <select class="form-control" ng-model="wlSecondSubSelectModel" ng-options="a.id as a.name for a in wlSecondSubSelectVal"></select>
+                                    </div>
+                                </div>
+                                <div class="form-inline">
+                                    <label><span class="verify">默认密码为123456</span></label>
+                                </div>
+
+                            </div>
+                            <div class="addStation-btns" >
+                                <button class="btn btn-primary btn-sm" ng-disabled="verifyForm1.$invalid" ng-click="enterAdd()">
+                                    确认
+                                </button>
+                                <button class="btn btn-default btn-sm" data-dismiss="modal">
+                                    取消
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

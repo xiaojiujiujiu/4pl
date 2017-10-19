@@ -1,0 +1,181 @@
+<div class="right-main">
+
+    <pl4-query></pl4-query>
+
+    <div class="margin-bottom15">
+        <button class="btn btn-primary btn-sm"  ng-click="addParty()">添加发件方</button>
+        <pl4-excel grid-table="result" action="/distributionUser/exportDistributionUser" ex-params="exParams" grid-null="false"  btn-title="导出模板"></pl4-excel>
+        <button class="btn btn-primary btn-sm"  ngf-select="impUploadFiles($files)" multiple="multiple" >
+            导入发件方信息
+        </button>
+    </div>
+    <div>
+        <pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+    </div>
+    <pl4-paging select-option="pagingSelect" paging-num="5" to-page="goToPage()" paging="paging"></pl4-paging>
+    <div class="modal fade" data-backdrop="static"  id="workLogModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 40%;height: auto">
+            <div class="modal-content">
+                <div class="modal-content">
+                    <div class="allocation-head">
+                        <p class="allocation-title">{{giftTtle}}</p>
+                        <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                        </p>
+                    </div>
+                    <div style="padding: 10px 5px">
+                        <div class="addStation">
+                            <form role="form" name="verifyForm1">
+                                <pl4-verify-message form-name="verifyForm1"></pl4-verify-message>
+                                <div class="addStation-input" style="width:100%;">
+                                    <div class="form-inline">
+                                        <label><span class="verify">*</span>发件方名称：</label>
+                                        <input type="text" class="form-control" ng-model="addModel.userName" ng-disabled="skuDisabled" required name="userName" verify-message="请输入发件方名称" maxlength="32"/>
+                                    </div>
+                                    <div class="form-inline">
+                                        <label><span class="verify">*</span>发件方电话：</label>
+                                        <input type="text" class="form-control" ng-model="addModel.tel" required name="tel" ng-pattern=/^1[3|5|8|7][0-9]\d{4,8}$/  maxlength="11" ng-minlength="11" verify-message="请输入手机号码" >
+                                    </div>
+
+                                    <div class="form-inline">
+                                        <label><span class="verify">*</span>发件方地址：</label>
+                                        <select class="form-control" style="width: 100px" ng-model="addModel.provinceSelected"
+                                                ng-options="o.id as o.name for o in addModel.province"
+                                                ng-change="addModel.provinceChange()"></select>
+                                        <select class="form-control" style="width: 100px" ng-model="addModel.citySelected"
+                                                ng-options="o.id as o.name for o in addModel.city"
+                                                ng-change="addModel.cityChange()"></select>
+                                        <select class="form-control" style="width: 100px" ng-model="addModel.countySelected"
+                                                ng-options="o.id as o.name for o in addModel.county"
+                                                ng-change="addModel.countyChange()"></select><br>
+                                        <input type="text" class="form-control" ng-model="addModel.address" required name="address" placeholder="请输入详细地址" maxlength="64"
+                                               verify-message="请输入详细地址" style="margin:10px 0 0 144px"/>
+                                    </div>
+                                    <div class="form-inline">
+                                        <label>卡主姓名：</label>
+                                        <input type="text" class="form-control" ng-model="addModel.cardName" name="cardName" />
+                                    </div>
+                                    <div class="form-inline">
+                                        <label>银行留存电话：</label>
+                                        <input type="text" class="form-control" ng-model="addModel.bankTel"    maxlength="11"/>
+                                    </div>
+                                    <div class="form-inline">
+                                        <label>证件类型：</label>
+                                        <select name="cooperationState" class="form-control" ng-options="o.id as o.name for o in addModel.papersType.select" ng-model="addModel.papersType.id"/>
+                                        </select>
+                                    </div>
+                                    <div class="form-inline">
+                                        <label>证件号码：</label>
+                                        <input type="text" class="form-control" ng-model="addModel.papersNumber"    maxlength="18"/>
+                                    </div>
+                                    <div class="form-inline" style="position: relative">
+                                        <label class="ng-binding">开户行名称：</label>
+                                        <input type="text"  class="form-control" ng-model="addModel.bank_name"   maxlength="15" placeholder="请选择" name="bank_name" ng-keyup="getBankInfoList()"/>
+                                        <span class="glyphicon glyphicon-triangle-bottom" ng-click="showListFun()" style="cursor: pointer;left: -26px;top:4px;"></span>
+                                        <ul class="autoplete-ul add-autoplete-ul2" ng-show="isHide" style="left: 144px;">
+                                            <li ng-repeat="item in bankInfoList" data-index="{{item.super_ebank_no}}" ng-bind="item.bank_name" ng-click="listSelect(item)"></li>
+                                        </ul>
+                                    </div>
+                                    <div class="form-inline">
+                                        <label>银行卡号：</label>
+                                        <input type="text" class="form-control" ng-model="addModel.bankCardNumber"    maxlength="20"/>
+                                    </div>
+                                    <div class="form-inline">
+                                        <label>运费折扣：</label>
+                                        <input type="text" class="form-control" ng-model="addModel.freightdiscount"    maxlength="20"/>%
+                                    </div>
+                                    <div class="form-inline">
+                                        <label><span class="verify">*</span>保险费率：</label>
+                                        <input type="text" class="form-control" ng-model="addModel.premiumRate"  required name="premiumRate"  verify-message="请输入保价费率" maxlength="3"/>‰
+                                    </div>
+                                    <div class="form-inline" ng-if="!isShow">
+                                        <label><span class="verify">*</span>代收货款费率：</label>
+                                        1~<input type="text" class="form-control" ng-model="addModel2.collectionRate1"    maxlength="5" style="width: 50px;" required/>
+                                        收费<input type="text" class="form-control" ng-model="addModel2.collectionRate2"    maxlength="5" style="width: 50px;" required/>
+                                        元<input type="text" class="form-control" ng-model="addModel2.collectionRate3"    maxlength="5" style="width: 50px;" required/>
+                                        ~<input type="text" class="form-control" ng-model="addModel2.collectionRate4"    maxlength="5" style="width: 50px;" required/>
+                                        收费<input type="text" class="form-control" ng-model="addModel2.collectionRate5"    maxlength="5" style="width: 50px;" required/>‰
+                                       <p style="padding:10px 0 0 136px;">
+                                           大于<input type="text" class="form-control" ng-model="addModel2.collectionRate6"    maxlength="5" style="width: 50px;" required/>
+                                           收费<input type="text" class="form-control" ng-model="addModel2.collectionRate7"    maxlength="5" style="width: 50px;" required/>‰
+                                       </p>
+                                    </div>
+                                    <div class="form-inline" ng-if="isShow">
+                                        <label>代收货款费率：</label>
+                                        1~<input type="text" class="form-control" ng-model="addModel2.collectionRate1"    maxlength="5" style="width: 50px;" />
+                                        收费<input type="text" class="form-control" ng-model="addModel2.collectionRate2"    maxlength="5" style="width: 50px;" />
+                                        元<input type="text" class="form-control" ng-model="addModel2.collectionRate3"    maxlength="5" style="width: 50px;" />
+                                        ~<input type="text" class="form-control" ng-model="addModel2.collectionRate4"    maxlength="5" style="width: 50px;" />
+                                        收费<input type="text" class="form-control" ng-model="addModel2.collectionRate5"    maxlength="5" style="width: 50px;" />‰
+                                        <p style="padding:10px 0 0 136px;">
+                                            大于<input type="text" class="form-control" ng-model="addModel2.collectionRate6"    maxlength="5" style="width: 50px;" />
+                                            收费<input type="text" class="form-control" ng-model="addModel2.collectionRate7"    maxlength="5" style="width: 50px;" />‰
+                                        </p>
+                                    </div>
+
+                                    <div class="form-inline" ng-if="isShow">
+                                        <label><span class="verify">*</span>代收货款费率：</label>
+                                        <span>{{addModel.collectionRates}}</span>
+                                        <!--<input type="text" class="form-control" ng-model="addModel.collectionRates"   disabled />-->
+                                    </div>
+                                    <div class="form-inline">
+                                            <label>回款时效：</label>
+
+                                        <select name="cooperationState" class="form-control" ng-options="o.id as o.name for o in addModel.collectTimeliness.select" ng-model="addModel.collectTimeliness.id"/>
+                                        </select>
+                                    </div>
+                                    <div class="form-inline">
+                                        <label><span class="verify"></span>合作状态：</label>
+                                        <select name="cooperationState" class="form-control" ng-options="o.id as o.name for o in addModel.cooperationState.select" ng-model="addModel.cooperationState.id"/>
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="addStation-btns">
+                                <button class="btn btn-primary btn-sm" ng-disabled="verifyForm1.$invalid" ng-click="enterAdd()">
+                                    确认
+                                </button>
+                                <button class="btn btn-default btn-sm" data-dismiss="modal">
+                                    取消
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" data-backdrop="static"  id="verifyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 400px;height: auto">
+            <div class="modal-content">
+                <div class="modal-content">
+                    <div class="allocation-head">
+                        <p class="allocation-title">验证信息</p>
+                        <p class="allocation-close"><a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+                        </p>
+                    </div>
+                    <div style="padding: 10px 5px">
+                        <div class="addStation">
+                            <form role="form" name="verifyForm">
+                                <pl4-verify-message form-name="verifyForm"></pl4-verify-message>
+                                <div class="addStation-input" style="width:100%;">
+                                    <div class="form-inline">
+                                        <label><span class="verify">*</span>请输入验证信息：</label>
+                                        <input type="text" class="form-control" ng-model="verifyModal.check_amount" required name="check_amount" verify-message="请输入验证信息" maxlength="32"/>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="addStation-btns">
+                                <button class="btn btn-primary btn-sm" ng-disabled="verifyForm.$invalid" ng-click="verifyAdd()">
+                                    确认
+                                </button>
+                                <button class="btn btn-default btn-sm" data-dismiss="modal">
+                                    取消
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

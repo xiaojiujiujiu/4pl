@@ -1,0 +1,187 @@
+<div class="right-main">
+	<div style="margin-bottom: 10px">
+		<button class="btn btn-primary btn-sm" ng-click="addStationClick()">
+			添加区域规则</button>
+	</div>
+
+	<div>
+		<!--<span>查询结果</span>-->
+
+	</div>
+	<br />
+	<pl4-grid grid-table="result" th-header="thHeader" paging="paging"></pl4-grid>
+	<!--
+    	select-option:显示条数数据  paging-num:显示分页按钮个数 to-page:点击页数方法 paging:分页配置数据-->
+	<pl4-paging select-option="pagingSelect" paging-num="5"
+		to-page="goToPage()" paging="paging"></pl4-paging>
+
+	<!-- 模式弹窗 -->
+	<div class="modal fade" data-backdrop="static"  id="addStation" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document"
+			style="width: 50%; height: auto">
+			<div class="modal-content">
+				<div class="allocation-head">
+					<p class="allocation-title">{{stationTitle}}</p>
+
+					<p class="allocation-close">
+						<a href="javascript:;" style="color: white;" data-dismiss="modal"></a>
+					</p>
+				</div>
+				<div style="padding: 10px 5px">
+						<div class="addStation-input " style="width: 90%">
+							<div class="addStation">
+								<div class=" addStation-input-distinctiondiv" style="width: 100%">
+									<form role="form" name="verifyForm" class="addStation" ng-click="closeCityCheck($event)">
+										<pl4-verify-message form-name="verifyForm"></pl4-verify-message>
+	
+										<div class="form-inline">
+											<p class="font-weight">区域选择</p>
+										</div>
+										<div class="form-inline">
+											<div class="form-group">
+												 <span class="verify">*</span>
+													<select class="form-control"
+															ulti										ng-options="o.id as o.name for o in depProvince.select"
+														ng-change="changeCity()"
+														ng-model="ruleModel.depProvince"></select>
+											</div>
+											<div class="form-group linkageMulti">
+													 <input type="text" class="form-control des-province" ng-click="toggleCity()" ng-model="city" style="width: 196px;">
+														<p  ng-show='cityShow.show' class="addStation-btns">
+														<label ng-repeat="city in depCity.select"><input type="checkbox" value="{{city.id}}" class="des-province-check"
+															ng-click="changeArea(city)"
+															 ng-model="city.depCity"
+															ng-checked="city.checked"/>{{city.name}}</label><br class="clear">
+															<button class="btn btn-primary btn-sm"  ng-click="multipleAddConfirm()">确定</button>
+														 </p>
+
+											</div>
+											<div class="form-group linkageMulti">
+												<input type="text" class="form-control des-province2" ng-click="toggleArea()" ng-model="area" style="width: 196px;">
+												<p  ng-show='areaShow.show'class="addStation-btns">
+															<label ng-repeat="area in depArea.select"><input type="checkbox" value="{{area.id}}" class="des-province-check2"
+																 ng-click="addArea(area)"ng-model="area.depArea"
+																 ng-checked="area.checked"/>{{area.name}}</label><br class="clear">
+													<button class="btn btn-primary btn-sm"  ng-click="depAreaAddConfirm()">确定</button>
+														 </p>
+												</div>
+										</div>
+										<div class="form-inline">
+											<p class="font-weight">重量规则：</p>
+										</div>
+										<div class="form-inline">
+											<div class="form-group">
+												<span class="verify">*</span>
+												首重： <input style="width: 220px;"
+													type="text" class="form-control"
+													verify-message="必须为大于等于0的数字"
+													ng-model="ruleModel.firstHeavy" required name="firstHeavy"
+													 onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^0-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+													maxlength="32"
+													 onpaste="return false"
+													placeholder="只能输入整数"
+											       >
+											</div>
+											<div class="form-group">
+												<span class="verify">*</span>
+												公斤以下：<input style="width: 220px;"
+													type="text" class="form-control"
+															ng-pattern=/^(0|\d+(.\d{1,2})?)$/
+															onkeyup="value=value.replace(/[^\d.]/g,'')"
+															placeholder="只能输入小数少于两位的数字"
+															verify-message="必须为大于0的数字"
+															ng-model="ruleModel.firstHeavyPrice" required name="firstHeavyPrice"
+												maxlength="32"> 元
+											</div>
+											<div class="form-group">
+												<span class="verify">*</span>
+												续重：每公斤<input style="width: 220px;"
+													type="text" class="form-control"
+													ng-pattern=/^(0|\d+(.\d{1,2})?)$/
+															 onkeyup="value=value.replace(/[^\d.]/g,'')"
+													verify-message="必须为大于0的数字"
+													placeholder="只能输入小数少于两位的数字"
+													ng-model="ruleModel.continuedHeavyPrice" required name="continuedHeavyPrice"
+													maxlength="32"> 元
+											</div>
+										</div>
+										<div class="form-inline">
+											<p class="font-weight">体积规则：(体积限值内价格不变，超出后按每立方米计算)</p>
+										</div>
+										<div class="form-inline">
+											<div class="form-group">
+												<input type="text" class="form-control"
+													ng-model="ruleModel.length"
+													ng-change="getVolume()"
+													 required name=length
+													   ng-pattern=/^\d+?$/
+													   onkeyup="value=value.replace(/[^\d.]/g,'')"
+													verify-message="必须为大于0的整数" placeholder="长(cm)" maxlength="32">X
+											</div>
+											<div class="form-group">
+												<input type="text" class="form-control"
+													ng-model="ruleModel.width"
+													ng-change="getVolume()" required name=width
+													   ng-pattern=/^\d+?$/
+													   onkeyup="value=value.replace(/[^\d.]/g,'')"
+													verify-message="必须为大于0的整数" placeholder="宽(cm)" maxlength="32">X
+											</div>
+											<div class="form-group">
+												<input type="text" class="form-control"
+													ng-model="ruleModel.height"
+													ng-change="getVolume()" required name=height
+													   ng-pattern=/^\d+?$/
+													   onkeyup="value=value.replace(/[^\d.]/g,'')"
+													verify-message="必须为大于0的整数" placeholder="高(cm)" maxlength="32">
+											</div>
+											<div class="form-group">
+												= <input
+													type="text" class="form-control"
+													ng-pattern=/^\d+(.\d*)?$/
+													onkeyup="value=value.replace(/[^\d.]/g,'')"
+													ng-model="ruleModel.volume" required name=volume
+													placeholder="体积(m³)" readonly="readonly" maxlength="32"><span style="font-size: 12px;color: #999;">立方米</span>
+											</div>
+											<div class="form-group">
+												<span class="verify">*</span>
+												内价格：<input style="width: 220px;"
+													type="text" class="form-control"
+													ng-pattern=/^(0|\d+(.\d{1,2})?)$/
+														   onkeyup="value=value.replace(/[^\d.]/g,'')"
+													 placeholder="只能输入小数少于两位的数字"
+													ng-model="ruleModel.volumePrice" required name=volumePrice
+													verify-message="必须为大于0的数字"
+													maxlength="32" >
+											</div>
+											元
+										</div>
+										<div class="form-inline">
+											<span class="verify">*</span>
+											若超出每立方 <input type="text" style="width: 220px;"
+												class="form-control" ng-model="ruleModel.overVolumePrice"
+												ng-pattern=/^(0|\d+(.\d{1,2})?)$/
+												 onkeyup="value=value.replace(/[^\d.]/g,'')"
+												verify-message="必须为数字"
+												 placeholder="只能输入数字"
+												required name=overVolumePrice maxlength="32"> 元
+										</div>
+										<div class="clear"></div>
+
+								</form>
+								</div>
+									<div class="addStation-btns" >
+										<button class="btn btn-primary btn-sm"
+												ng-disabled="verifyForm.$invalid"
+												ng-click="enterAddStation()">确定</button>
+										<button class="btn btn-default btn-sm" data-dismiss="modal">
+											取消</button>
+									</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+</div>
